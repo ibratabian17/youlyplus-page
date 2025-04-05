@@ -1,0 +1,205 @@
+<!-- docs.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouLy+ Documentation</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #ffffff;
+            --accent: #ff3c6e;
+            --card-bg: #1f1f1f;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .docs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.8rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--card-bg);
+            color: var(--accent);
+        }
+
+        .content-area {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .doc-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .doc-content h1 {
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .doc-content pre {
+            background: #000 !important;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .docs-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Navigation sama seperti halaman utama -->
+    </nav>
+
+    <div class="docs-container">
+        <aside class="sidebar">
+            <nav class="sidebar-nav" id="sidebarNav">
+                <div class="loading"></div>
+                    <i class="fas fa-spinner fa-spin"></i> Loading menu...
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <div class="doc-content" id="docContent">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading documentation...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Fungsi untuk memproses parameter query
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name) || 'main';
+        }
+
+        // Function to extract sections and create sidebar
+        async function processDocument() {
+            try {
+                const section = getQueryParam('section');
+                const response = await fetch(section ? `docs/${section}.md` : 'docs/main.md');
+                if (!response.ok) throw new Error('Documentation not found');
+                
+                const markdown = await response.text();
+                const sections = markdown.split('\n## ');
+                
+                // Create sidebar
+                const sidebarLinks = sections
+                    .filter(section => section.trim())
+                    .map(section => {
+                        const title = section.split('\n')[0];
+                        const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        return `<a href="?section=${id}" class="nav-item">${title}</a>`;
+                    })
+                    .join('');
+                
+                document.getElementById('sidebarNav').innerHTML = sidebarLinks;
+                
+                // Load content
+                const selectedSection = sections.find(s => {
+                    const id = s.split('\n')[0].toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    return id === section;
+                }) || sections[0];
+                
+                const htmlContent = convertMarkdown(selectedSection);
+                document.getElementById('docContent').innerHTML = htmlContent;
+                
+                Prism.highlightAll();
+                attachNavListeners();
+            } catch (error) {
+                document.getElementById('sidebarNav').innerHTML = 'Error loading sidebar';
+                document.getElementById('docContent').innerHTML = `
+                    <h1>Documentation Error</h1>
+                    <p>${error.message}. Please try again.</p>
+                `;
+            }
+        }
+
+        // Simple Markdown converter
+        function convertMarkdown(md) {
+            return md
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Handle navigation
+        function attachNavListeners() {
+            document.querySelectorAll('.nav-item').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const url = new URL(this.href);
+                    window.history.pushState({}, '', url);
+                    processDocument();
+                });
+            });
+        }
+
+        // Initial load
+        processDocument();
+        window.addEventListener('popstate', processDocument);
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+</body>
+</html>

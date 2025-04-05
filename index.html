@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouLy+ - Enhanced Lyrics for YouTube Music</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Previous styles tetap dipertahankan, hanya diubah warna aksen */
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #ffffff;
+            --accent: #ff3c6e;  /* Warna aksen merah-pink */
+            --card-bg: #1f1f1f;
+        }
+
+        .hero h1 {
+            background: linear-gradient(45deg, #ff0864, #ff6b6b 70%); /* Gradien merah-pink */
+        }
+
+        /* Tambahan style untuk browser detection banner */
+        .browser-alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 60, 110, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(15, 15, 15, 0.95);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* Screenshot Section */
+        .screenshot {
+            padding: 10rem 0 5rem 0;
+            text-align: center;
+        }
+
+        .screenshot-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(71, 157, 255, 0.2);
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            gap: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">YouLy+</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#screenshot">Preview</a>
+                <a href="#download">Download</a>
+                <a href="#docs">Docs</a> <!-- Menu Docs ditambahkan -->
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Your YouTube Music Experience</h1>
+            <p>Enhanced lyrics with perfect synchronization that dances with your music with this one extensions!</p>
+            <a href="#download" id="download" class="cta-button">
+                <i class="fas fa-download"></i>
+                Install Now
+            </a>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-music feature-icon"></i>
+                    <h3>Real-time Sync</h3>
+                    <p>Line-by-line and word-by-word synchronization with perfect timing</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3>Lightweight</h3>
+                    <p>Minimal resource usage with maximum performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="screenshot" class="screenshot">
+        <div class="container">
+            <h2>Experience the Magic</h2>
+            <div class="screenshot-container">
+                <div class="screenshot-slider"></div>
+                    <img src="assets/screenshot-1.png" alt="App Screenshot" class="screenshot-img active">
+                    <img src="assets/screenshot-2.png" alt="App Screenshot" class="screenshot-img">
+                    <img src="assets/screenshot-3.png" alt="App Screenshot" class="screenshot-img">
+                </div>
+                <div class="screenshot-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .screenshot-slider {
+            position: relative;
+            width: 100%;
+        }
+        
+        .screenshot-img {
+            display: none;
+            width: 100%;
+        }
+        
+        .screenshot-img.active {
+            display: block;
+        }
+        
+        .screenshot-dots {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dot.active {
+            background-color: var(--accent);
+        }
+    </style>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("screenshot-img");
+            const dots = document.getElementsByClassName("dot");
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                dots[i].classList.remove("active");
+            }
+            
+            slides[slideIndex-1].classList.add("active");
+            dots[slideIndex-1].classList.add("active");
+        }
+
+        // Auto slideshow
+        setInterval(() => {
+            slideIndex = slideIndex >= 3 ? 1 : slideIndex + 1;
+            showSlides(slideIndex);
+        }, 3000);
+    </script>
+
+    <!-- Tambahkan section docs -->
+    <section id="docs" class="features" style="padding: 5rem 0;">
+        <div class="container">
+            <h2>Documentation</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-book feature-icon"></i>
+                    <h3>User Guide</h3>
+                    <p>Complete guide on using YouLy+ features and settings</p>
+                    <a href="docs.html?section=user-guide" class="cta-button" style="margin-top: 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-arrow-right"></i>
+                        Read Guide
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-code feature-icon"></i>
+                    <h3>API Documentation</h3>
+                    <p>Integration guide and API reference for developers</p>
+                    <a href="docs.html?section=api-kpoe" class="cta-button" style="margin-top: 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-arrow-right"></i>
+                        View API Docs
+                    </a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock feature-icon"></i>
+                    <h3>Submit Timeline</h3>
+                    <p>Contribute by submitting synchronized lyrics timeline</p>
+                    <a href="#" class="cta-button" style="margin-top: 1rem; font-size: 0.9rem;" onclick="alert('Feature coming soon! may be changed in the next update')">
+                        <i class="fas fa-plus"></i>
+                        Submit Timeline
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="browser-alert" id="browserAlert">
+        <p>Get YouLy+ for your browser:</p>
+        <div style="margin-top: 10px;">
+            <a href="#" class="cta-button" id="edgeBtn" style="margin-right: 10px;">
+                <i class="fab fa-edge"></i>
+                Edge
+            </a>
+            <a href="#" class="cta-button" id="firefoxBtn">
+                <i class="fab fa-firefox"></i>
+                Firefox
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Browser detection dan penanganan link
+        function detectBrowser() {
+            const userAgent = navigator.userAgent;
+            const downloadBtn = document.getElementById('downloadBtn');
+            const browserAlert = document.getElementById('browserAlert');
+            let buttonText = "Install Now"; // Default text
+            
+            // Link untuk Docs (ganti dengan URL aktual)
+            document.querySelectorAll('a[href="#docs"]').forEach(link => {
+            link.href = "#docs"; // Ganti dengan URL dokumentasi aktual
+            });
+
+            if (userAgent.includes('Edg/')) {
+            window.downloadUrl = 'https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb';
+            buttonText = "Get for Edge";
+            } else if (userAgent.includes('Firefox')) {
+            window.downloadUrl = 'https://addons.mozilla.org/en-US/firefox/addon/youly/';
+            buttonText = "Get for Firefox";
+            } else {
+            window.downloadUrl = 'https://github.com/ibratabian17/youlyplus';
+            buttonText = "Download from GitHub";
+            }
+
+            // Update semua download button text dan URL
+            document.querySelectorAll('#download').forEach(button => {
+            button.href = window.downloadUrl;
+            button.innerHTML = `<i class="fas fa-download"></i> ${buttonText}`;
+            });
+
+            // Tampilkan banner khusus untuk Edge/Firefox
+            if (userAgent.includes('Edg/') || userAgent.includes('Firefox')) {
+            browserAlert.style.display = 'block';
+            document.getElementById('edgeBtn').href = 'https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb';
+            document.getElementById('firefoxBtn').href = 'https://addons.mozilla.org/en-US/firefox/addon/youly/';
+            }
+        }
+
+        // Jalankan detection saat halaman dimuat
+        window.onload = detectBrowser;
+    </script>
+    <footer style="background: var(--card-bg); padding: 2rem 0; text-align: center; margin-top: 3rem;">
+        <div class="container">
+            <p>Project created by Prjktla</p>
+            <p style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
+                Made possible by Cloudflare Workers Dev and KaraokePoe
+            </p>
+            <p style="color: #888; font-size: 0.8rem; margin-top: 0.5rem;">
+                Licensed under MIT License
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
