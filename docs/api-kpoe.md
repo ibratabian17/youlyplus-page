@@ -89,8 +89,6 @@ Same as v1 endpoint
 
 **Response Improvements**:
 - Structured timing data
-- Word-level synchronization
-- Multiple provider metadata
 
 **Example Response**:
 ```json
