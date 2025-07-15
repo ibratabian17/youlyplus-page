@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Lyrics - YouLy+</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Material You Expressive Theme --- */
+        :root {
+            --md-sys-color-primary: rgb(255 180 168);
+            --md-sys-color-on-primary: rgb(86 30 22);
+            --md-sys-color-primary-container: rgb(115 52 42);
+            --md-sys-color-on-primary-container: rgb(255 218 212);
+            --md-sys-color-secondary: rgb(231 189 182);
+            --md-sys-color-on-secondary: rgb(68 41 37);
+            --md-sys-color-secondary-container: rgb(93 63 59);
+            --md-sys-color-on-secondary-container: rgb(255 218 212);
+            --md-sys-color-tertiary: rgb(222 196 140);
+            --md-sys-color-on-tertiary: rgb(62 46 4);
+            --md-sys-color-tertiary-container: rgb(86 68 25);
+            --md-sys-color-on-tertiary-container: rgb(251 223 166);
+            --md-sys-color-error: rgb(255 180 171);
+            --md-sys-color-on-error: rgb(105 0 5);
+            --md-sys-color-error-container: rgb(147 0 10);
+            --md-sys-color-on-error-container: rgb(255 218 214);
+            --md-sys-color-background: rgb(26 17 16);
+            --md-sys-color-on-background: rgb(241 223 220);
+            --md-sys-color-surface: rgb(26 17 16);
+            --md-sys-color-on-surface: rgb(241 223 220);
+            --md-sys-color-surface-variant: rgb(83 67 65);
+            --md-sys-color-on-surface-variant: rgb(216 194 190);
+            --md-sys-color-outline: rgb(160 140 137);
+            --md-sys-color-outline-variant: rgb(83 67 65);
+            --md-sys-color-shadow: rgb(0 0 0);
+            --md-sys-color-scrim: rgb(0 0 0);
+            --md-sys-color-surface-container-lowest: rgb(20 12 11);
+            --md-sys-color-surface-container-low: rgb(35 25 24);
+            --md-sys-color-surface-container: rgb(39 29 28);
+            --md-sys-color-surface-container-high: rgb(50 40 38);
+            --md-sys-color-surface-container-highest: rgb(61 50 48);
+            --md-sys-elevation-level-0: none;
+            --md-sys-elevation-level-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+            --md-sys-elevation-level-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+            --md-sys-elevation-level-3: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+            --border-radius-small: 4px;
+            --border-radius-medium: 8px;
+            --border-radius-large: 16px;
+            --border-radius-extra-large: 28px;
+            --border-radius-full: 999px;
+            --animation-duration: 0.3s;
+            --animation-timing-function: ease;
+        }
+
+        /* --- Global Styles & Resets --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 400;
+            line-height: 2.75rem;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* --- Navigation (Shared) --- */
+        nav {
+            background: rgba(39, 29, 28, 0.85);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--md-sys-color-primary);
+        }
+
+        .page-header {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 2.75rem;
+            color: var(--md-sys-color-primary);
+            font-weight: 500;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 0.5rem;
+        }
+
+
+        /* --- Buttons --- */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0 24px;
+            height: 40px;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            text-decoration: none;
+            border-radius: var(--border-radius-full);
+            font-weight: 500;
+            font-size: 0.875rem;
+            letter-spacing: 0.00625rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--md-sys-elevation-level-1);
+            transition: box-shadow var(--animation-duration) var(--animation-timing-function), background-color var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .cta-button:hover {
+            box-shadow: var(--md-sys-elevation-level-2);
+            background: rgb(255, 180, 168, 0.92);
+        }
+
+        .card-button {
+            flex: 1;
+            margin-top: 0;
+        }
+
+        /* --- Search Section --- */
+        .search-container {
+            display: flex;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            gap: 1rem;
+        }
+
+        #search-input {
+            flex-grow: 1;
+            height: 56px;
+            padding: 0 24px;
+            font-size: 1rem;
+            background-color: var(--md-sys-color-surface-container);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--border-radius-full);
+            color: var(--md-sys-color-on-surface);
+            outline: none;
+            transition: all var(--animation-duration) var(--animation-timing-function);
+        }
+
+        #search-input:focus {
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+        }
+
+        #search-button {
+            height: 56px;
+            width: 56px;
+            padding: 0;
+        }
+
+        /* --- Results Section --- */
+        .status-message {
+            text-align: center;
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 1.1rem;
+            padding: 3rem 0;
+            grid-column: 1 / -1;
+        }
+
+        /* --- Song Card (Grid Layout) --- */
+        .song-card {
+            background: var(--md-sys-color-surface-container);
+            border-radius: var(--border-radius-large);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            transition: background-color var(--animation-duration) var(--animation-timing-function), border-color var(--animation-duration) var(--animation-timing-function);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .song-card:hover {
+            background: var(--md-sys-color-surface-container-high);
+            border-color: var(--md-sys-color-outline);
+        }
+
+        .song-card .album-art {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background-color: var(--md-sys-color-surface-container-low);
+        }
+
+        .song-card .info {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .song-card h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-card .artist {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-card .album {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .song-card .source-badge {
+            font-size: 0.75rem;
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+            padding: 2px 8px;
+            border-radius: var(--border-radius-small);
+            display: inline-block;
+            margin-bottom: 1.25rem;
+            align-self: flex-start;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+        }
+
+        .preview-button {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .preview-button:hover {
+            background: rgba(93, 63, 59, 0.92);
+        }
+
+        /* --- Lyrics Preview Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeIn var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--md-sys-color-surface-container-high);
+            margin: auto;
+            padding: 2rem;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            width: 90%;
+            max-width: 700px;
+            border-radius: var(--border-radius-large);
+            box-shadow: var(--md-sys-elevation-level-3);
+            position: relative;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn var(--animation-duration) var(--animation-timing-function);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header .title-group {
+            min-width: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--md-sys-color-on-surface);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal-header p {
+            font-size: 1rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .close-button {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: color var(--animation-duration);
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--md-sys-color-on-surface);
+        }
+
+        #modal-lyrics-content {
+            overflow-y: auto;
+            flex-grow: 1;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.8;
+        }
+
+        #modal-lyrics-content .lyric-line {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        #modal-lyrics-content .timestamp {
+            color: var(--md-sys-color-tertiary);
+            flex-shrink: 0;
+        }
+
+        #modal-lyrics-content .lyric-text {
+            color: var(--md-sys-color-on-surface);
+        }
+
+        #modal-lyrics-content .status {
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            padding: 2rem 0;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--md-sys-color-surface-container-low);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 5rem;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        footer p {
+            color: var(--md-sys-color-on-surface-variant);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="logo">YouLy+</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="docs.html">Docs</a>
+                <a href="submit.html" style="color: var(--md-sys-color-primary);">Submit</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Find Synced Lyrics</h2>
+                </div>
+
+                <form id="search-form" class="search-container">
+                    <input type="text" id="search-input" placeholder="Enter song title and artist..." required>
+                    <button type="submit" id="search-button" class="cta-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <div id="results-grid" class="grid">
+                    <p class="status-message">Search for a song to see results here.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Project created by Prjktla</p>
+            <p>Made possible by Cloudflare Workers Dev and KaraokePoe</p>
+            <p>Licensed under MIT License</p>
+        </div>
+    </footer>
+
+    <!-- Lyrics Preview Modal -->
+    <div id="lyrics-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="title-group">
+                    <h3 id="modal-title">Song Title</h3>
+                    <p id="modal-artist">Artist</p>
+                </div>
+                <span class="close-button">×</span>
+            </div>
+            <div id="modal-lyrics-content">
+                <!-- Lyrics will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            const resultsGrid = document.getElementById('results-grid');
+
+            // Modal Elements
+            const modal = document.getElementById('lyrics-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalArtist = document.getElementById('modal-artist');
+            const modalLyricsContent = document.getElementById('modal-lyrics-content');
+            const closeModalButton = modal.querySelector('.close-button');
+
+            const API_BASE_SEARCH = 'https://lyricsplus.prjktla.workers.dev/v1/songlist/search';
+            const API_BASE_LYRICS = 'https://lyricsplus.prjktla.workers.dev/v2/lyrics/get';
+
+            // --- Helper Functions ---
+            function escapeHtml(str) {
+                return str
+                    .replace(/&/g, "&")
+                    .replace(/</g, "<")
+                    .replace(/>/g, ">")
+                    .replace(/"/g, "\"")
+                    .replace(/'/g, "'");
+            }
+
+            function sanitizeForFilename(str) {
+                return str.replace(/[\\?%*|":<>\/]/g, '').replace(/\s+/g, ' ').trim();
+            }
+
+            searchForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (!query) return;
+
+                resultsGrid.innerHTML = '<p class="status-message">Searching...</p>';
+
+                try {
+                    const response = await fetch(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    displayResults(data.results);
+                } catch (error) {
+                    console.error('Search failed:', error);
+                    resultsGrid.innerHTML = '<p class="status-message">Failed to fetch results. Please try again.</p>';
+                }
+            });
+
+            function displayResults(songs) {
+                if (!songs || songs.length === 0) {
+                    resultsGrid.innerHTML = '<p class="status-message">No results found. Try a different query.</p>';
+                    return;
+                }
+
+                resultsGrid.innerHTML = ''; // Clear previous results
+                songs.forEach(song => {
+                    const card = createSongCard(song);
+                    resultsGrid.appendChild(card);
+                });
+            }
+
+            function createSongCard(song) {
+                const card = document.createElement('div');
+                card.className = 'song-card';
+
+                const durationInSeconds = Math.round(song.durationMs / 1000);
+                const title = encodeURIComponent(song.title);
+                const artist = encodeURIComponent(song.artist);
+                const album = encodeURIComponent(song.album || '');
+
+                const lyricsUrl = `${API_BASE_LYRICS}?title=${title}&artist=${artist}&album=${album.replace(" - Single", "").replace(" - EP", "")}&duration=${durationInSeconds}`;
+                const source = song.availability.join() || 'Unknown';
+
+                const safeTitle = escapeHtml(song.title);
+                const safeArtist = escapeHtml(song.artist);
+                const filename = `${sanitizeForFilename(song.artist)} - ${sanitizeForFilename(song.title)}.json`;
+
+                card.innerHTML = `
+                    <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" alt="Album Art" class="album-art" onerror="this.src='assets/icons/icon128.png'">
+                    <div class="info">
+                        <h3>${safeTitle}</h3>
+                        <p class="artist">${safeArtist}</p>
+                        <p class="album">${escapeHtml(song.album || 'Unknown Album')}</p>
+                        <span class="source-badge">${source}</span>
+                        <div class="card-buttons">
+                            <a href="${lyricsUrl}" download="${filename}" class="cta-button card-button">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <button class="cta-button card-button preview-button" 
+                                data-title="${safeTitle}" 
+                                data-artist="${safeArtist}" 
+                                data-lyrics-url="${lyricsUrl}">
+                                <i class="fas fa-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            // --- Modal Logic ---
+
+            function msToTime(ms) {
+                const totalSeconds = Math.floor(ms / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const milliseconds = ms % 1000;
+                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+            }
+
+            async function openLyricsPreview(title, artist, url) {
+                modalTitle.innerHTML = title; // Use innerHTML to render escaped entities
+                modalArtist.innerHTML = artist;
+                modalLyricsContent.innerHTML = '<p class="status">Loading lyrics...</p>';
+                modal.classList.add('show');
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Lyrics not found or error fetching.');
+
+                    const data = await response.json();
+
+                    if (data.type === "Unsynced" || !data.lyrics || data.lyrics.length === 0) {
+                        modalLyricsContent.innerHTML = '<p class="status">Synced lyrics are not available for this song.</p>';
+                        return;
+                    }
+
+                    const lyricsHtml = data.lyrics.map(line => `
+                        <div class="lyric-line">
+                            <span class="timestamp">[${msToTime(line.time)}]</span>
+                            <span class="lyric-text">${escapeHtml(line.text || '♪')}</span>
+                        </div>
+                    `).join('');
+
+                    modalLyricsContent.innerHTML = lyricsHtml;
+
+                } catch (error) {
+                    console.error('Lyrics preview failed:', error);
+                    modalLyricsContent.innerHTML = '<p class="status">Could not load lyrics preview. The file might not exist or an error occurred.</p>';
+                }
+            }
+
+            function closeModal() {
+                modal.classList.remove('show');
+            }
+
+            resultsGrid.addEventListener('click', (e) => {
+                const previewButton = e.target.closest('.preview-button');
+                if (previewButton) {
+                    const { title, artist, lyricsUrl } = previewButton.dataset;
+                    openLyricsPreview(title, artist, lyricsUrl);
+                }
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape" && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

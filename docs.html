@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     
     <style>
-        /* --- Material You Expressive Theme (Same as previous correct answer) --- */
+        /* --- Material You Expressive Theme --- */
         :root {
             --md-sys-color-primary: rgb(255 180 168);
             --md-sys-color-on-primary: rgb(86 30 22);
@@ -40,6 +40,7 @@
             --md-sys-color-surface-container: rgb(39 29 28);
             --md-sys-color-surface-container-low: rgb(35 25 24);
             --md-sys-color-surface-container-high: rgb(50 40 38);
+            --md-sys-color-surface-container-highest: rgb(61, 50, 48);
             --border-radius-large: 16px;
             --border-radius-extra-large: 28px;
             --border-radius-full: 999px;
@@ -47,20 +48,38 @@
             --animation-timing-function: ease;
         }
 
-        /* --- Global, Nav, and Layout Styles (Same as previous correct answer) --- */
+        /* --- Global, Nav, and Layout Styles --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: 120px; }
-        body { background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); font-family: 'Roboto', sans-serif; line-height: 1.6; }
+        body { 
+            background-color: var(--md-sys-color-background); 
+            color: var(--md-sys-color-on-background); 
+            font-family: 'Roboto', sans-serif; 
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        nav { background: rgba(39, 29, 28, 0.85); padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+        nav.top-nav { /* Made selector more specific to avoid conflicts */
+            background: rgba(39, 29, 28, 0.85); 
+            padding: 1rem 0; 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            border-bottom: 1px solid var(--md-sys-color-outline-variant); 
+        }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.375rem; font-weight: 700; color: var(--md-sys-color-primary); text-decoration: none; }
-        .nav-links a { color: var(--md-sys-color-on-surface-variant); text-decoration: none; margin-left: 2.5rem; font-size: 0.875rem; font-weight: 500; }
+        .nav-links a { color: var(--md-sys-color-on-surface-variant); text-decoration: none; margin-left: 2.5rem; font-size: 0.875rem; font-weight: 500; transition: color var(--animation-duration) var(--animation-timing-function); }
         .nav-links a:hover { color: var(--md-sys-color-primary); }
         .docs-container { max-width: 1400px; margin: 0 auto; padding: 120px 24px 48px; display: grid; grid-template-columns: 280px 1fr; gap: 2rem; align-items: flex-start; }
 
         /* --- Sidebar --- */
         .sidebar { position: sticky; top: 120px; height: calc(100vh - 140px); overflow-y: auto; }
+        /* Target the class, not the tag, to avoid conflicts */
         .sidebar-nav { list-style: none; }
         .sidebar-nav h3 { font-size: 0.875rem; font-weight: 700; color: var(--md-sys-color-primary); padding: 16px 16px 8px; letter-spacing: 0.05rem; text-transform: uppercase; }
         .sidebar-nav a { display: block; padding: 10px 16px; margin: 4px 8px; color: var(--md-sys-color-on-surface-variant); text-decoration: none; border-radius: var(--border-radius-full); transition: all var(--animation-duration) var(--animation-timing-function); font-size: 0.875rem; font-weight: 500; }
@@ -70,12 +89,18 @@
         .sidebar-nav a.sub-link.active { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
         .sidebar-nav hr { border: none; height: 1px; background: var(--md-sys-color-outline-variant); margin: 16px; }
 
-        /* --- Content Area & Markdown Styles (Same as previous correct answer) --- */
+        .sidebar::-webkit-scrollbar { width: 8px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background-color: var(--md-sys-color-surface-container-high); border-radius: 20px; border: 2px solid transparent; background-clip: content-box; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background-color: var(--md-sys-color-outline); }
+
+        /* --- Content Area & Markdown Styles (unchanged) --- */
         .content-area { background: var(--md-sys-color-surface-container); padding: 2rem 2.5rem; border-radius: var(--border-radius-extra-large); border: 1px solid var(--md-sys-color-outline-variant); min-height: 500px; }
-        .doc-content h1, .doc-content h2, .doc-content h3 { scroll-margin-top: 120px; }
+        .doc-content h1, .doc-content h2, .doc-content h3 { scroll-margin-top: 120px; position: relative; }
         .doc-content h1 { font-size: 2rem; font-weight: 400; color: var(--md-sys-color-primary); margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--md-sys-color-outline-variant); }
         .doc-content h2 { font-size: 1.75rem; font-weight: 400; color: var(--md-sys-color-on-surface); margin: 3rem 0 1.5rem; }
         .doc-content h3 { font-size: 1.375rem; font-weight: 500; color: var(--md-sys-color-on-surface-variant); margin: 2rem 0 1rem; }
+        .doc-content h2:hover::before, .doc-content h3:hover::before { content: '#'; position: absolute; left: -1em; color: var(--md-sys-color-outline); font-weight: 700; opacity: 0.7; transition: opacity 0.2s ease; }
         .doc-content p, .doc-content li { font-size: 1rem; color: var(--md-sys-color-on-surface-variant); margin-bottom: 1rem; }
         .doc-content a { color: var(--md-sys-color-tertiary); text-decoration: none; font-weight: 500; }
         .doc-content a:hover { text-decoration: underline; }
@@ -84,10 +109,9 @@
         .doc-content pre { background: var(--md-sys-color-surface-container-low) !important; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--border-radius-large); padding: 1rem; overflow-x: auto; font-size: 0.875rem; }
         .doc-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.875rem; }
         .doc-content th, .doc-content td { padding: 12px 16px; border-bottom: 1px solid var(--md-sys-color-outline-variant); text-align: left; }
-        .doc-content th { color: var(--md-sys-color-on-surface); font-weight: 500; }
+        .doc-content th { color: var(--md-sys-color-on-surface); font-weight: 700; background-color: var(--md-sys-color-surface-container-high); }
+        .doc-content blockquote { margin: 1.5rem 0; padding: 0.5rem 1.5rem; border-left: 4px solid var(--md-sys-color-primary); background-color: var(--md-sys-color-surface-container-low); border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0; }
         .loading { text-align: center; padding: 2rem; font-size: 1.2rem; }
-
-        /* Responsive Design */
         @media (max-width: 900px) {
             .docs-container { grid-template-columns: 1fr; }
             .sidebar { position: static; height: auto; overflow-y: visible; margin-bottom: 2rem; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 1rem; }
@@ -95,7 +119,8 @@
     </style>
 </head>
 <body>
-    <nav>
+    <!-- Added class "top-nav" to be more specific in CSS -->
+    <nav class="top-nav">
         <div class="container nav-content">
             <a href="index.html" class="logo">YouLy+</a>
             <div class="nav-links">
@@ -109,11 +134,12 @@
 
     <div class="docs-container">
         <aside class="sidebar">
-            <nav class="sidebar-nav" id="sidebarNav">
+            <!-- CRITICAL FIX: Changed <nav> to a non-conflicting tag like <ul> -->
+            <ul class="sidebar-nav" id="sidebarNav">
                 <div class="loading">
                     <i class="fas fa-spinner fa-spin"></i> Loading...
                 </div>
-            </nav>
+            </ul>
         </aside>
 
         <main class="content-area">
@@ -137,7 +163,8 @@
 
         const DOC_FILES = {
             'user-guide': { name: 'User Guide', path: 'docs/user-guide.md' },
-            'api-docs': { name: 'API Documentation', path: 'docs/api-kpoe.md' }
+            'api-docs': { name: 'API Documentation', path: 'docs/api-kpoe.md' },
+            'installation': { name: 'Installation', path: 'docs/installation.md' }
         };
         const DEFAULT_DOC = 'user-guide';
 
@@ -159,7 +186,7 @@
                 // Fetch the markdown file
                 const response = await fetch(DOC_FILES[section].path);
                 if (!response.ok) {
-                    throw new Error(`Could not load ${DOC_FILES[section].path}. File not found.`);
+                    throw new Error(`Could not load ${DOC_FILES[section].path}. Status: ${response.status}`);
                 }
                 const markdown = await response.text();
 
@@ -177,8 +204,8 @@
 
             } catch (error) {
                 console.error('Error loading documentation:', error);
-                docContentEl.innerHTML = `<h1>Error</h1><p>${error.message}</p>`;
-                sidebarNavEl.innerHTML = '<h3>Error</h3><p>Could not load navigation.</p>';
+                docContentEl.innerHTML = `<h1>Error</h1><p>Could not load the documentation file. Please ensure you are running this from a web server due to browser security restrictions (CORS policy).</p><p><strong>Details:</strong> ${error.message}</p>`;
+                sidebarNavEl.innerHTML = '<h3>Error</h3><p style="padding: 0 16px;">Could not load navigation.</p>';
             }
         }
 

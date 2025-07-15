@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +19,8 @@
             --md-sys-color-primary-container: rgb(115 52 42);
             --md-sys-color-on-primary-container: rgb(255 218 212);
             --md-sys-color-secondary: rgb(231 189 182);
+            --md-sys-color-tertiary-container: rgb(86 68 25);
+            --md-sys-color-on-tertiary-container: rgb(251 223 166);
             --md-sys-color-background: rgb(26 17 16);
             --md-sys-color-on-background: rgb(241 223 220);
             --md-sys-color-surface: rgb(26 17 16);
@@ -39,337 +40,81 @@
             --animation-timing-function: ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); font-family: 'Roboto', sans-serif; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+        nav { background: rgba(39, 29, 28, 0.85); padding: 1rem 0; position: sticky; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+        .nav-content { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.375rem; font-weight: 700; color: var(--md-sys-color-primary); text-decoration: none; }
+        .nav-links a { color: var(--md-sys-color-on-surface-variant); text-decoration: none; margin-left: 2.5rem; font-size: 0.875rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--md-sys-color-primary); }
+        .page-header { text-align: center; margin: 2rem 0; }
+        .page-header h1 { font-size: 2.75rem; color: var(--md-sys-color-primary); font-weight: 500; }
+        .page-header p { font-size: 1.1rem; color: var(--md-sys-color-on-surface-variant); margin-top: 0.5rem; }
+        .pow-info { background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline-variant); padding: 1rem; margin-top: 1.5rem; border-radius: var(--border-radius-large); font-size: 0.9rem; color: var(--md-sys-color-on-surface-variant); line-height: 1.5; }
+        .pow-info i { color: var(--md-sys-color-secondary); margin-right: 0.5rem; }
+        #drop-zone { border: 2px dashed var(--md-sys-color-outline-variant); border-radius: var(--border-radius-extra-large); padding: 4rem 2rem; text-align: center; cursor: pointer; transition: all var(--animation-duration) var(--animation-timing-function); background-color: var(--md-sys-color-surface-container); }
+        #drop-zone.dragover { border-color: var(--md-sys-color-primary); background-color: var(--md-sys-color-primary-container); }
+        #drop-zone i { font-size: 48px; color: var(--md-sys-color-secondary); }
+        #drop-zone p { color: var(--md-sys-color-on-surface-variant); margin-top: 1rem; }
+        .form-container { display: none; margin-top: 2rem; }
+        .form-section { padding: 1.5rem 0; border-bottom: 1px solid var(--md-sys-color-outline-variant); }
+        .form-section:last-of-type { border-bottom: none; }
+        .form-section h3 { color: var(--md-sys-color-on-surface); font-size: 1.25rem; font-weight: 500; margin-bottom: 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .input-group { display: flex; align-items: center; gap: 0.5rem; }
+        .input-field { position: relative; flex-grow: 1; }
+        .input-field input { width: 100%; background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline); border-radius: var(--border-radius-large); padding: 16px; color: var(--md-sys-color-on-surface); font-size: 1rem; transition: border-color var(--animation-duration); }
+        .input-field input:focus { border-color: var(--md-sys-color-primary); outline: none; }
+        .input-field label { position: absolute; left: 16px; top: 18px; color: var(--md-sys-color-on-surface-variant); pointer-events: none; transition: all var(--animation-duration); background-color: var(--md-sys-color-surface-container); padding: 0 4px; }
+        .input-field input:focus+label, .input-field input:not(:placeholder-shown)+label { top: -10px; font-size: 0.75rem; color: var(--md-sys-color-primary); }
+        .search-trigger-btn { height: 40px; width: 40px; flex-shrink: 0; border: none; background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); border-radius: var(--border-radius-full); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color var(--animation-duration); }
+        .search-trigger-btn:hover { background: rgba(86, 68, 25, 0.8); }
+        .radio-group { margin: 1.5rem 0; display: flex; gap: 1.5rem; }
+        .radio-field { display: flex; align-items: center; cursor: pointer; }
+        .radio-field input { display: none; }
+        .radio-field .custom-radio { width: 20px; height: 20px; border: 2px solid var(--md-sys-color-outline); border-radius: 50%; display: inline-block; position: relative; margin-right: 10px; }
+        .radio-field input:checked+.custom-radio { border-color: var(--md-sys-color-primary); }
+        .radio-field input:checked+.custom-radio::after { content: ''; width: 10px; height: 10px; background: var(--md-sys-color-primary); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .radio-field label { color: var(--md-sys-color-on-surface-variant); }
+        #previewContainer { margin-top: 1.5rem; max-height: 250px; overflow-y: auto; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container); padding: 1rem; border-radius: var(--border-radius-large); font-family: monospace; color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; display: none; }
+        .preview-line .time-badge { color: var(--md-sys-color-secondary); margin-right: 1em; }
+        .submit-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; height: 56px; padding: 0 24px; margin-top: 1rem; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border-radius: var(--border-radius-full); font-weight: 500; font-size: 1rem; letter-spacing: 0.01rem; border: none; cursor: pointer; transition: opacity var(--animation-duration); }
+        .submit-button:disabled { background-color: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); cursor: not-allowed; }
+        .submit-button .fa-spinner { display: none; }
+        .submit-button.loading .fa-spinner { display: inline-block; }
+        .submit-button.loading .button-text { display: none; }
+        #status-message, #pow-progress { margin-top: 1rem; text-align: center; padding: 1rem; border-radius: var(--border-radius-large); display: none; }
+        #status-message.success, #pow-progress { background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+        #status-message.error { background-color: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
+        #pow-progress #nonce-counter, #pow-progress #estimated-time, #pow-progress #iteration-count { display: block; font-family: monospace; margin-top: 0.5rem; font-size: 1rem; }
 
-        body {
-            background-color: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-background);
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-
-        nav {
-            background: rgba(39, 29, 28, 0.85);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--md-sys-color-outline-variant);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
-        }
-
-        .nav-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--md-sys-color-primary);
-        }
-
-        .page-header {
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .page-header h1 {
-            font-size: 2.75rem;
-            color: var(--md-sys-color-primary);
-            font-weight: 500;
-        }
-
-        .page-header p {
-            font-size: 1.1rem;
-            color: var(--md-sys-color-on-surface-variant);
-            margin-top: 0.5rem;
-        }
-
-        /* New styles for Proof of Work info box */
-        .pow-info {
-            background-color: var(--md-sys-color-surface-container);
-            border: 1px solid var(--md-sys-color-outline-variant);
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border-radius: var(--border-radius-large);
-            font-size: 0.9rem;
-            color: var(--md-sys-color-on-surface-variant);
-            line-height: 1.5;
-        }
-
-        .pow-info i {
-            color: var(--md-sys-color-secondary);
-            margin-right: 0.5rem;
-        }
-
-        /* Drop Zone */
-        #drop-zone {
-            border: 2px dashed var(--md-sys-color-outline-variant);
-            border-radius: var(--border-radius-extra-large);
-            padding: 4rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all var(--animation-duration) var(--animation-timing-function);
-            background-color: var(--md-sys-color-surface-container);
-        }
-
-        #drop-zone.dragover {
-            border-color: var(--md-sys-color-primary);
-            background-color: var(--md-sys-color-primary-container);
-        }
-
-        #drop-zone i {
-            font-size: 48px;
-            color: var(--md-sys-color-secondary);
-        }
-
-        #drop-zone p {
-            color: var(--md-sys-color-on-surface-variant);
-            margin-top: 1rem;
-        }
-
-        /* Form styling */
-        .form-container {
-            display: none;
-            margin-top: 2rem;
-        }
-
-        .form-section {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--md-sys-color-outline-variant);
-        }
-
-        .form-section:last-of-type {
-            border-bottom: none;
-        }
-
-        .form-section h3 {
-            color: var(--md-sys-color-on-surface);
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .input-field {
-            position: relative;
-        }
-
-        .input-field input {
-            width: 100%;
-            background-color: var(--md-sys-color-surface-container);
-            border: 1px solid var(--md-sys-color-outline);
-            border-radius: var(--border-radius-large);
-            padding: 16px;
-            color: var(--md-sys-color-on-surface);
-            font-size: 1rem;
-            transition: border-color var(--animation-duration);
-        }
-
-        .input-field input:focus {
-            border-color: var(--md-sys-color-primary);
-            outline: none;
-        }
-
-        .input-field label {
-            position: absolute;
-            left: 16px;
-            top: 18px;
-            color: var(--md-sys-color-on-surface-variant);
-            pointer-events: none;
-            transition: all var(--animation-duration);
-            background-color: var(--md-sys-color-surface-container);
-            padding: 0 4px;
-        }
-
-        .input-field input:focus+label,
-        .input-field input:not(:placeholder-shown)+label {
-            top: -10px;
-            font-size: 0.75rem;
-            color: var(--md-sys-color-primary);
-        }
-
-        /* Radio Buttons */
-        .radio-group {
-            margin: 1.5rem 0;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .radio-field {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .radio-field input {
-            display: none;
-        }
-
-        .radio-field .custom-radio {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--md-sys-color-outline);
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
-        }
-
-        .radio-field input:checked+.custom-radio {
-            border-color: var(--md-sys-color-primary);
-        }
-
-        .radio-field input:checked+.custom-radio::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: var(--md-sys-color-primary);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .radio-field label {
-            color: var(--md-sys-color-on-surface-variant);
-        }
-
-        /* Preview */
-        #previewContainer {
-            margin-top: 1.5rem;
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid var(--md-sys-color-outline-variant);
-            background-color: var(--md-sys-color-surface-container);
-            padding: 1rem;
-            border-radius: var(--border-radius-large);
-            font-family: monospace;
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 0.875rem;
-            display: none;
-        }
-
-        .preview-line .time-badge {
-            color: var(--md-sys-color-secondary);
-            margin-right: 1em;
-        }
-
-        /* Submit Button */
-        .submit-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            width: 100%;
-            height: 56px;
-            padding: 0 24px;
-            margin-top: 1rem;
-            background: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-            border-radius: var(--border-radius-full);
-            font-weight: 500;
-            font-size: 1rem;
-            letter-spacing: 0.01rem;
-            border: none;
-            cursor: pointer;
-            transition: opacity var(--animation-duration);
-        }
-
-        .submit-button:disabled {
-            background-color: var(--md-sys-color-surface-variant);
-            color: var(--md-sys-color-on-surface-variant);
-            cursor: not-allowed;
-        }
-
-        .submit-button .fa-spinner {
-            display: none;
-        }
-
-        .submit-button.loading .fa-spinner {
-            display: inline-block;
-        }
-
-        .submit-button.loading .button-text {
-            display: none;
-        }
-
-        /* Status & Progress Messages */
-        #status-message,
-        #pow-progress {
-            margin-top: 1rem;
-            text-align: center;
-            padding: 1rem;
-            border-radius: var(--border-radius-large);
-            display: none;
-        }
-
-        #status-message.success,
-        #pow-progress {
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
-        }
-
-        #status-message.error {
-            background-color: var(--md-sys-color-error);
-            color: var(--md-sys-color-on-error);
-        }
-
-        #pow-progress #nonce-counter {
-            display: block;
-            font-family: monospace;
-            margin-top: 0.5rem;
-            font-size: 1rem;
-        }
-
-        #pow-progress #estimated-time,
-        #pow-progress #iteration-count {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--md-sys-color-on-primary-container);
-            margin-top: 0.25rem;
-        }
+        /* --- Song Finder Modal --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); animation: fadeIn var(--animation-duration) var(--animation-timing-function); }
+        .modal.show { display: flex; align-items: center; justify-content: center; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content { background-color: var(--md-sys-color-surface-container-high); margin: auto; padding: 2rem; border: 1px solid var(--md-sys-color-outline-variant); width: 90%; max-width: 700px; border-radius: var(--border-radius-extra-large); box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; max-height: 90vh; display: flex; flex-direction: column; animation: slideIn var(--animation-duration) var(--animation-timing-function); }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 1rem; margin-bottom: 1rem; flex-shrink: 0; }
+        .modal-header h3 { font-size: 1.5rem; color: var(--md-sys-color-on-surface); margin: 0; font-weight: 500; }
+        .close-button { color: var(--md-sys-color-on-surface-variant); font-size: 2rem; font-weight: bold; cursor: pointer; line-height: 1; transition: color var(--animation-duration); }
+        .close-button:hover, .close-button:focus { color: var(--md-sys-color-on-surface); }
+        #modal-search-form { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-shrink: 0; }
+        #modal-search-input { flex-grow: 1; height: 50px; padding: 0 20px; font-size: 1rem; background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline); border-radius: var(--border-radius-full); color: var(--md-sys-color-on-surface); outline: none; }
+        #modal-search-button { height: 50px; width: 50px; border: none; border-radius: 50%; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); cursor: pointer; flex-shrink: 0; }
+        #modal-results-list { list-style: none; overflow-y: auto; flex-grow: 1; padding-right: 10px; }
+        .modal-song-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; border-radius: var(--border-radius-large); cursor: pointer; transition: background-color var(--animation-duration); }
+        .modal-song-item:hover { background-color: var(--md-sys-color-surface-container); }
+        .modal-song-item .album-art { width: 50px; height: 50px; border-radius: var(--border-radius-medium); object-fit: cover; flex-shrink: 0; }
+        .modal-song-item .info { flex-grow: 1; min-width: 0; }
+        .modal-song-item .info h4, .modal-song-item .info p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .modal-song-item .info h4 { font-size: 1rem; font-weight: 500; color: var(--md-sys-color-on-surface); }
+        .modal-song-item .info p { font-size: 0.875rem; color: var(--md-sys-color-on-surface-variant); }
+        .modal-song-item .select-btn { height: 36px; padding: 0 20px; border: none; background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); font-weight: 500; border-radius: var(--border-radius-full); cursor: pointer; flex-shrink: 0; }
+        .modal-status { text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 2rem; }
     </style>
 </head>
-
 <body>
-
     <nav>
         <div class="nav-content">
             <a href="index.html" class="logo">YouLy+</a>
@@ -380,32 +125,32 @@
             </div>
         </div>
     </nav>
-
     <main class="container">
         <div class="page-header">
             <h1>Submit Lyrics Timeline</h1>
             <p>Contribute to the YouLy+ community by uploading a synchronized lyrics file.</p>
             <div class="pow-info">
                 <i class="fas fa-shield-halved"></i>
-                To prevent spam and ensure the quality of our service, each submission requires a small computational
-                task (Proof of Work) to be solved by your browser. This may take a few moments and cause your fan to
-                spin up. We appreciate your patience and contribution!
+                To prevent spam, each submission requires a small computational task (Proof of Work) to be solved by your browser. This may take a few moments. We appreciate your patience!
             </div>
         </div>
-
         <div id="drop-zone">
             <i class="fas fa-upload"></i>
             <p>Drag & drop a `.json` or `.ttml` file here, or click to select.</p>
         </div>
-        <input type="file" id="file-input" accept=".json,.json,.ttml" style="display: none;">
-
+        <input type="file" id="file-input" accept=".json,.ttml" style="display: none;">
         <form id="lyrics-form" class="form-container">
             <div class="form-section">
-                <h3>Song Details</h3>
+                <h3>Song Details <small style="font-weight: 400; color: var(--md-sys-color-on-surface-variant);">(or find them automatically)</small></h3>
                 <div class="form-grid">
-                    <div class="input-field">
-                        <input type="text" id="songTitle" required placeholder=" ">
-                        <label for="songTitle">Song Title</label>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <input type="text" id="songTitle" required placeholder=" ">
+                            <label for="songTitle">Song Title</label>
+                        </div>
+                        <button type="button" id="song-finder-trigger" class="search-trigger-btn" title="Find Song Details">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                     <div class="input-field">
                         <input type="text" id="songArtist" required placeholder=" ">
@@ -421,7 +166,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-section">
                 <h3>Lyrics Metadata</h3>
                 <div class="form-grid">
@@ -435,7 +179,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-section">
                 <h3>Submission Options</h3>
                 <div class="radio-group">
@@ -452,24 +195,39 @@
                 </div>
                 <div id="previewContainer"></div>
             </div>
-
             <div id="pow-progress">
                 Solving computational challenge...
-                <span id="nonce-counter">Hashes: 0</span>
-                <span id="estimated-time">Estimated time: Calculating...</span>
-                <span id="iteration-count">Iteration: 0</span>
+                <span id="nonce-counter"></span><span id="estimated-time"></span><span id="iteration-count"></span>
             </div>
             <div id="status-message"></div>
-
             <button type="submit" id="submit-btn" class="submit-button">
                 <i class="fas fa-spinner fa-spin"></i>
                 <span class="button-text">Submit</span>
             </button>
         </form>
     </main>
-
+    <div id="song-finder-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Find Song Details</h3>
+                <span class="close-button">×</span>
+            </div>
+            <form id="modal-search-form">
+                <input type="text" id="modal-search-input" placeholder="Search for song title and artist..." required>
+                <button type="submit" id="modal-search-button"><i class="fas fa-search"></i></button>
+            </form>
+            <ul id="modal-results-list">
+                <p class="modal-status">Search to find song details.</p>
+            </ul>
+        </div>
+    </div>
     <script>
-        // --- DOM Elements ---
+        // API Endpoints
+        const API_BASE_CHALLENGE = 'https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/challenge';
+        const API_BASE_SUBMIT = 'https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/submit';
+        const API_BASE_SEARCH = 'https://lyricsplus.prjktla.workers.dev/v1/songlist/search';
+
+        // DOM Elements
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const lyricsForm = document.getElementById('lyrics-form');
@@ -477,8 +235,6 @@
         const submitBtn = document.getElementById('submit-btn');
         const statusMessageEl = document.getElementById('status-message');
         const powProgressEl = document.getElementById('pow-progress');
-
-        // Form fields
         const songTitleEl = document.getElementById('songTitle');
         const songArtistEl = document.getElementById('songArtist');
         const songAlbumEl = document.getElementById('songAlbum');
@@ -486,121 +242,149 @@
         const curatorEl = document.getElementById('curator');
         const songWritersEl = document.getElementById('songWriters');
 
-        let parsedLyricsData; // To store the parsed .json or .ttml data
+        // Modal Elements
+        const songFinderModal = document.getElementById('song-finder-modal');
+        const songFinderTrigger = document.getElementById('song-finder-trigger');
+        const modalCloseBtn = songFinderModal.querySelector('.close-button');
+        const modalSearchForm = document.getElementById('modal-search-form');
+        const modalSearchInput = document.getElementById('modal-search-input');
+        const modalResultsList = document.getElementById('modal-results-list');
 
-        // --- Drag and Drop Logic ---
+        let parsedLyricsData;
+
+        function escapeHtml(str) { return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "\"").replace(/'/g, "'"); }
+
         dropZone.addEventListener('click', () => fileInput.click());
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
-        });
-        fileInput.addEventListener('change', (e) => { if (e.target.files.length > 0) handleFile(e.target.files[0]); });
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
 
         async function handleFile(file) {
             const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
-                    const content = e.target.result;
-                    let data;
-                    if (file.name.endsWith('.ttml')) {
-                        data = convertTTMLtoJSON(content);
-                    } else { // Assume .json
-                        data = JSON.parse(content);
-                    }
-
-                    parsedLyricsData = data.lyrics ? data : v2toV1(data); // Store data
-
-                    // Populate metadata fields
+                    const data = file.name.endsWith('.ttml') ? convertTTMLtoJSON(e.target.result) : JSON.parse(e.target.result);
+                    parsedLyricsData = data.lyrics[0]?.hasOwnProperty('isLineEnding') ? data : v2toV1(data);
                     curatorEl.value = parsedLyricsData.metadata?.curator || '';
                     songWritersEl.value = Array.isArray(parsedLyricsData.metadata?.songWriters) ? parsedLyricsData.metadata.songWriters.join(', ') : '';
-
-                    // Trigger label animation for populated fields
                     [curatorEl, songWritersEl].forEach(el => el.dispatchEvent(new Event('input')));
-
                     lyricsForm.style.display = 'block';
                     previewContainer.style.display = 'block';
                     renderPreview(parsedLyricsData.lyrics);
-
-                } catch (error) {
-                    showStatus(`Error parsing file: ${error.message}`, 'error');
-                }
+                } catch (error) { showStatus(`Error parsing file: ${error.message}`, 'error'); }
             };
             reader.readAsText(file);
         }
 
-        // --- Form Submission with Proof of Work ---
+        async function performModalSearch(query) {
+            if (!query) return;
+            modalResultsList.innerHTML = `<p class="modal-status">Searching...</p>`;
+            try {
+                const response = await fetch(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                displayModalResults(data.results);
+            } catch (error) { modalResultsList.innerHTML = `<p class="modal-status">Search failed. Please try again.</p>`; }
+        }
+
+        songFinderTrigger.addEventListener('click', () => {
+            songFinderModal.classList.add('show');
+            const currentTitle = songTitleEl.value.trim();
+            if (currentTitle) {
+                modalSearchInput.value = currentTitle;
+                performModalSearch(currentTitle);
+            }
+        });
+
+        modalCloseBtn.addEventListener('click', () => songFinderModal.classList.remove('show'));
+        songFinderModal.addEventListener('click', (e) => { if (e.target === songFinderModal) songFinderModal.classList.remove('show'); });
+        modalSearchForm.addEventListener('submit', (e) => { e.preventDefault(); performModalSearch(modalSearchInput.value.trim()); });
+
+        function displayModalResults(songs) {
+            if (!songs || songs.length === 0) {
+                modalResultsList.innerHTML = `<p class="modal-status">No results found.</p>`;
+                return;
+            }
+            modalResultsList.innerHTML = '';
+            songs.forEach(song => {
+                const li = document.createElement('li');
+                li.className = 'modal-song-item';
+                li.dataset.songData = JSON.stringify(song);
+                const cleanAlbum = (song.album || '').replace(/ - (Single|EP)$/i, '').trim();
+                li.innerHTML = `
+                    <img src="${song.albumArtUrl || ''}" class="album-art" onerror="this.style.visibility='hidden'">
+                    <div class="info">
+                        <h4>${escapeHtml(song.title)}</h4>
+                        <p>${escapeHtml(song.artist)} • ${escapeHtml(cleanAlbum) || 'Unknown Album'}</p>
+                    </div>
+                    <button type="button" class="select-btn">Select</button>
+                `;
+                modalResultsList.appendChild(li);
+            });
+        }
+
+        modalResultsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('select-btn')) {
+                const item = e.target.closest('.modal-song-item');
+                if (item) {
+                    const song = JSON.parse(item.dataset.songData);
+                    populateFormWithSong(song);
+                    songFinderModal.classList.remove('show');
+                }
+            }
+        });
+
+        function populateFormWithSong(song) {
+            songTitleEl.value = song.title;
+            songArtistEl.value = song.artist;
+            songAlbumEl.value = song.album || '';
+            songDurationEl.value = Math.round(song.durationMs / 1000);
+            if (!songWritersEl.value && song.songwriters?.length > 0) {
+                songWritersEl.value = song.songwriters.join(', ');
+            }
+            [songTitleEl, songArtistEl, songAlbumEl, songDurationEl, songWritersEl].forEach(el => {
+                if (el.value) el.dispatchEvent(new Event('input'));
+            });
+        }
+
         lyricsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
             powProgressEl.style.display = 'none';
-            showStatus('Fetching challenge from server...', 'success', false);
-
+            showStatus('Fetching challenge...', 'success', false);
             try {
-                // 1. Get challenge from the backend
-                const challengeResponse = await fetch('https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/challenge');
-                if (!challengeResponse.ok) throw new Error('Failed to get challenge from server.');
+                const challengeResponse = await fetch(API_BASE_CHALLENGE);
+                if (!challengeResponse.ok) throw new Error('Failed to get challenge.');
                 const { token, difficulty } = await challengeResponse.json();
+                const challenge = JSON.parse(atob(token.split('.')[1])).challenge;
 
-                const decodedToken = JSON.parse(atob(token.split('.')[1]));
-                const challenge = decodedToken.challenge;
-
-                // 2. Solve the Proof of Work with progress updates
-                showStatus('', 'success', false); // Clear status to make room for progress
                 statusMessageEl.style.display = 'none';
                 powProgressEl.style.display = 'block';
-
-                const nonceCounterEl = document.getElementById('nonce-counter');
-                const estimatedTimeEl = document.getElementById('estimated-time');
-                const iterationCountEl = document.getElementById('iteration-count');
-
-                const progressCallback = (currentNonce, estimatedTime, iteration) => {
-                    nonceCounterEl.textContent = `Hashes: ${currentNonce.toLocaleString()}`;
-                    estimatedTimeEl.textContent = `Estimated time: ${estimatedTime}`;
-                    iterationCountEl.textContent = `Iteration: ${iteration}`;
-                };
-
-                const nonce = await solveProofOfWork(challenge, difficulty, progressCallback);
+                const nonce = await solveProofOfWork(challenge, difficulty, (nonce, est, iter) => {
+                    powProgressEl.querySelector('#nonce-counter').textContent = `Hashes: ${nonce.toLocaleString()}`;
+                    powProgressEl.querySelector('#estimated-time').textContent = `Time: ${est}`;
+                    powProgressEl.querySelector('#iteration-count').textContent = `Iteration: ${iter}`;
+                });
+                
                 powProgressEl.style.display = 'none';
-                showStatus('Challenge solved! Submitting lyrics...', 'success', false);
-
-
-                // 3. Update metadata in the payload before submitting
+                showStatus('Submitting lyrics...', 'success', false);
                 parsedLyricsData.metadata.curator = curatorEl.value || undefined;
                 parsedLyricsData.metadata.songWriters = songWritersEl.value ? songWritersEl.value.split(',').map(s => s.trim()) : [];
-
-                // 4. Construct the final payload
-                const lyricsSubmitData = {
-                    songTitle: songTitleEl.value,
-                    songArtist: songArtistEl.value,
-                    songAlbum: songAlbumEl.value,
-                    songDuration: songDurationEl.value,
+                
+                const finalPayload = {
+                    proofOfWorkToken: token, nonce,
+                    songTitle: songTitleEl.value, songArtist: songArtistEl.value,
+                    songAlbum: songAlbumEl.value, songDuration: songDurationEl.value,
                     forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
-                    lyricsData: v2toV1(parsedLyricsData), // Ensure it's always v1 format for submission
+                    lyricsData: parsedLyricsData,
                 };
-
-                const finalPayload = { proofOfWorkToken: token, nonce, ...lyricsSubmitData };
-
-                // 5. Submit to the backend
-                const submitResponse = await fetch('https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(finalPayload),
-                });
-
+                const submitResponse = await fetch(API_BASE_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(finalPayload) });
                 const result = await submitResponse.json();
-                if (!submitResponse.ok) throw new Error(result.error || `Server responded with ${submitResponse.status}`);
-
-                showStatus('Submission successful! Thank you for your contribution.', 'success');
-                lyricsForm.reset();
-                previewContainer.innerHTML = '';
-
-
+                if (!submitResponse.ok) throw new Error(result.error || `Server error: ${submitResponse.status}`);
+                showStatus('Submission successful! Thank you.', 'success');
+                lyricsForm.reset(); previewContainer.innerHTML = '';
             } catch (error) {
-                console.error('Submission Error:', error);
                 showStatus(`Submission failed: ${error.message}`, 'error');
                 powProgressEl.style.display = 'none';
             } finally {
@@ -608,168 +392,61 @@
                 submitBtn.disabled = false;
             }
         });
-
-        // --- Proof of Work Solver ---
-        async function solveProofOfWork(challenge, difficulty, progressCallback) {
-            const requiredPrefix = '0'.repeat(difficulty);
-            let nonce = 0;
-            const textEncoder = new TextEncoder();
-            const startTime = performance.now();
-            let lastUpdateTime = startTime;
-            let iteration = 0;
-
-            // Initial callback call
-            if (progressCallback) progressCallback(nonce, 'Calculating...', iteration);
-
+        
+        // --- Utility and Conversion Functions (unchanged logic, slightly compressed)
+        async function solveProofOfWork(challenge, difficulty, cb) {
+            const prefix = '0'.repeat(difficulty); let nonce = 0, iter = 0; const start = performance.now();
             while (true) {
-                const data = textEncoder.encode(challenge + nonce);
-                const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-                if (hashHex.startsWith(requiredPrefix)) return nonce;
-
-                // Update progress periodically to avoid overwhelming the DOM
+                const hashHex = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(challenge + nonce)))).map(b => b.toString(16).padStart(2, '0')).join('');
+                if (hashHex.startsWith(prefix)) return nonce;
                 if (nonce % 100000 === 0) {
-                    const currentTime = performance.now();
-                    const elapsed = (currentTime - startTime) / 1000; // in seconds
-                    const hashesPerSecond = nonce / elapsed;
-
-                    // Estimate remaining time (very rough, assumes constant hash rate)
-                    // This would require knowing the total number of hashes needed, which is unknown.
-                    // For now, let's just show the current hash rate and elapsed time.
-                    const estimatedTime = hashesPerSecond > 0 ? `${(elapsed / 60).toFixed(2)} min elapsed` : 'Calculating...';
-
-                    if (progressCallback) progressCallback(nonce, estimatedTime, iteration);
-                    iteration++;
-                    lastUpdateTime = currentTime;
-                    // Yield to the event loop to keep the UI responsive
+                    if(cb) cb(nonce, `${((performance.now() - start) / 1000).toFixed(2)}s`, iter++);
                     await new Promise(resolve => setTimeout(resolve, 0));
                 }
                 nonce++;
             }
         }
-
-        // --- Utility and Conversion Functions ---
         function renderPreview(lyrics) {
-            previewContainer.innerHTML = '';
-            if (!lyrics || lyrics.length === 0) return;
-            const v1Lyrics = lyrics[0].hasOwnProperty('isLineEnding') ? lyrics : v2toV1({ lyrics }).lyrics;
-
-            v1Lyrics.slice(0, 100).forEach(line => {
-                const lineDiv = document.createElement('div');
-                lineDiv.classList.add('preview-line');
+            previewContainer.innerHTML = ''; if (!lyrics || lyrics.length === 0) return;
+            lyrics.slice(0, 100).forEach(line => {
                 const time = new Date(line.time).toISOString().substr(14, 8);
-                lineDiv.innerHTML = `<span class="time-badge">${time}</span> ${line.text}`;
-                previewContainer.appendChild(lineDiv);
+                previewContainer.innerHTML += `<div class="preview-line"><span class="time-badge">${time}</span> ${escapeHtml(line.text)}</div>`;
             });
         }
-
         function showStatus(message, type = 'success', autoHide = true) {
-            if (!message) {
-                statusMessageEl.style.display = 'none';
-                return;
-            }
+            if (!message) { statusMessageEl.style.display = 'none'; return; }
             statusMessageEl.className = 'status-message ' + type;
             statusMessageEl.textContent = message;
             statusMessageEl.style.display = 'block';
             if (autoHide) setTimeout(() => { statusMessageEl.style.display = 'none'; }, 6000);
         }
-
-        function timeToMs(timeStr) {
-            const parts = timeStr.split(':');
-            const secondsAndMs = parts.pop().split('.');
-            const hours = parts.length > 2 ? parseInt(parts.shift(), 10) : 0;
-            const minutes = parseInt(parts.shift() || '0', 10);
-            const seconds = parseInt(secondsAndMs[0], 10);
-            const milliseconds = parseInt(secondsAndMs[1] || '0', 10);
-            return (hours * 3600 + minutes * 60 + seconds) * 1000 + milliseconds;
-        }
-
+        function timeToMs(t) { const p = t.split(':'); const s = p.pop().split('.'); return (p.reduce((acc, val) => acc * 60 + +val, 0) || 0) * 1000 + (s[1] ? +s[0] * 1000 + +s[1] : +s[0] * 1000); }
         function convertTTMLtoJSON(ttml, offset = 0) {
-            let timingMode = "Word";
-            const timingMatch = ttml.match(/<tt\b[^>]*itunes:timing="([^"]+)"/i);
-            if (timingMatch) timingMode = timingMatch[1];
-            if (timingMode === "Line") console.warn("[WARNING] TTML is line-synced, not word-synced.");
-
-            const metadata = { source: "Apple Music" };
-            const metadataRegex = /<head>[\s\S]*?<metadata>([\s\S]*?)<\/metadata>/i;
-            const metadataMatch = ttml.match(metadataRegex);
-            if (metadataMatch) {
-                const itunesMetadataRegex = /<iTunesMetadata\b[^>]*>([\s\S]*?)<\/iTunesMetadata>/i;
-                const itunesMatch = metadataMatch[1].match(itunesMetadataRegex);
-                if (itunesMatch) {
-                    const songwritersRegex = /<songwriters>([\s\S]*?)<\/songwriters>/i;
-                    const songwritersMatch = itunesMatch[2].match(songwritersRegex);
-                    if (songwritersMatch) {
-                        const songwriters = [...songwritersMatch[1].matchAll(/<songwriter>([\s\S]*?)<\/songwriter>/gi)].map(m => m[1].trim());
-                        metadata.songWriters = songwriters;
-                    }
-                }
-            }
-
+            let timingMode = (ttml.match(/itunes:timing="([^"]+)"/i) || [])[1] || "Word";
+            const metadata = { source: "Apple Music", songWriters: [...ttml.matchAll(/<songwriter>([\s\S]*?)<\/songwriter>/gi)].map(m => m[1].trim()) };
             const lyrics = [];
-            const divRegex = /<(?:tt:)?div\b([^>]*)>([\s\S]*?)<\/(?:tt:)?div>/gi;
-            let divMatch;
-            while ((divMatch = divRegex.exec(ttml)) !== null) {
-                const songPartMatch = divMatch[1].match(/itunes:songPart="([^"]+)"/i);
-                const songPart = songPartMatch ? songPartMatch[1] : "";
-                const pRegex = /<(?:tt:)?p\b([^>]*)>([\s\S]*?)<\/(?:tt:)?p>/gi;
-                let pMatch;
-                while ((pMatch = pRegex.exec(divMatch[2])) !== null) {
-                    const keyMatch = pMatch[1].match(/itunes:key="([^"]+)"/i);
-                    const singerMatch = pMatch[1].match(/ttm:agent="([^"]+)"/i);
+            for (const divMatch of ttml.matchAll(/<(?:tt:)?div\b([^>]*)>([\s\S]*?)<\/(?:tt:)?div>/gi)) {
+                const songPart = (divMatch[1].match(/itunes:songPart="([^"]+)"/i) || [])[1] || "";
+                for (const pMatch of divMatch[2].matchAll(/<(?:tt:)?p\b([^>]*)>([\s\S]*?)<\/(?:tt:)?p>/gi)) {
+                    const element = { key: (pMatch[1].match(/itunes:key="([^"]+)"/i) || [])[1] || "", songPart, singer: ((pMatch[1].match(/ttm:agent="([^"]+)"/i) || [])[1] || "").replace('voice', 'v') };
                     const pStartIndex = lyrics.length;
-                    const spanRegex = /<(?:tt:)?span[^>]*?begin="([^"]+)"[^>]*?end="([^"]+)"[^>]*>([\s\S]*?)<\/(?:tt:)?span>/gi;
-                    let spanMatch;
-                    while ((spanMatch = spanRegex.exec(pMatch[2])) !== null) {
-                        const text = spanMatch[3].replace(/<br\s*\/?>/gi, '\n');
-                        lyrics.push({
-                            time: timeToMs(spanMatch[1]) + offset,
-                            duration: timeToMs(spanMatch[2]) - timeToMs(spanMatch[1]),
-                            text: text,
-                            isLineEnding: 0,
-                            element: {
-                                key: keyMatch ? keyMatch[1] : "",
-                                songPart: songPart,
-                                singer: singerMatch ? singerMatch[1].replace('voice', 'v') : "",
-                            },
-                        });
+                    for (const spanMatch of pMatch[2].matchAll(/<(?:tt:)?span[^>]*?begin="([^"]+)"[^>]*?end="([^"]+)"[^>]*>([\s\S]*?)<\/(?:tt:)?span>/gi)) {
+                        lyrics.push({ time: timeToMs(spanMatch[1]) + offset, duration: timeToMs(spanMatch[2]) - timeToMs(spanMatch[1]), text: spanMatch[3].replace(/<br\s*\/?>/gi, '\n'), isLineEnding: 0, element });
                     }
                     if (lyrics.length > pStartIndex) lyrics[lyrics.length - 1].isLineEnding = 1;
                 }
-            }
-            return { type: timingMode, KpoeTools: "1.31-JSRegex", metadata, lyrics };
+            } return { type: timingMode, KpoeTools: "1.31-JSRegex", metadata, lyrics };
         }
-
         function v2toV1(data) {
             if (data.lyrics && data.lyrics.length > 0 && data.lyrics[0].hasOwnProperty('isLineEnding')) return data;
             const v1Lyrics = [];
-            data.lyrics.forEach((line) => {
+            data.lyrics.forEach(line => {
                 if (line.syllabus && line.syllabus.length > 0) {
-                    line.syllabus.forEach((syllable, syllableIndex) => {
-                        v1Lyrics.push({
-                            time: syllable.time,
-                            duration: syllable.duration,
-                            text: syllable.text,
-                            isLineEnding: (syllableIndex === line.syllabus.length - 1) ? 1 : 0,
-                            element: line.element
-                        });
-                    });
-                } else {
-                    v1Lyrics.push({
-                        time: line.time,
-                        duration: line.duration,
-                        text: line.text,
-                        isLineEnding: 1,
-                        element: line.element
-                    });
-                }
+                    line.syllabus.forEach((syllable, i) => v1Lyrics.push({ ...syllable, isLineEnding: i === line.syllabus.length - 1 ? 1 : 0, element: line.element }));
+                } else { v1Lyrics.push({ ...line, isLineEnding: 1 }); }
             });
             return { ...data, lyrics: v1Lyrics };
         }
-
     </script>
 </body>
-
 </html>
