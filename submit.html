@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,19 +39,82 @@
             --animation-timing-function: ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); font-family: 'Roboto', sans-serif; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
-        nav { background: rgba(39, 29, 28, 0.85); padding: 1rem 0; position: sticky; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--md-sys-color-outline-variant); }
-        .nav-content { max-width:1200px; margin:0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.375rem; font-weight: 700; color: var(--md-sys-color-primary); text-decoration: none; }
-        .nav-links a { color: var(--md-sys-color-on-surface-variant); text-decoration: none; margin-left: 2.5rem; font-size: 0.875rem; font-weight: 500; }
-        .nav-links a:hover { color: var(--md-sys-color-primary); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .page-header { text-align: center; margin: 2rem 0; }
-        .page-header h1 { font-size: 2.75rem; color: var(--md-sys-color-primary); font-weight: 500; }
-        .page-header p { font-size: 1.1rem; color: var(--md-sys-color-on-surface-variant); margin-top: 0.5rem; }
-        
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        nav {
+            background: rgba(39, 29, 28, 0.85);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--md-sys-color-primary);
+        }
+
+        .page-header {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .page-header h1 {
+            font-size: 2.75rem;
+            color: var(--md-sys-color-primary);
+            font-weight: 500;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 0.5rem;
+        }
+
         /* New styles for Proof of Work info box */
         .pow-info {
             background-color: var(--md-sys-color-surface-container);
@@ -62,7 +126,11 @@
             color: var(--md-sys-color-on-surface-variant);
             line-height: 1.5;
         }
-        .pow-info i { color: var(--md-sys-color-secondary); margin-right: 0.5rem; }
+
+        .pow-info i {
+            color: var(--md-sys-color-secondary);
+            margin-right: 0.5rem;
+        }
 
         /* Drop Zone */
         #drop-zone {
@@ -74,28 +142,54 @@
             transition: all var(--animation-duration) var(--animation-timing-function);
             background-color: var(--md-sys-color-surface-container);
         }
+
         #drop-zone.dragover {
             border-color: var(--md-sys-color-primary);
             background-color: var(--md-sys-color-primary-container);
         }
-        #drop-zone i { font-size: 48px; color: var(--md-sys-color-secondary); }
-        #drop-zone p { color: var(--md-sys-color-on-surface-variant); margin-top: 1rem; }
+
+        #drop-zone i {
+            font-size: 48px;
+            color: var(--md-sys-color-secondary);
+        }
+
+        #drop-zone p {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 1rem;
+        }
 
         /* Form styling */
-        .form-container { display: none; margin-top: 2rem; }
+        .form-container {
+            display: none;
+            margin-top: 2rem;
+        }
+
         .form-section {
             padding: 1.5rem 0;
             border-bottom: 1px solid var(--md-sys-color-outline-variant);
         }
-        .form-section:last-of-type { border-bottom: none; }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
         .form-section h3 {
             color: var(--md-sys-color-on-surface);
             font-size: 1.25rem;
             font-weight: 500;
             margin-bottom: 1.5rem;
         }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-        .input-field { position: relative; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .input-field {
+            position: relative;
+        }
+
         .input-field input {
             width: 100%;
             background-color: var(--md-sys-color-surface-container);
@@ -106,30 +200,76 @@
             font-size: 1rem;
             transition: border-color var(--animation-duration);
         }
-        .input-field input:focus { border-color: var(--md-sys-color-primary); outline: none; }
+
+        .input-field input:focus {
+            border-color: var(--md-sys-color-primary);
+            outline: none;
+        }
+
         .input-field label {
             position: absolute;
-            left: 16px; top: 18px;
+            left: 16px;
+            top: 18px;
             color: var(--md-sys-color-on-surface-variant);
             pointer-events: none;
             transition: all var(--animation-duration);
             background-color: var(--md-sys-color-surface-container);
             padding: 0 4px;
         }
-        .input-field input:focus + label, .input-field input:not(:placeholder-shown) + label {
+
+        .input-field input:focus+label,
+        .input-field input:not(:placeholder-shown)+label {
             top: -10px;
             font-size: 0.75rem;
             color: var(--md-sys-color-primary);
         }
-        
+
         /* Radio Buttons */
-        .radio-group { margin: 1.5rem 0; display: flex; gap: 1.5rem; }
-        .radio-field { display: flex; align-items: center; cursor: pointer; }
-        .radio-field input { display: none; }
-        .radio-field .custom-radio { width: 20px; height: 20px; border: 2px solid var(--md-sys-color-outline); border-radius: 50%; display: inline-block; position: relative; margin-right: 10px; }
-        .radio-field input:checked + .custom-radio { border-color: var(--md-sys-color-primary); }
-        .radio-field input:checked + .custom-radio::after { content: ''; width: 10px; height: 10px; background: var(--md-sys-color-primary); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .radio-field label { color: var(--md-sys-color-on-surface-variant); }
+        .radio-group {
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .radio-field {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-field input {
+            display: none;
+        }
+
+        .radio-field .custom-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--md-sys-color-outline);
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .radio-field input:checked+.custom-radio {
+            border-color: var(--md-sys-color-primary);
+        }
+
+        .radio-field input:checked+.custom-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--md-sys-color-primary);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-field label {
+            color: var(--md-sys-color-on-surface-variant);
+        }
 
         /* Preview */
         #previewContainer {
@@ -145,41 +285,89 @@
             font-size: 0.875rem;
             display: none;
         }
-        .preview-line .time-badge { color: var(--md-sys-color-secondary); margin-right: 1em; }
+
+        .preview-line .time-badge {
+            color: var(--md-sys-color-secondary);
+            margin-right: 1em;
+        }
 
         /* Submit Button */
         .submit-button {
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem;
-            width: 100%; height: 56px; padding: 0 24px; margin-top: 1rem;
-            background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            height: 56px;
+            padding: 0 24px;
+            margin-top: 1rem;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
             border-radius: var(--border-radius-full);
-            font-weight: 500; font-size: 1rem; letter-spacing: 0.01rem;
-            border: none; cursor: pointer; transition: opacity var(--animation-duration);
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.01rem;
+            border: none;
+            cursor: pointer;
+            transition: opacity var(--animation-duration);
         }
-        .submit-button:disabled { background-color: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); cursor: not-allowed; }
-        .submit-button .fa-spinner { display: none; }
-        .submit-button.loading .fa-spinner { display: inline-block; }
-        .submit-button.loading .button-text { display: none; }
+
+        .submit-button:disabled {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: not-allowed;
+        }
+
+        .submit-button .fa-spinner {
+            display: none;
+        }
+
+        .submit-button.loading .fa-spinner {
+            display: inline-block;
+        }
+
+        .submit-button.loading .button-text {
+            display: none;
+        }
 
         /* Status & Progress Messages */
-        #status-message, #pow-progress { 
-            margin-top: 1rem; text-align: center; padding: 1rem; 
-            border-radius: var(--border-radius-large); display: none; 
-        }
-        #status-message.success, #pow-progress { 
-            background-color: var(--md-sys-color-primary-container); 
-            color: var(--md-sys-color-on-primary-container); 
-        }
-        #status-message.error { 
-            background-color: var(--md-sys-color-error); 
-            color: var(--md-sys-color-on-error); 
-        }
-        #pow-progress #nonce-counter { 
-            display: block; font-family: monospace; margin-top: 0.5rem; font-size: 1rem;
+        #status-message,
+        #pow-progress {
+            margin-top: 1rem;
+            text-align: center;
+            padding: 1rem;
+            border-radius: var(--border-radius-large);
+            display: none;
         }
 
+        #status-message.success,
+        #pow-progress {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        #status-message.error {
+            background-color: var(--md-sys-color-error);
+            color: var(--md-sys-color-on-error);
+        }
+
+        #pow-progress #nonce-counter {
+            display: block;
+            font-family: monospace;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        #pow-progress #estimated-time,
+        #pow-progress #iteration-count {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--md-sys-color-on-primary-container);
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
+
 <body>
 
     <nav>
@@ -199,7 +387,9 @@
             <p>Contribute to the YouLy+ community by uploading a synchronized lyrics file.</p>
             <div class="pow-info">
                 <i class="fas fa-shield-halved"></i>
-                To prevent spam and ensure the quality of our service, each submission requires a small computational task (Proof of Work) to be solved by your browser. This may take a few moments and cause your fan to spin up. We appreciate your patience and contribution!
+                To prevent spam and ensure the quality of our service, each submission requires a small computational
+                task (Proof of Work) to be solved by your browser. This may take a few moments and cause your fan to
+                spin up. We appreciate your patience and contribution!
             </div>
         </div>
 
@@ -231,10 +421,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-section">
                 <h3>Lyrics Metadata</h3>
-                 <div class="form-grid">
+                <div class="form-grid">
                     <div class="input-field">
                         <input type="text" id="curator" placeholder=" ">
                         <label for="curator">Curator</label>
@@ -262,10 +452,15 @@
                 </div>
                 <div id="previewContainer"></div>
             </div>
-            
-            <div id="pow-progress"></div>
+
+            <div id="pow-progress">
+                Solving computational challenge...
+                <span id="nonce-counter">Hashes: 0</span>
+                <span id="estimated-time">Estimated time: Calculating...</span>
+                <span id="iteration-count">Iteration: 0</span>
+            </div>
             <div id="status-message"></div>
-            
+
             <button type="submit" id="submit-btn" class="submit-button">
                 <i class="fas fa-spinner fa-spin"></i>
                 <span class="button-text">Submit</span>
@@ -317,25 +512,25 @@
                     }
 
                     parsedLyricsData = data.lyrics ? data : v2toV1(data); // Store data
-                    
+
                     // Populate metadata fields
                     curatorEl.value = parsedLyricsData.metadata?.curator || '';
                     songWritersEl.value = Array.isArray(parsedLyricsData.metadata?.songWriters) ? parsedLyricsData.metadata.songWriters.join(', ') : '';
-                    
+
                     // Trigger label animation for populated fields
                     [curatorEl, songWritersEl].forEach(el => el.dispatchEvent(new Event('input')));
 
                     lyricsForm.style.display = 'block';
                     previewContainer.style.display = 'block';
                     renderPreview(parsedLyricsData.lyrics);
-                    
+
                 } catch (error) {
                     showStatus(`Error parsing file: ${error.message}`, 'error');
                 }
             };
             reader.readAsText(file);
         }
-        
+
         // --- Form Submission with Proof of Work ---
         lyricsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -346,22 +541,26 @@
 
             try {
                 // 1. Get challenge from the backend
-                const challengeResponse = await fetch('http://lyricsplus.prjktla.workers.dev/v1/lyricsplus/challenge');
+                const challengeResponse = await fetch('https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/challenge');
                 if (!challengeResponse.ok) throw new Error('Failed to get challenge from server.');
                 const { token, difficulty } = await challengeResponse.json();
-                
+
                 const decodedToken = JSON.parse(atob(token.split('.')[1]));
                 const challenge = decodedToken.challenge;
 
                 // 2. Solve the Proof of Work with progress updates
                 showStatus('', 'success', false); // Clear status to make room for progress
                 statusMessageEl.style.display = 'none';
-                powProgressEl.innerHTML = `Solving computational challenge (Difficulty: ${difficulty})... <span id="nonce-counter">Hashes: 0</span>`;
                 powProgressEl.style.display = 'block';
 
                 const nonceCounterEl = document.getElementById('nonce-counter');
-                const progressCallback = (currentNonce) => {
+                const estimatedTimeEl = document.getElementById('estimated-time');
+                const iterationCountEl = document.getElementById('iteration-count');
+
+                const progressCallback = (currentNonce, estimatedTime, iteration) => {
                     nonceCounterEl.textContent = `Hashes: ${currentNonce.toLocaleString()}`;
+                    estimatedTimeEl.textContent = `Estimated time: ${estimatedTime}`;
+                    iterationCountEl.textContent = `Iteration: ${iteration}`;
                 };
 
                 const nonce = await solveProofOfWork(challenge, difficulty, progressCallback);
@@ -386,7 +585,7 @@
                 const finalPayload = { proofOfWorkToken: token, nonce, ...lyricsSubmitData };
 
                 // 5. Submit to the backend
-                const submitResponse = await fetch('http://lyricsplus.prjktla.workers.dev/v1/lyricsplus/submit', {
+                const submitResponse = await fetch('https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(finalPayload),
@@ -394,7 +593,7 @@
 
                 const result = await submitResponse.json();
                 if (!submitResponse.ok) throw new Error(result.error || `Server responded with ${submitResponse.status}`);
-                
+
                 showStatus('Submission successful! Thank you for your contribution.', 'success');
                 lyricsForm.reset();
                 previewContainer.innerHTML = '';
@@ -409,27 +608,41 @@
                 submitBtn.disabled = false;
             }
         });
-        
+
         // --- Proof of Work Solver ---
         async function solveProofOfWork(challenge, difficulty, progressCallback) {
             const requiredPrefix = '0'.repeat(difficulty);
             let nonce = 0;
             const textEncoder = new TextEncoder();
-            
+            const startTime = performance.now();
+            let lastUpdateTime = startTime;
+            let iteration = 0;
+
             // Initial callback call
-            if(progressCallback) progressCallback(nonce);
+            if (progressCallback) progressCallback(nonce, 'Calculating...', iteration);
 
             while (true) {
                 const data = textEncoder.encode(challenge + nonce);
                 const hashBuffer = await crypto.subtle.digest("SHA-256", data);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                
+
                 if (hashHex.startsWith(requiredPrefix)) return nonce;
-                
+
                 // Update progress periodically to avoid overwhelming the DOM
-                if (nonce % 100000 === 0) { 
-                    if (progressCallback) progressCallback(nonce);
+                if (nonce % 100000 === 0) {
+                    const currentTime = performance.now();
+                    const elapsed = (currentTime - startTime) / 1000; // in seconds
+                    const hashesPerSecond = nonce / elapsed;
+
+                    // Estimate remaining time (very rough, assumes constant hash rate)
+                    // This would require knowing the total number of hashes needed, which is unknown.
+                    // For now, let's just show the current hash rate and elapsed time.
+                    const estimatedTime = hashesPerSecond > 0 ? `${(elapsed / 60).toFixed(2)} min elapsed` : 'Calculating...';
+
+                    if (progressCallback) progressCallback(nonce, estimatedTime, iteration);
+                    iteration++;
+                    lastUpdateTime = currentTime;
                     // Yield to the event loop to keep the UI responsive
                     await new Promise(resolve => setTimeout(resolve, 0));
                 }
@@ -441,7 +654,7 @@
         function renderPreview(lyrics) {
             previewContainer.innerHTML = '';
             if (!lyrics || lyrics.length === 0) return;
-            const v1Lyrics = lyrics[0].hasOwnProperty('isLineEnding') ? lyrics : v2toV1({lyrics}).lyrics;
+            const v1Lyrics = lyrics[0].hasOwnProperty('isLineEnding') ? lyrics : v2toV1({ lyrics }).lyrics;
 
             v1Lyrics.slice(0, 100).forEach(line => {
                 const lineDiv = document.createElement('div');
@@ -460,7 +673,7 @@
             statusMessageEl.className = 'status-message ' + type;
             statusMessageEl.textContent = message;
             statusMessageEl.style.display = 'block';
-            if(autoHide) setTimeout(() => { statusMessageEl.style.display = 'none'; }, 6000);
+            if (autoHide) setTimeout(() => { statusMessageEl.style.display = 'none'; }, 6000);
         }
 
         function timeToMs(timeStr) {
@@ -543,6 +756,14 @@
                             element: line.element
                         });
                     });
+                } else {
+                    v1Lyrics.push({
+                        time: line.time,
+                        duration: line.duration,
+                        text: line.text,
+                        isLineEnding: 1,
+                        element: line.element
+                    });
                 }
             });
             return { ...data, lyrics: v1Lyrics };
@@ -550,4 +771,5 @@
 
     </script>
 </body>
+
 </html>
