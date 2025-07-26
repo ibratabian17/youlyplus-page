@@ -223,9 +223,12 @@
     </div>
     <script>
         // API Endpoints
-        const API_BASE_CHALLENGE = 'https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/challenge';
-        const API_BASE_SUBMIT = 'https://lyricsplus.prjktla.workers.dev/v1/lyricsplus/submit';
-        const API_BASE_SEARCH = 'https://lyricsplus.prjktla.workers.dev/v1/songlist/search';
+        const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
+        const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
+
+        const API_BASE_CHALLENGE = '/v1/lyricsplus/challenge';
+        const API_BASE_SUBMIT = '/v1/lyricsplus/submit';
+        const API_BASE_SEARCH = '/v1/songlist/search';
 
         // DOM Elements
         const dropZone = document.getElementById('drop-zone');
@@ -281,8 +284,7 @@
             if (!query) return;
             modalResultsList.innerHTML = `<p class="modal-status">Searching...</p>`;
             try {
-                const response = await fetch(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
-                const data = await response.json();
+                const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
                 displayModalResults(data.results);
             } catch (error) { modalResultsList.innerHTML = `<p class="modal-status">Search failed. Please try again.</p>`; }
         }
@@ -354,9 +356,7 @@
             powProgressEl.style.display = 'none';
             showStatus('Fetching challenge...', 'success', false);
             try {
-                const challengeResponse = await fetch(API_BASE_CHALLENGE);
-                if (!challengeResponse.ok) throw new Error('Failed to get challenge.');
-                const { token, difficulty } = await challengeResponse.json();
+                const { token, difficulty } = await fetchWithFallback(API_BASE_CHALLENGE);
                 const challenge = JSON.parse(atob(token.split('.')[1])).challenge;
 
                 statusMessageEl.style.display = 'none';
@@ -379,9 +379,7 @@
                     forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
                     lyricsData: parsedLyricsData,
                 };
-                const submitResponse = await fetch(API_BASE_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(finalPayload) });
-                const result = await submitResponse.json();
-                if (!submitResponse.ok) throw new Error(result.error || `Server error: ${submitResponse.status}`);
+                const result = await fetchWithFallback(API_BASE_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(finalPayload) }, true); // Pass true for isPost
                 showStatus('Submission successful! Thank you.', 'success');
                 lyricsForm.reset(); previewContainer.innerHTML = '';
             } catch (error) {
@@ -393,6 +391,24 @@
             }
         });
         
+        async function fetchWithFallback(path, options = {}, isPost = false) {
+            let response;
+            try {
+                response = await fetch(`${PRIMARY_API_BASE}${path}`, options);
+                if (!response.ok) {
+                    throw new Error(`Primary server error: ${response.status}`);
+                }
+            } catch (primaryError) {
+                console.warn(`Primary server failed (${PRIMARY_API_BASE}${path}):`, primaryError);
+                console.log(`Attempting fallback server: ${FALLBACK_API_BASE}${path}`);
+                response = await fetch(`${FALLBACK_API_BASE}${path}`, options);
+                if (!response.ok) {
+                    throw new Error(`Fallback server error: ${response.status}`);
+                }
+            }
+            return isPost ? response.json() : response.json(); // For POST, we still want the JSON result
+        }
+
         // --- Utility and Conversion Functions (unchanged logic, slightly compressed)
         async function solveProofOfWork(challenge, difficulty, cb) {
             const prefix = '0'.repeat(difficulty); let nonce = 0, iter = 0; const start = performance.now();

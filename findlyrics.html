@@ -545,8 +545,12 @@
             const modalLyricsContent = document.getElementById('modal-lyrics-content');
             const closeModalButton = modal.querySelector('.close-button');
 
-            const API_BASE_SEARCH = 'https://lyricsplus.prjktla.workers.dev/v1/songlist/search';
-            const API_BASE_LYRICS = 'https://lyricsplus.prjktla.workers.dev/v2/lyrics/get';
+            const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
+            const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
+
+            // API Endpoints
+            const API_BASE_SEARCH = '/v1/songlist/search';
+            const API_BASE_LYRICS = '/v2/lyrics/get';
 
             // --- Helper Functions ---
             function escapeHtml(str) {
@@ -570,15 +574,31 @@
                 resultsGrid.innerHTML = '<p class="status-message">Searching...</p>';
 
                 try {
-                    const response = await fetch(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    const data = await response.json();
+                    const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
                     displayResults(data.results);
                 } catch (error) {
                     console.error('Search failed:', error);
                     resultsGrid.innerHTML = '<p class="status-message">Failed to fetch results. Please try again.</p>';
                 }
             });
+
+            async function fetchWithFallback(path) {
+                let response;
+                try {
+                    response = await fetch(`${PRIMARY_API_BASE}${path}`);
+                    if (!response.ok) {
+                        throw new Error(`Primary server error: ${response.status}`);
+                    }
+                } catch (primaryError) {
+                    console.warn(`Primary server failed (${PRIMARY_API_BASE}${path}):`, primaryError);
+                    console.log(`Attempting fallback server: ${FALLBACK_API_BASE}${path}`);
+                    response = await fetch(`${FALLBACK_API_BASE}${path}`);
+                    if (!response.ok) {
+                        throw new Error(`Fallback server error: ${response.status}`);
+                    }
+                }
+                return response.json();
+            }
 
             function displayResults(songs) {
                 if (!songs || songs.length === 0) {
@@ -604,6 +624,7 @@
 
                 const lyricsUrl = `${API_BASE_LYRICS}?title=${title}&artist=${artist}&album=${album.replace(" - Single", "").replace(" - EP", "")}&duration=${durationInSeconds}`;
                 const source = song.availability.join() || 'Unknown';
+                const fullLyricsUrl = `${PRIMARY_API_BASE}${lyricsUrl}`; // Store full URL for preview button
 
                 const safeTitle = escapeHtml(song.title);
                 const safeArtist = escapeHtml(song.artist);
@@ -623,7 +644,8 @@
                             <button class="cta-button card-button preview-button" 
                                 data-title="${safeTitle}" 
                                 data-artist="${safeArtist}" 
-                                data-lyrics-url="${lyricsUrl}">
+                                data-lyrics-url="${fullLyricsUrl}"
+                                data-lyrics-path="${lyricsUrl}">
                                 <i class="fas fa-eye"></i> Preview
                             </button>
                         </div>
@@ -649,10 +671,7 @@
                 modal.classList.add('show');
 
                 try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('Lyrics not found or error fetching.');
-
-                    const data = await response.json();
+                    const data = await fetchWithFallback(url.replace(PRIMARY_API_BASE, '')); // Pass only the path to fetchWithFallback
 
                     if (data.type === "Unsynced" || !data.lyrics || data.lyrics.length === 0) {
                         modalLyricsContent.innerHTML = '<p class="status">Synced lyrics are not available for this song.</p>';
