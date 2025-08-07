@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
     <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
     <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -89,6 +89,15 @@
             padding: 0 24px;
         }
 
+        a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         .section {
             padding: 5rem 0;
         }
@@ -150,6 +159,7 @@
 
         .nav-links a:hover {
             color: var(--md-sys-color-primary);
+            text-decoration: none;
         }
 
         /* --- Hero Section --- */
@@ -173,6 +183,15 @@
             color: var(--md-sys-color-on-surface-variant);
             max-width: 650px;
             margin: 0 auto 2.5rem;
+        }
+
+        .hero-badges {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         /* --- Buttons --- */
@@ -199,6 +218,7 @@
         .cta-button:hover {
             box-shadow: var(--md-sys-elevation-level-2);
             background: rgb(255, 180, 168, 0.92);
+            text-decoration: none;
         }
 
         .card-button {
@@ -265,32 +285,152 @@
             vertical-align: middle;
         }
 
+        .screenshot-blur img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .screenshot-blur {
+            position: absolute;
+            z-index: -3;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(3em);
+            mask-image: linear-gradient(to bottom, #FFFF 0%, #0000 80%);
+        }
+
         /* --- Footer --- */
         footer {
-            background: var(--md-sys-color-surface-container-low);
-            padding: 3rem 0;
-            text-align: center;
+            background: var(--md-sys-color-surface-container-lowest);
+            padding: 4rem 0 2rem 0;
             margin-top: 5rem;
             border-top: 1px solid var(--md-sys-color-outline-variant);
+            font-size: 0.9rem;
         }
 
-        footer p {
-            color: var(--md-sys-color-on-surface);
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column .logo {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column p {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+        }
+
+        .footer-column h4 {
             font-size: 1rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 1rem;
         }
 
-        footer p:nth-of-type(2) {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        footer p:nth-of-type(3) {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 0.75rem;
-            margin-top: 1rem;
-            opacity: 0.8;
+        .footer-links li {
+            margin-bottom: 0.75rem;
         }
+
+        .footer-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            transition: color var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .footer-links a:hover {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        .footer-social-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 1.5rem;
+            margin-right: 1.25rem;
+            transition: color var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .footer-social-links a:hover {
+            color: var(--md-sys-color-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .hero-split {
+            padding-top: 140px;
+            padding-bottom: 120px;
+        }
+
+        .hero-preview-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-content p {
+            padding-bottom: 10px;
+        }
+
+        .preview-content {
+            flex: 1;
+            min-width: 0;
+            /* Prevents flex item from overflowing */
+        }
+
+        /* Responsive adjustment for the new layout */
+        @media (max-width: 992px) {
+            .hero-preview-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero p {
+                margin: 0 auto 2.5rem;
+                /* Re-center paragraph on smaller screens */
+            }
+        }
+
 
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
@@ -321,79 +461,84 @@
             <div class="logo">YouLy+</div>
             <div class="nav-links">
                 <a href="#features">Features</a>
-                <a href="findlyrics.html">Find Lyrics</a>
                 <a href="#download">Download</a>
+                <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">GitHub</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <section class="hero">
+        <!-- HERO & PREVIEW COMBINED SECTION -->
+        <section class="hero-split">
             <div class="container">
-                <h1>Immersive Lyrics for YouTube Music</h1>
-                <p>YouLy+ is a browser extension that transforms your listening session into a stunning visual
-                    experience. Get perfectly synchronized lyrics, beautiful dynamic backgrounds, and instant
-                    translations, all seamlessly integrated into the YouTube Music interface.</p>
-                <a href="#download" class="cta-button">
-                    <i class="fas fa-puzzle-piece"></i>
-                    <span>Add to Your Browser</span>
-                </a>
+                <div class="hero-preview-wrapper">
+                    <div class="hero-content">
+                        <h1>Immersive Lyrics for YouTube Music</h1>
+                        <p>Tired of static, plain text? YouLy+ transforms your listening session into a rich,
+                            interactive, and beautifully animated karaoke-style experience directly inside YouTube
+                            Music.</p>
+                        <a href="#download" class="cta-button">
+                            <i class="fas fa-puzzle-piece"></i>
+                            <span>Add to Your Browser</span>
+                        </a>
+                    </div>
+                    <div class="preview-content">
+                        <div class="screenshot-container">
+                            <img src="assets/screenshot-4.png"
+                                alt="Screenshot of the YouLy+ UI with dynamic background and synchronized lyrics">
+                        </div>
+                        <div class="screenshot-blur">
+                            <img src="assets/screenshot-4.png"
+                                alt="Screenshot of the YouLy+ UI with dynamic background and synchronized lyrics">
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="preview" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>See It In Action on YouTube Music</h2>
-                </div>
-                <div class="screenshot-container">
-                    <img src="assets/screenshot-4.png"
-                        alt="Screenshot of the new YouLy+ UI with dynamic background and synchronized lyrics">
-                </div>
-            </div>
-        </section>
-
+        <!-- FEATURES SECTION - REWRITTEN FOR MORE IMPACT -->
         <section id="features" class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>A Symphony of Features</h2>
+                    <h2>Why You'll Love YouLy+</h2>
                 </div>
                 <div class="grid">
                     <div class="card">
-                        <i class="fas fa-music card-icon"></i>
-                        <h3>Real-time Sync</h3>
-                        <p>Follow along with line-by-line and word-by-word synchronized lyrics that are timed to
-                            perfection.</p>
+                        <i class="fas fa-wand-magic-sparkles card-icon"></i>
+                        <h3>Zero Configuration</h3>
+                        <p>Install and it just works. YouLy+ activates automatically on YouTube Music. No setup, no API
+                            keys needed—just play a song and enjoy. (except for Gemini AI)</p>
                     </div>
                     <div class="card">
-                        <i class="fas fa-palette card-icon"></i>
-                        <h3>Dynamic Backgrounds</h3>
-                        <p>Enjoy an animated, blurred background from the album art, creating a beautiful and immersive
-                            player view.</p>
+                        <i class="fas fa-microphone-lines card-icon"></i>
+                        <h3>Karaoke-Style Sync</h3>
+                        <p>Experience perfectly timed lyrics with line-by-line and even word-by-word highlighting for a
+                            true, immersive sing-along session.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-image card-icon"></i>
+                        <h3>Animated Backgrounds</h3>
+                        <p>Enjoy a stunning, Apple Music-style animated blur of the album art, creating a beautiful and
+                            dynamic player view that brings music to life.</p>
                     </div>
                     <div class="card">
                         <i class="fas fa-language card-icon"></i>
-                        <h3>Translation & Romanization</h3>
-                        <p>Instantly translate lyrics or view Romanji for J-Pop/K-Pop songs. Powered by Google
-                            Translate.</p>
+                        <h3>Advanced Translation</h3>
+                        <p>Instantly translate lyrics with Google Translate, or unlock powerful AI translations with
+                            Gemini. Includes Romanization for J-Pop/K-Pop.</p>
                     </div>
                     <div class="card">
-                        <i class="fas fa-wand-magic-sparkles card-icon"></i>
-                        <h3>Redesigned UI</h3>
-                        <p>Experience a clean, modern, and customizable lyrics interface, seamlessly integrated into
-                            YouTube Music.</p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-puzzle-piece card-icon"></i>
-                        <h3>Seamless Integration</h3>
-                        <p>Activates automatically on YouTube Music. No extra clicks needed, just play a song and enjoy.
+                        <i class="fas fa-magnifying-glass-chart card-icon"></i>
+                        <h3>Native Feels Like!</h3>
+                        <p>We make the extension so lightweight! we also have some features like click-to-seek,
+                            multi-line active, in-app enable romanization/translation!
                         </p>
                     </div>
                     <div class="card">
-                        <i class="fas fa-bolt card-icon"></i>
-                        <h3>Lightweight & Fast</h3>
-                        <p>Built for maximum performance with minimal impact, ensuring a smooth listening experience.
-                        </p>
+                        <i class="fa-solid fa-forward-fast card-icon"></i>
+                        <h3>SponsorBlock Integration</h3>
+                        <p>Automatically fix the lyrics to add delay on non-music segments like intros, outros, and
+                            sponsor messages for an uninterrupted listening session.</p>
                     </div>
                 </div>
             </div>
@@ -402,34 +547,67 @@
         <section id="community" class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Join the Community</h2>
+                    <h2>Get Involved</h2>
                 </div>
                 <div class="grid">
                     <div class="card">
                         <i class="fas fa-book card-icon"></i>
                         <h3>User Guide</h3>
-                        <p>A complete guide on using YouLy+ features, settings, and installation.</p>
+                        <p>Learn how to install YouLy+ and master its features with our step-by-step documentation.</p>
                         <a href="docs.html?section=user-guide" class="cta-button card-button">
                             <i class="fas fa-arrow-right"></i>
                             Read Guide
                         </a>
                     </div>
                     <div class="card">
-                        <i class="fas fa-code card-icon"></i>
-                        <h3>API Reference</h3>
-                        <p>Explore the integration guide and API reference for developers.</p>
-                        <a href="docs.html?section=api-kpoe" class="cta-button card-button">
-                            <i class="fas fa-arrow-right"></i>
-                            View API Docs
+                        <i class="fas fa-code-branch card-icon"></i>
+                        <h3>Contribute Code</h3>
+                        <p>Have an idea for a new feature or a bug fix? We welcome contributions on GitHub!</p>
+                        <a href="https://github.com/ibratabian17/YouLyPlus/pulls" target="_blank"
+                            class="cta-button card-button">
+                            <i class="fab fa-github"></i>
+                            Submit a PR
                         </a>
                     </div>
                     <div class="card">
                         <i class="fas fa-upload card-icon"></i>
                         <h3>Contribute Lyrics</h3>
-                        <p>Help grow our library by submitting a synchronized lyrics timeline.</p>
+                        <p>Help grow our library by submitting synchronized lyrics for your favorite songs.</p>
                         <a href="submit.html" class="cta-button card-button">
                             <i class="fas fa-plus"></i>
-                            Submit
+                            Add Lyrics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="opensource" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Open & Transparent</h2>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <i class="fab fa-github card-icon"></i>
+                        <h3>Open-Source Extension</h3>
+                        <p>The code for the YouLy+ browser extension is completely open for you to inspect, audit, and
+                            modify. Your trust is our priority.</p>
+                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank"
+                            class="cta-button card-button">
+                            <i class="fas fa-arrow-right"></i>
+                            View Client Code
+                        </a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-server card-icon"></i>
+                        <h3>Self-Hostable Server</h3>
+                        <p>For ultimate control, the lyrics provider backend is also open-source. You can run your own
+                            instance for full privacy and customization.</p>
+                        <a href="https://github.com/ibratabian17/lyricsplus" target="_blank"
+                            class="cta-button card-button">
+                            <i class="fas fa-arrow-right"></i>
+                            View Server Code
                         </a>
                     </div>
                 </div>
@@ -443,9 +621,10 @@
                 </div>
                 <div class="grid">
                     <div class="card">
-                        <i class="fab fa-firefox card-icon"></i>
+                        <i class="fab fa-firefox-browser card-icon"></i>
                         <h3>For Firefox</h3>
-                        <p>Get the official add-on from the Mozilla Add-ons store for the best experience.</p>
+                        <p>Get the official add-on from the Mozilla Add-ons store for automatic updates and the best
+                            experience.</p>
                         <a href="https://addons.mozilla.org/en-US/firefox/addon/youly/" target="_blank"
                             class="cta-button card-button">Get for Firefox</a>
                     </div>
@@ -459,8 +638,8 @@
                     <div class="card">
                         <i class="fab fa-chrome card-icon"></i>
                         <h3>For Google Chrome</h3>
-                        <p>Due my limitation, i can't put them to Chrome Webstore, manual installation is required.
-                            Follow our simple guide to get set up.</p>
+                        <p>Currently, manual installation is required for Chrome. Our simple, step-by-step guide will
+                            have you set up in minutes.</p>
                         <a href="docs.html?section=installation" class="cta-button card-button">View Guide</a>
                     </div>
                 </div>
@@ -470,10 +649,58 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>Project created by Prjktla</p>
-            <p>Made possible by Cloudflare Workers Dev and KaraokePoe</p>
-            <p>Licensed under MIT License</p>
+        <div class="footer-container">
+            <div class="footer-main">
+                <!-- Column 1: Brand -->
+                <div class="footer-column">
+                    <div class="logo">YouLy+</div>
+                    <p>Immersive, karaoke-style lyrics seamlessly integrated into YouTube Music.</p>
+                    <div class="footer-social-links">
+                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" aria-label="GitHub"><i
+                                class="fab fa-github"></i></a>
+                        <a href="https://ko-fi.com/ibratabian17" target="_blank" aria-label="Ko-fi"><i
+                                class="fas fa-mug-hot"></i></a>
+                        <a href="https://patreon.com/ibratabian17" target="_blank" aria-label="Patreon"><i
+                                class="fab fa-patreon"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="findlyrics.html">Find Lyrics</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="docs.html?section=user-guide">User Guide</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Community -->
+                <div class="footer-column">
+                    <h4>Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="submit.html">Contribute Lyrics</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues" target="_blank">Report an
+                                Issue</a></li>
+                        <li><a href="https://github.com/sponsors/ibratabian17" target="_blank">Sponsor Project</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Project -->
+                <div class="footer-column">
+                    <h4>Project</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">Source Code</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE" target="_blank">View
+                                License (MIT)</a></li>
+                        <li><a href="docs.html?section=api-kpoe">API Docs</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2025 Prjktla. An open-source project made for the community.
+            </div>
         </div>
     </footer>
 </body>

@@ -460,16 +460,89 @@
             padding: 2rem 0;
         }
 
-        /* --- Footer --- */
         footer {
-            background: var(--md-sys-color-surface-container-low);
-            padding: 3rem 0;
-            text-align: center;
+            background: var(--md-sys-color-surface-container-lowest);
+            padding: 4rem 0 2rem 0;
             margin-top: 5rem;
             border-top: 1px solid var(--md-sys-color-outline-variant);
+            font-size: 0.9rem;
         }
 
-        footer p {
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .footer-main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .footer-column .logo {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column p {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 1.5rem;
+            max-width: 300px;
+        }
+
+        .footer-column h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            text-decoration: none;
+            transition: color var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .footer-links a:hover {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        .footer-social-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 1.5rem;
+            margin-right: 1.25rem;
+            transition: color var(--animation-duration) var(--animation-timing-function);
+        }
+
+        .footer-social-links a:hover {
+            color: var(--md-sys-color-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            padding-top: 2rem;
+            text-align: center;
             color: var(--md-sys-color-on-surface-variant);
         }
     </style>
@@ -509,10 +582,58 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>Project created by Prjktla</p>
-            <p>Made possible by Cloudflare Workers Dev and KaraokePoe</p>
-            <p>Licensed under MIT License</p>
+        <div class="footer-container">
+            <div class="footer-main">
+                <!-- Column 1: Brand -->
+                <div class="footer-column">
+                    <div class="logo">YouLy+</div>
+                    <p>Immersive, karaoke-style lyrics seamlessly integrated into YouTube Music.</p>
+                    <div class="footer-social-links">
+                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" aria-label="GitHub"><i
+                                class="fab fa-github"></i></a>
+                        <a href="https://ko-fi.com/ibratabian17" target="_blank" aria-label="Ko-fi"><i
+                                class="fas fa-mug-hot"></i></a>
+                        <a href="https://patreon.com/ibratabian17" target="_blank" aria-label="Patreon"><i
+                                class="fab fa-patreon"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="findlyrics.html">Find Lyrics</a></li>
+                        <li><a href="index.html#download">Download</a></li>
+                        <li><a href="docs.html?section=user-guide">User Guide</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Community -->
+                <div class="footer-column">
+                    <h4>Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="submit.html">Contribute Lyrics</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues" target="_blank">Report an
+                                Issue</a></li>
+                        <li><a href="https://github.com/sponsors/ibratabian17" target="_blank">Sponsor Project</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Project -->
+                <div class="footer-column">
+                    <h4>Project</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">Source Code</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE" target="_blank">View
+                                License (MIT)</a></li>
+                        <li><a href="docs.html?section=api-kpoe">API Docs</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2025 Prjktla. An open-source project made for the community.
+            </div>
         </div>
     </footer>
 
