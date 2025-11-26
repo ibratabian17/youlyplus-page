@@ -4,651 +4,545 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Lyrics - YouLy+</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <title>Find Lyrics — YouLy+</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
-        /* --- Material You Expressive Theme --- */
+
         :root {
-            --md-sys-color-primary: rgb(255 180 168);
-            --md-sys-color-on-primary: rgb(86 30 22);
-            --md-sys-color-primary-container: rgb(115 52 42);
-            --md-sys-color-on-primary-container: rgb(255 218 212);
-            --md-sys-color-secondary: rgb(231 189 182);
-            --md-sys-color-on-secondary: rgb(68 41 37);
-            --md-sys-color-secondary-container: rgb(93 63 59);
-            --md-sys-color-on-secondary-container: rgb(255 218 212);
-            --md-sys-color-tertiary: rgb(222 196 140);
-            --md-sys-color-on-tertiary: rgb(62 46 4);
-            --md-sys-color-tertiary-container: rgb(86 68 25);
-            --md-sys-color-on-tertiary-container: rgb(251 223 166);
-            --md-sys-color-error: rgb(255 180 171);
-            --md-sys-color-on-error: rgb(105 0 5);
-            --md-sys-color-error-container: rgb(147 0 10);
-            --md-sys-color-on-error-container: rgb(255 218 214);
-            --md-sys-color-background: rgb(26 17 16);
-            --md-sys-color-on-background: rgb(241 223 220);
-            --md-sys-color-surface: rgb(26 17 16);
-            --md-sys-color-on-surface: rgb(241 223 220);
-            --md-sys-color-surface-variant: rgb(83 67 65);
-            --md-sys-color-on-surface-variant: rgb(216 194 190);
-            --md-sys-color-outline: rgb(160 140 137);
-            --md-sys-color-outline-variant: rgb(83 67 65);
-            --md-sys-color-shadow: rgb(0 0 0);
-            --md-sys-color-scrim: rgb(0 0 0);
-            --md-sys-color-surface-container-lowest: rgb(20 12 11);
-            --md-sys-color-surface-container-low: rgb(35 25 24);
-            --md-sys-color-surface-container: rgb(39 29 28);
-            --md-sys-color-surface-container-high: rgb(50 40 38);
-            --md-sys-color-surface-container-highest: rgb(61 50 48);
-            --md-sys-elevation-level-0: none;
-            --md-sys-elevation-level-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-            --md-sys-elevation-level-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-            --md-sys-elevation-level-3: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
-            --border-radius-small: 4px;
-            --border-radius-medium: 8px;
-            --border-radius-large: 16px;
-            --border-radius-extra-large: 28px;
-            --border-radius-full: 999px;
-            --animation-duration: 0.3s;
-            --animation-timing-function: ease;
+
+            --md-sys-color-primary: #FFB4A8;
+            --md-sys-color-on-primary: #561E16;
+            --md-sys-color-primary-container: #73342A;
+            --md-sys-color-on-primary-container: #FFDAD4;
+
+            --md-sys-color-secondary: #E7BDB6;
+            --md-sys-color-on-secondary: #442925;
+            --md-sys-color-secondary-container: #5D3F3B;
+            --md-sys-color-on-secondary-container: #FFDAD4;
+
+            --md-sys-color-tertiary: #E0C38C;
+            --md-sys-color-on-tertiary: #3F2E04;
+            --md-sys-color-tertiary-container: #584419;
+            --md-sys-color-on-tertiary-container: #FDEFB0;
+
+            --md-sys-color-background: #191111;
+            --md-sys-color-on-background: #EDE0DE;
+
+            --md-sys-color-surface: #191111;
+            --md-sys-color-surface-dim: #191111;
+            --md-sys-color-surface-bright: #413736;
+
+            --md-sys-color-surface-container-lowest: #0F0C0C;
+            --md-sys-color-surface-container-low: #221919;
+            --md-sys-color-surface-container: #261D1D;
+            --md-sys-color-surface-container-high: #312828;
+            --md-sys-color-surface-container-highest: #3D3232;
+
+            --md-sys-color-on-surface: #EDE0DE;
+            --md-sys-color-on-surface-variant: #D7C1BE;
+            --md-sys-color-outline: #9F8C89;
+            --md-sys-color-outline-variant: #524341;
+
+            --shape-corner-small: 8px;
+            --shape-corner-medium: 16px;
+            --shape-corner-large: 28px;
+            --shape-corner-full: 999px;
+
+            --motion-easing-emphasized: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+            --motion-duration-medium: 400ms;
         }
 
-        /* --- Global Styles & Resets --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--md-sys-color-background);
             color: var(--md-sys-color-on-background);
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 
         .container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.25rem;
-            font-weight: 400;
-            line-height: 2.75rem;
-            color: var(--md-sys-color-on-surface);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* --- Navigation (Shared) --- */
-        nav {
-            background: rgba(39, 29, 28, 0.85);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            width: 100%;
+        .navbar {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            background: rgba(34, 25, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--shape-corner-full);
+            padding: 12px 24px;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--md-sys-color-outline-variant);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
-        .logo {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
-        }
-
-        .nav-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--md-sys-color-primary);
-        }
-
-        .page-header {
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .page-header h1 {
-            font-size: 2.75rem;
-            color: var(--md-sys-color-primary);
-            font-weight: 500;
-        }
-
-        .page-header p {
-            font-size: 1.1rem;
-            color: var(--md-sys-color-on-surface-variant);
-            margin-top: 0.5rem;
-        }
-
-
-        /* --- Buttons --- */
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 0 24px;
-            height: 40px;
-            background: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-            text-decoration: none;
-            border-radius: var(--border-radius-full);
-            font-weight: 500;
-            font-size: 0.875rem;
-            letter-spacing: 0.00625rem;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--md-sys-elevation-level-1);
-            transition: box-shadow var(--animation-duration) var(--animation-timing-function), background-color var(--animation-duration) var(--animation-timing-function);
-        }
-
-        .cta-button:hover {
-            box-shadow: var(--md-sys-elevation-level-2);
-            background: rgb(255, 180, 168, 0.92);
-        }
-
-        .card-button {
-            flex: 1;
-            margin-top: 0;
-        }
-
-        /* --- Search Section --- */
-        .search-container {
-            display: flex;
-            max-width: 700px;
-            margin: 0 auto 4rem;
-            gap: 1rem;
-        }
-
-        #search-input {
-            flex-grow: 1;
-            height: 56px;
-            padding: 0 24px;
-            font-size: 1rem;
-            background-color: var(--md-sys-color-surface-container);
-            border: 1px solid var(--md-sys-color-outline);
-            border-radius: var(--border-radius-full);
-            color: var(--md-sys-color-on-surface);
-            outline: none;
-            transition: all var(--animation-duration) var(--animation-timing-function);
-        }
-
-        #search-input:focus {
-            border-color: var(--md-sys-color-primary);
-            box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
-        }
-
-        #search-button {
-            height: 56px;
-            width: 56px;
-            padding: 0;
-        }
-
-        /* --- Results Section --- */
-        .status-message {
-            text-align: center;
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 1.1rem;
-            padding: 3rem 0;
-            grid-column: 1 / -1;
-        }
-
-        /* --- Song Card (Grid Layout) --- */
-        .song-card {
-            background: var(--md-sys-color-surface-container);
-            border-radius: var(--border-radius-large);
-            border: 1px solid var(--md-sys-color-outline-variant);
-            transition: background-color var(--animation-duration) var(--animation-timing-function), border-color var(--animation-duration) var(--animation-timing-function);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .song-card:hover {
-            background: var(--md-sys-color-surface-container-high);
-            border-color: var(--md-sys-color-outline);
-        }
-
-        .song-card .album-art {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            background-color: var(--md-sys-color-surface-container-low);
-        }
-
-        .song-card .info {
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            min-width: 0;
-        }
-
-        .song-card h3 {
+        .brand {
             font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--md-sys-color-on-surface);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .song-card .artist {
-            color: var(--md-sys-color-on-surface-variant);
-            margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .song-card .album {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 0.875rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 1rem;
-            flex-grow: 1;
-        }
-
-        .song-card .source-badge {
-            font-size: 0.75rem;
-            background: var(--md-sys-color-tertiary-container);
-            color: var(--md-sys-color-on-tertiary-container);
-            padding: 2px 8px;
-            border-radius: var(--border-radius-small);
-            display: inline-block;
-            margin-bottom: 1.25rem;
-            align-self: flex-start;
-        }
-
-        .card-buttons {
+            font-weight: 800;
+            color: var(--md-sys-color-primary);
+            letter-spacing: -0.02em;
             display: flex;
-            gap: 0.75rem;
-            margin-top: auto;
+            align-items: center;
+            gap: 8px;
         }
 
-        .preview-button {
+        .nav-menu { display: flex; gap: 8px; }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .nav-link.active {
             background-color: var(--md-sys-color-secondary-container);
             color: var(--md-sys-color-on-secondary-container);
         }
 
-        .preview-button:hover {
-            background: rgba(93, 63, 59, 0.92);
+        .icon-link {
+            font-size: 1.25rem;
+            padding: 8px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .icon-link:hover { color: var(--md-sys-color-primary); }
+
+        .search-hero {
+            padding-top: 180px;
+            padding-bottom: 60px;
+            text-align: center;
+            position: relative;
         }
 
-        /* --- Lyrics Preview Modal --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
+        .headline-large {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background-clip: text;
+            background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .body-large {
+            font-size: 1.125rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
             width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            animation: fadeIn var(--animation-duration) var(--animation-timing-function);
+            height: 80px;
+            background: var(--md-sys-color-surface-container-high);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--shape-corner-full);
+            padding: 0 90px 0 40px; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            color: var(--md-sys-color-on-surface);
+            transition: all 0.2s var(--motion-easing-emphasized);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .modal.show {
+        .search-input:focus {
+            outline: none;
+            background: var(--md-sys-color-surface-container-highest);
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 4px rgba(255, 180, 168, 0.15);
+        }
+
+        .search-submit-btn {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            height: 56px;
+            width: 56px;
+            border-radius: 50%;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.2s;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .search-submit-btn:hover {
+            transform: scale(1.05);
+            background: #ffc1b8;
         }
 
-        .modal-content {
-            background-color: var(--md-sys-color-surface-container-high);
-            margin: auto;
-            padding: 2rem;
-            border: 1px solid var(--md-sys-color-outline-variant);
-            width: 90%;
-            max-width: 700px;
-            border-radius: var(--border-radius-large);
-            box-shadow: var(--md-sys-elevation-level-3);
-            position: relative;
-            max-height: 85vh;
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            padding-bottom: 120px;
+        }
+
+        .song-card {
+            background-color: var(--md-sys-color-surface-container);
+            padding: 24px;
+            border-radius: var(--shape-corner-large);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--motion-duration-medium) var(--motion-easing-emphasized);
             display: flex;
             flex-direction: column;
-            animation: slideIn var(--animation-duration) var(--animation-timing-function);
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .song-card:hover {
+            background-color: var(--md-sys-color-surface-container-high);
+            transform: translateY(-5px);
+            border-color: var(--md-sys-color-outline-variant);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 1px solid var(--md-sys-color-outline-variant);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
+        .card-art {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            background: var(--md-sys-color-surface-container-highest);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
-        .modal-header .title-group {
-            min-width: 0;
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
             color: var(--md-sys-color-on-surface);
-            margin: 0;
+            margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .modal-header p {
+        .card-subtitle {
             font-size: 1rem;
             color: var(--md-sys-color-on-surface-variant);
-            margin-top: 4px;
+            margin-bottom: 16px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .close-button {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-            transition: color var(--animation-duration);
-            flex-shrink: 0;
-            margin-left: 1rem;
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: var(--shape-corner-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
-        .close-button:hover,
-        .close-button:focus {
-            color: var(--md-sys-color-on-surface);
+        .card-actions {
+            margin-top: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
-        #modal-lyrics-content {
-            overflow-y: auto;
-            flex-grow: 1;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            color: var(--md-sys-color-on-surface-variant);
-            line-height: 1.8;
-        }
-
-        #modal-lyrics-content .lyric-line {
+        .btn-card {
+            height: 48px;
             display: flex;
-            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: var(--shape-corner-full);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        #modal-lyrics-content .timestamp {
-            color: var(--md-sys-color-tertiary);
-            flex-shrink: 0;
+        .btn-filled {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+        .btn-filled:hover {
+            background: var(--md-sys-color-on-surface-variant);
+            color: var(--md-sys-color-surface);
         }
 
-        #modal-lyrics-content .lyric-text {
+        .btn-outlined {
+            background: transparent;
+            border: 1px solid var(--md-sys-color-outline);
             color: var(--md-sys-color-on-surface);
         }
-
-        #modal-lyrics-content .status {
-            text-align: center;
-            font-family: 'Roboto', sans-serif;
-            font-size: 1.1rem;
-            padding: 2rem 0;
+        .btn-outlined:hover {
+            border-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-primary);
+            background: rgba(255, 180, 168, 0.05);
         }
 
         footer {
-            background: var(--md-sys-color-surface-container-lowest);
-            padding: 4rem 0 2rem 0;
-            margin-top: 5rem;
             border-top: 1px solid var(--md-sys-color-outline-variant);
+            padding: 60px 0 30px;
+            background: var(--md-sys-color-surface-container-lowest);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h5 {
+            color: var(--md-sys-color-on-surface);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links li { list-style: none; margin-bottom: 12px; }
+        .footer-links a { 
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.95rem; 
+        }
+        .footer-links a:hover { 
+            color: var(--md-sys-color-primary); 
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--md-sys-color-outline);
+            font-size: 0.875rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+        .modal-sheet {
+            width: 100%;
+            max-width: 650px;
+            height: 85vh;
+            background: var(--md-sys-color-surface-container-high);
+            border-radius: var(--shape-corner-large);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(40px);
+            transition: transform 0.4s var(--motion-easing-emphasized);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .modal-backdrop.active .modal-sheet { transform: translateY(0); }
+
+        .sheet-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-icon {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: color 0.2s;
+        }
+        .close-icon:hover { color: var(--md-sys-color-primary); }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .lyric-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
             font-size: 0.9rem;
         }
+        .lyric-time { color: var(--md-sys-color-tertiary); font-weight: 500; min-width: 90px; }
+        .lyric-text { color: var(--md-sys-color-on-surface); line-height: 1.6; }
 
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .status-msg { text-align: center; color: var(--md-sys-color-on-surface-variant); margin-top: 40px; }
+
+        @media (max-width: 968px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-menu { display: none; }
         }
-
-        .footer-main {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-column {
-            flex: 1;
-            min-width: 220px;
-        }
-
-        .footer-column .logo {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--md-sys-color-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-column p {
-            color: var(--md-sys-color-on-surface-variant);
-            margin-bottom: 1.5rem;
-            max-width: 300px;
-        }
-
-        .footer-column h4 {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--md-sys-color-on-surface);
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-            transition: color var(--animation-duration) var(--animation-timing-function);
-        }
-
-        .footer-links a:hover {
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
-        }
-
-        .footer-social-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 1.5rem;
-            margin-right: 1.25rem;
-            transition: color var(--animation-duration) var(--animation-timing-function);
-        }
-
-        .footer-social-links a:hover {
-            color: var(--md-sys-color-primary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--md-sys-color-outline-variant);
-            padding-top: 2rem;
-            text-align: center;
-            color: var(--md-sys-color-on-surface-variant);
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .search-input { height: 64px; font-size: 1rem; padding-left: 24px; }
+            .search-submit-btn { width: 48px; height: 48px; right: 8px; top: 8px; }
         }
     </style>
 </head>
 
 <body>
-    <nav>
-        <div class="nav-content">
-            <a href="index.html" class="logo">YouLy+</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="docs.html">Docs</a>
-                <a href="submit.html" style="color: var(--md-sys-color-primary);">Submit</a>
-            </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fas fa-music"></i> YouLy+
+        </a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#features" class="nav-link">Features</a>
+            <a href="docs.html" class="nav-link">Docs</a>
+            <a href="submit.html" class="nav-link">Submit</a>
         </div>
+        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" class="icon-link" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
     </nav>
 
-    <main>
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Find Synced Lyrics</h2>
-                </div>
+    <main class="container">
+        <!-- Hero Search Section -->
+        <section class="search-hero">
+            <h1 class="headline-large">
+                Find your <span class="gradient-text">Flow</span>
+            </h1>
+            <p class="body-large">
+                Search the open database. Download JSON. Sync it up.
+            </p>
 
-                <form id="search-form" class="search-container">
-                    <input type="text" id="search-input" placeholder="Enter song title and artist..." required>
-                    <button type="submit" id="search-button" class="cta-button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+            <form id="search-form" class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="Search by song title or artist..." required autocomplete="off">
+                <button type="submit" class="search-submit-btn">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
 
-                <div id="results-grid" class="grid">
-                    <p class="status-message">Search for a song to see results here.</p>
-                </div>
+        <!-- Results Grid -->
+        <section id="results-grid" class="results-grid">
+            <div class="status-msg" style="grid-column: 1/-1; padding: 60px;">
+                <i class="fas fa-compact-disc fa-spin" style="font-size: 3rem; margin-bottom: 24px; opacity: 0.2;"></i>
+                <p>Start typing above to discover lyrics.</p>
             </div>
         </section>
     </main>
 
+    <!-- Footer  -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-main">
-                <!-- Column 1: Brand -->
-                <div class="footer-column">
-                    <div class="logo">YouLy+</div>
-                    <p>Immersive, karaoke-style lyrics seamlessly integrated into YouTube Music.</p>
-                    <div class="footer-social-links">
-                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" aria-label="GitHub"><i
-                                class="fab fa-github"></i></a>
-                        <a href="https://ko-fi.com/ibratabian17" target="_blank" aria-label="Ko-fi"><i
-                                class="fas fa-mug-hot"></i></a>
-                        <a href="https://patreon.com/ibratabian17" target="_blank" aria-label="Patreon"><i
-                                class="fab fa-patreon"></i></a>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="brand" style="margin-bottom: 16px;">YouLy+</a>
+                    <p class="body-large" style="font-size: 0.95rem; margin-top: 16px;">
+                        An open-source project dedicated to making music streaming beautiful and interactive.
+                    </p>
+                    <div style="margin-top: 24px; display: flex; gap: 16px;">
+                        <a href="https://github.com/ibratabian17/YouLyPlus" class="icon-link"><i class="fab fa-github"></i></a>
+                        <a href="https://ko-fi.com/ibratabian17" class="icon-link"><i class="fas fa-mug-hot"></i></a>
                     </div>
                 </div>
 
-                <!-- Column 2: Quick Links -->
-                <div class="footer-column">
-                    <h4>Quick Links</h4>
+                <div class="footer-col">
+                    <h5>Discover</h5>
                     <ul class="footer-links">
-                        <li><a href="findlyrics.html">Find Lyrics</a></li>
-                        <li><a href="index.html#download">Download</a></li>
-                        <li><a href="docs.html?section=user-guide">User Guide</a></li>
+                        <li><a href="findlyrics.html" style="color: var(--md-sys-color-primary);">Search Database</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
                     </ul>
                 </div>
 
-                <!-- Column 3: Community -->
-                <div class="footer-column">
-                    <h4>Community</h4>
+                <div class="footer-col">
+                    <h5>Community</h5>
                     <ul class="footer-links">
-                        <li><a href="submit.html">Contribute Lyrics</a></li>
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues" target="_blank">Report an
-                                Issue</a></li>
-                        <li><a href="https://github.com/sponsors/ibratabian17" target="_blank">Sponsor Project</a></li>
+                        <li><a href="submit.html">Submit Lyrics</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues">Report Issues</a></li>
+                        <li><a href="https://github.com/sponsors/ibratabian17">Sponsor</a></li>
                     </ul>
                 </div>
 
-                <!-- Column 4: Project -->
-                <div class="footer-column">
-                    <h4>Project</h4>
+                <div class="footer-col">
+                    <h5>Legal & Code</h5>
                     <ul class="footer-links">
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">Source Code</a></li>
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE" target="_blank">View
-                                License (MIT)</a></li>
-                        <li><a href="docs.html?section=api-kpoe">API Docs</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE">MIT License</a></li>
+                        <li><a href="docs.html?section=api-kpoe">API Reference</a></li>
+                        <li><a href="https://github.com/ibratabian17/lyricsplus">Server Source</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                &copy; 2025 Prjktla. An open-source project made for the community.
+            <div class="copyright">
+                &copy; 2025 Prjktla & YouLy+ Contributors. Made with <i class="fas fa-heart" style="color: var(--md-sys-color-primary); font-size: 0.8rem;"></i> for music lovers.
             </div>
         </div>
     </footer>
 
-    <!-- Lyrics Preview Modal -->
-    <div id="lyrics-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="title-group">
-                    <h3 id="modal-title">Song Title</h3>
-                    <p id="modal-artist">Artist</p>
+    <!-- Modal  -->
+    <div id="lyrics-modal" class="modal-backdrop">
+        <div class="modal-sheet">
+            <div class="sheet-header">
+                <div>
+                    <h3 id="modal-title" style="font-size: 1.25rem; color: var(--md-sys-color-on-surface);">Title</h3>
+                    <p id="modal-artist" style="color: var(--md-sys-color-primary); font-size: 0.9rem;">Artist</p>
                 </div>
-                <span class="close-button">×</span>
+                <i class="fas fa-times close-icon" id="close-modal"></i>
             </div>
-            <div id="modal-lyrics-content">
-                <!-- Lyrics will be injected here -->
+            <div id="modal-lyrics-content" class="sheet-body">
+                <!-- Lyrics injected here -->
             </div>
         </div>
     </div>
@@ -659,28 +553,19 @@
             const searchInput = document.getElementById('search-input');
             const resultsGrid = document.getElementById('results-grid');
 
-            // Modal Elements
             const modal = document.getElementById('lyrics-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalArtist = document.getElementById('modal-artist');
             const modalLyricsContent = document.getElementById('modal-lyrics-content');
-            const closeModalButton = modal.querySelector('.close-button');
+            const closeModalButton = document.getElementById('close-modal');
 
             const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
             const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
-
-            // API Endpoints
             const API_BASE_SEARCH = '/v1/songlist/search';
             const API_BASE_LYRICS = '/v2/lyrics/get';
 
-            // --- Helper Functions ---
             function escapeHtml(str) {
-                return str
-                    .replace(/&/g, "&")
-                    .replace(/</g, "<")
-                    .replace(/>/g, ">")
-                    .replace(/"/g, "\"")
-                    .replace(/'/g, "'");
+                return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "\"").replace(/'/g, "'");
             }
 
             function sanitizeForFilename(str) {
@@ -692,42 +577,41 @@
                 const query = searchInput.value.trim();
                 if (!query) return;
 
-                resultsGrid.innerHTML = '<p class="status-message">Searching...</p>';
+                resultsGrid.innerHTML = `
+                    <div class="status-msg" style="grid-column: 1/-1;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--md-sys-color-primary);"></i>
+                        <p style="margin-top: 16px;">Searching archives...</p>
+                    </div>`;
 
                 try {
                     const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
                     displayResults(data.results);
                 } catch (error) {
                     console.error('Search failed:', error);
-                    resultsGrid.innerHTML = '<p class="status-message">Failed to fetch results. Please try again.</p>';
+                    resultsGrid.innerHTML = `<div class="status-msg" style="grid-column: 1/-1; color: var(--md-sys-color-primary);">Failed to fetch results. Please try again.</div>`;
                 }
             });
 
             async function fetchWithFallback(path) {
-                let response;
                 try {
-                    response = await fetch(`${PRIMARY_API_BASE}${path}`);
-                    if (!response.ok) {
-                        throw new Error(`Primary server error: ${response.status}`);
-                    }
+                    const response = await fetch(`${PRIMARY_API_BASE}${path}`);
+                    if (!response.ok) throw new Error(`Primary error: ${response.status}`);
+                    return response.json();
                 } catch (primaryError) {
-                    console.warn(`Primary server failed (${PRIMARY_API_BASE}${path}):`, primaryError);
-                    console.log(`Attempting fallback server: ${FALLBACK_API_BASE}${path}`);
-                    response = await fetch(`${FALLBACK_API_BASE}${path}`);
-                    if (!response.ok) {
-                        throw new Error(`Fallback server error: ${response.status}`);
-                    }
+                    console.warn(`Primary failed, switching to fallback: ${FALLBACK_API_BASE}${path}`);
+                    const response = await fetch(`${FALLBACK_API_BASE}${path}`);
+                    if (!response.ok) throw new Error(`Fallback error: ${response.status}`);
+                    return response.json();
                 }
-                return response.json();
             }
 
             function displayResults(songs) {
                 if (!songs || songs.length === 0) {
-                    resultsGrid.innerHTML = '<p class="status-message">No results found. Try a different query.</p>';
+                    resultsGrid.innerHTML = `<div class="status-msg" style="grid-column: 1/-1;">No results found. Try a different keyword.</div>`;
                     return;
                 }
 
-                resultsGrid.innerHTML = ''; // Clear previous results
+                resultsGrid.innerHTML = ''; 
                 songs.forEach(song => {
                     const card = createSongCard(song);
                     resultsGrid.appendChild(card);
@@ -744,38 +628,31 @@
                 const album = encodeURIComponent(song.album || '');
 
                 const lyricsUrl = `${API_BASE_LYRICS}?title=${title}&artist=${artist}&album=${album.replace(" - Single", "").replace(" - EP", "")}&duration=${durationInSeconds}`;
-                const source = song.availability.join() || 'Unknown';
-                const fullLyricsUrl = `${PRIMARY_API_BASE}${lyricsUrl}`; // Store full URL for preview button
 
                 const safeTitle = escapeHtml(song.title);
                 const safeArtist = escapeHtml(song.artist);
                 const filename = `${sanitizeForFilename(song.artist)} - ${sanitizeForFilename(song.title)}.json`;
+                const safeSource = song.availability.join(', ') || 'Community';
 
                 card.innerHTML = `
-                    <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" alt="Album Art" class="album-art" onerror="this.src='assets/icons/icon128.png'">
-                    <div class="info">
-                        <h3>${safeTitle}</h3>
-                        <p class="artist">${safeArtist}</p>
-                        <p class="album">${escapeHtml(song.album || 'Unknown Album')}</p>
-                        <span class="source-badge">${source}</span>
-                        <div class="card-buttons">
-                            <a href="${lyricsUrl}" download="${filename}" class="cta-button card-button">
-                                <i class="fas fa-download"></i> Download
-                            </a>
-                            <button class="cta-button card-button preview-button" 
-                                data-title="${safeTitle}" 
-                                data-artist="${safeArtist}" 
-                                data-lyrics-url="${fullLyricsUrl}"
-                                data-lyrics-path="${lyricsUrl}">
-                                <i class="fas fa-eye"></i> Preview
-                            </button>
-                        </div>
+                    <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" alt="${safeTitle}" class="card-art" onerror="this.src='assets/icons/icon128.png'">
+                    <h3 class="card-title">${safeTitle}</h3>
+                    <p class="card-subtitle">${safeArtist}</p>
+                    <div><span class="badge">${safeSource}</span></div>
+                    <div class="card-actions">
+                        <a href="${lyricsUrl}" download="${filename}" class="btn-card btn-filled">
+                            <i class="fas fa-download"></i> JSON
+                        </a>
+                        <button class="btn-card btn-outlined btn-preview" 
+                            data-title="${safeTitle}" 
+                            data-artist="${safeArtist}" 
+                            data-lyrics-url="${lyricsUrl}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
                     </div>
                 `;
                 return card;
             }
-
-            // --- Modal Logic ---
 
             function msToTime(ms) {
                 const totalSeconds = Math.floor(ms / 1000);
@@ -786,22 +663,22 @@
             }
 
             async function openLyricsPreview(title, artist, url) {
-                modalTitle.innerHTML = title; // Use innerHTML to render escaped entities
-                modalArtist.innerHTML = artist;
-                modalLyricsContent.innerHTML = '<p class="status">Loading lyrics...</p>';
-                modal.classList.add('show');
+                modalTitle.textContent = title; 
+                modalArtist.textContent = artist;
+                modalLyricsContent.innerHTML = '<div style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+                modal.classList.add('active');
 
                 try {
-                    const data = await fetchWithFallback(url.replace(PRIMARY_API_BASE, '')); // Pass only the path to fetchWithFallback
+                    const data = await fetchWithFallback(url);
 
                     if (data.type === "Unsynced" || !data.lyrics || data.lyrics.length === 0) {
-                        modalLyricsContent.innerHTML = '<p class="status">Synced lyrics are not available for this song.</p>';
+                        modalLyricsContent.innerHTML = '<div style="text-align:center; padding:2rem;">Synced lyrics are not available for this song.</div>';
                         return;
                     }
 
                     const lyricsHtml = data.lyrics.map(line => `
-                        <div class="lyric-line">
-                            <span class="timestamp">[${msToTime(line.time)}]</span>
+                        <div class="lyric-row">
+                            <span class="lyric-time">[${msToTime(line.time)}]</span>
                             <span class="lyric-text">${escapeHtml(line.text || '♪')}</span>
                         </div>
                     `).join('');
@@ -810,16 +687,16 @@
 
                 } catch (error) {
                     console.error('Lyrics preview failed:', error);
-                    modalLyricsContent.innerHTML = '<p class="status">Could not load lyrics preview. The file might not exist or an error occurred.</p>';
+                    modalLyricsContent.innerHTML = '<div style="text-align:center; padding:2rem; color: var(--md-sys-color-primary);">Error loading lyrics.</div>';
                 }
             }
 
             function closeModal() {
-                modal.classList.remove('show');
+                modal.classList.remove('active');
             }
 
             resultsGrid.addEventListener('click', (e) => {
-                const previewButton = e.target.closest('.preview-button');
+                const previewButton = e.target.closest('.btn-preview');
                 if (previewButton) {
                     const { title, artist, lyricsUrl } = previewButton.dataset;
                     openLyricsPreview(title, artist, lyricsUrl);
@@ -828,19 +705,13 @@
 
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
+                if (e.target === modal) closeModal();
             });
 
             document.addEventListener('keydown', (e) => {
-                if (e.key === "Escape" && modal.classList.contains('show')) {
-                    closeModal();
-                }
+                if (e.key === "Escape" && modal.classList.contains('active')) closeModal();
             });
-
         });
     </script>
 </body>
-
 </html>

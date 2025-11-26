@@ -4,66 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouLy+ - Immersive Lyrics for YouTube Music</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <title>YouLy+ — The Ultimate YouTube Music Upgrade</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
+
+    <!-- Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
     <style>
-        /* --- Material You Expressive Theme --- */
         :root {
-            --md-sys-color-primary: rgb(255 180 168);
-            --md-sys-color-on-primary: rgb(86 30 22);
-            --md-sys-color-primary-container: rgb(115 52 42);
-            --md-sys-color-on-primary-container: rgb(255 218 212);
-            --md-sys-color-secondary: rgb(231 189 182);
-            --md-sys-color-on-secondary: rgb(68 41 37);
-            --md-sys-color-secondary-container: rgb(93 63 59);
-            --md-sys-color-on-secondary-container: rgb(255 218 212);
-            --md-sys-color-tertiary: rgb(222 196 140);
-            --md-sys-color-on-tertiary: rgb(62 46 4);
-            --md-sys-color-tertiary-container: rgb(86 68 25);
-            --md-sys-color-on-tertiary-container: rgb(251 223 166);
-            --md-sys-color-error: rgb(255 180 171);
-            --md-sys-color-on-error: rgb(105 0 5);
-            --md-sys-color-error-container: rgb(147 0 10);
-            --md-sys-color-on-error-container: rgb(255 218 214);
-            --md-sys-color-background: rgb(26 17 16);
-            --md-sys-color-on-background: rgb(241 223 220);
-            --md-sys-color-surface: rgb(26 17 16);
-            --md-sys-color-on-surface: rgb(241 223 220);
-            --md-sys-color-surface-variant: rgb(83 67 65);
-            --md-sys-color-on-surface-variant: rgb(216 194 190);
-            --md-sys-color-outline: rgb(160 140 137);
-            --md-sys-color-outline-variant: rgb(83 67 65);
-            --md-sys-color-shadow: rgb(0 0 0);
-            --md-sys-color-scrim: rgb(0 0 0);
-            --md-sys-color-surface-container-lowest: rgb(20 12 11);
-            --md-sys-color-surface-container-low: rgb(35 25 24);
-            --md-sys-color-surface-container: rgb(39 29 28);
-            --md-sys-color-surface-container-high: rgb(50 40 38);
-            --md-sys-color-surface-container-highest: rgb(61 50 48);
 
-            --md-sys-elevation-level-0: none;
-            --md-sys-elevation-level-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-            --md-sys-elevation-level-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-            --md-sys-elevation-level-3: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+            --md-sys-color-primary: #FFB4A8;
+            --md-sys-color-on-primary: #561E16;
+            --md-sys-color-primary-container: #73342A;
+            --md-sys-color-on-primary-container: #FFDAD4;
 
-            --border-radius-small: 4px;
-            --border-radius-medium: 8px;
-            --border-radius-large: 16px;
-            --border-radius-extra-large: 28px;
-            --border-radius-full: 999px;
+            --md-sys-color-secondary: #E7BDB6;
+            --md-sys-color-on-secondary: #442925;
+            --md-sys-color-secondary-container: #5D3F3B;
+            --md-sys-color-on-secondary-container: #FFDAD4;
 
-            --animation-duration: 0.3s;
-            --animation-timing-function: ease;
+            --md-sys-color-tertiary: #E0C38C;
+            --md-sys-color-on-tertiary: #3F2E04;
+            --md-sys-color-tertiary-container: #584419;
+            --md-sys-color-on-tertiary-container: #FDEFB0;
+
+            --md-sys-color-background: #191111;
+            --md-sys-color-on-background: #EDE0DE;
+
+            --md-sys-color-surface: #191111;
+            --md-sys-color-surface-dim: #191111;
+            --md-sys-color-surface-bright: #413736;
+
+            --md-sys-color-surface-container-lowest: #0F0C0C;
+            --md-sys-color-surface-container-low: #221919;
+            --md-sys-color-surface-container: #261D1D;
+            --md-sys-color-surface-container-high: #312828;
+            --md-sys-color-surface-container-highest: #3D3232;
+
+            --md-sys-color-on-surface: #EDE0DE;
+            --md-sys-color-on-surface-variant: #D7C1BE;
+            --md-sys-color-outline: #9F8C89;
+            --md-sys-color-outline-variant: #524341;
+
+            --shape-corner-small: 8px;
+            --shape-corner-medium: 16px;
+            --shape-corner-large: 28px;
+            --shape-corner-full: 999px;
+
+            --motion-easing-emphasized: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+            --motion-duration-medium: 400ms;
         }
 
-        /* --- Global Styles & Resets --- */
         * {
             margin: 0;
             padding: 0;
@@ -72,383 +68,428 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 100px;
         }
 
         body {
             background-color: var(--md-sys-color-background);
             color: var(--md-sys-color-on-background);
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
-            color: var(--md-sys-color-primary);
             text-decoration: none;
+            color: inherit;
+            transition: opacity 0.2s;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .display-large {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--md-sys-color-on-background);
+        }
+
+        .headline-large {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .body-large {
+            font-size: 1.125rem;
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
         .section {
-            padding: 5rem 0;
+            padding: 8rem 0;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.25rem;
-            font-weight: 400;
-            line-height: 2.75rem;
-            color: var(--md-sys-color-on-surface);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* --- Navigation --- */
-        nav {
-            background: rgba(39, 29, 28, 0.85);
-            padding: 1rem 0;
+        .navbar {
             position: fixed;
-            width: 100%;
-            top: 0;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            background: rgba(34, 25, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--shape-corner-full);
+            padding: 12px 24px;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--md-sys-color-outline-variant);
-        }
-
-        .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .logo {
-            font-size: 1.375rem;
-            font-weight: 700;
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 800;
             color: var(--md-sys-color-primary);
-        }
-
-        .nav-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            letter-spacing: 0.00625rem;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color var(--animation-duration) var(--animation-timing-function);
-        }
-
-        .nav-links a:hover {
-            color: var(--md-sys-color-primary);
-            text-decoration: none;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            padding: 160px 0 120px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 500;
-            line-height: 4rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary) 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--md-sys-color-on-surface-variant);
-            max-width: 650px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .hero-badges {
-            margin-top: 2rem;
+            letter-spacing: -0.02em;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        /* --- Buttons --- */
-        .cta-button {
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .nav-link.active {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .icon-link {
+            font-size: 1.25rem;
+            padding: 8px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .icon-link:hover {
+            color: var(--md-sys-color-primary);
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            padding: 0 24px;
+            gap: 12px;
             height: 56px;
-            background: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-            text-decoration: none;
-            border-radius: var(--border-radius-full);
-            font-weight: 500;
-            font-size: 0.875rem;
-            letter-spacing: 0.00625rem;
-            border: none;
+            padding: 0 32px;
+            border-radius: var(--shape-corner-full);
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            box-shadow: var(--md-sys-elevation-level-1);
-            transition: box-shadow var(--animation-duration) var(--animation-timing-function), background-color var(--animation-duration) var(--animation-timing-function);
+            transition: transform 0.2s var(--motion-easing-emphasized), box-shadow 0.2s;
+            border: none;
         }
 
-        .cta-button:hover {
-            box-shadow: var(--md-sys-elevation-level-2);
-            background: rgb(255, 180, 168, 0.92);
-            text-decoration: none;
+        .btn:hover {
+            transform: scale(1.02);
         }
 
-        .card-button {
-            height: 40px;
-            padding: 0 20px;
-            margin-top: 1.5rem;
-            background-color: var(--md-sys-color-tertiary-container);
-            color: var(--md-sys-color-on-tertiary-container);
+        .btn:active {
+            transform: scale(0.98);
         }
 
-        .card-button:hover {
-            background: rgb(86, 68, 25, 0.92);
+        .btn-primary {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
         }
 
-        /* --- Cards --- */
-        .card {
-            background: var(--md-sys-color-surface-container);
-            padding: 2rem;
-            border-radius: var(--border-radius-extra-large);
-            border: 1px solid var(--md-sys-color-outline-variant);
-            transition: background-color var(--animation-duration) var(--animation-timing-function), border-color var(--animation-duration) var(--animation-timing-function);
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(255, 180, 168, 0.4);
+        }
+
+        .btn-tonal {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .btn-tonal:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+        }
+
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 120px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            margin-bottom: 2.5rem;
+            max-width: 90%;
+            line-height: 1.8;
+            font-size: 1.25rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .blob {
+            position: absolute;
+            background: var(--md-sys-color-primary);
+            filter: blur(80px);
+            opacity: 0.2;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .blob-1 {
+            top: -20%;
+            left: -20%;
+            width: 300px;
+            height: 300px;
+            background: var(--md-sys-color-tertiary);
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+        }
+
+        .app-preview-wrapper {
+            position: relative;
+            border-radius: var(--shape-corner-large);
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: rotate(-2deg);
+            transition: transform 0.5s var(--motion-easing-emphasized);
+        }
+
+        .app-preview-wrapper:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .app-preview-wrapper img {
+            width: 100%;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background-color: var(--md-sys-color-surface-container);
+            padding: 32px;
+            border-radius: var(--shape-corner-large);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all var(--motion-duration-medium) var(--motion-easing-emphasized);
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
+            height: 100%;
         }
 
-        .card:hover {
-            background: var(--md-sys-color-surface-container-high);
-            border-color: var(--md-sys-color-outline);
+        .feature-card:hover {
+            background-color: var(--md-sys-color-surface-container-high);
+            transform: translateY(-5px);
+            border-color: var(--md-sys-color-outline-variant);
         }
 
-        .card-icon {
-            font-size: 1.75rem;
-            color: var(--md-sys-color-primary);
-            margin-bottom: 1rem;
-            display: inline-block;
+        .feature-card.wide {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--md-sys-color-surface-container-high), var(--md-sys-color-surface-container));
         }
 
-        .card h3 {
-            font-size: 1.375rem;
-            font-weight: 500;
+        .feature-icon-box {
+            width: 56px;
+            height: 56px;
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--md-sys-color-on-surface);
-            margin-bottom: 0.5rem;
+            margin-bottom: 12px;
         }
 
-        .card p {
-            font-size: 1rem;
+        .feature-desc {
             color: var(--md-sys-color-on-surface-variant);
-            flex-grow: 1;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
-        /* --- Screenshot Section --- */
-        .screenshot-container {
-            max-width: 900px;
-            margin: 0 auto;
-            border-radius: var(--border-radius-extra-large);
-            overflow: hidden;
-            box-shadow: var(--md-sys-elevation-level-2);
+        .cta-section {
             background-color: var(--md-sys-color-surface-container-low);
+            border-radius: 40px;
+            padding: 80px 40px;
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--md-sys-color-outline-variant);
         }
 
-        .screenshot-container img {
-            width: 100%;
-            vertical-align: middle;
-        }
-
-        .screenshot-blur img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .screenshot-blur {
-            position: absolute;
-            z-index: -3;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            filter: blur(3em);
-            mask-image: linear-gradient(to bottom, #FFFF 0%, #0000 80%);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background: var(--md-sys-color-surface-container-lowest);
-            padding: 4rem 0 2rem 0;
-            margin-top: 5rem;
-            border-top: 1px solid var(--md-sys-color-outline-variant);
-            font-size: 0.9rem;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .footer-main {
+        .browser-grid {
             display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 40px;
             flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
         }
 
-        .footer-column {
-            flex: 1;
-            min-width: 220px;
+        .browser-card {
+            background: var(--md-sys-color-surface-container-high);
+            padding: 24px 32px;
+            border-radius: var(--shape-corner-medium);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            text-align: left;
+            min-width: 200px;
         }
 
-        .footer-column .logo {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--md-sys-color-primary);
-            margin-bottom: 0.5rem;
+        .browser-card:hover {
+            border-color: var(--md-sys-color-primary);
+            background: var(--md-sys-color-surface-container-highest);
         }
 
-        .footer-column p {
-            color: var(--md-sys-color-on-surface-variant);
-            margin-bottom: 1.5rem;
-            max-width: 300px;
-        }
-
-        .footer-column h4 {
-            font-size: 1rem;
-            font-weight: 500;
+        .browser-info h4 {
             color: var(--md-sys-color-on-surface);
-            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .browser-info span {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.85rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            padding: 60px 0 30px;
+            background: var(--md-sys-color-surface-container-lowest);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h5 {
+            color: var(--md-sys-color-on-surface);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
         }
 
         .footer-links li {
-            margin-bottom: 0.75rem;
+            list-style: none;
+            margin-bottom: 12px;
         }
 
         .footer-links a {
             color: var(--md-sys-color-on-surface-variant);
-            text-decoration: none;
-            transition: color var(--animation-duration) var(--animation-timing-function);
+            font-size: 0.95rem;
         }
 
         .footer-links a:hover {
             color: var(--md-sys-color-primary);
-            text-decoration: none;
+            text-decoration: underline;
         }
 
-        .footer-social-links a {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 1.5rem;
-            margin-right: 1.25rem;
-            transition: color var(--animation-duration) var(--animation-timing-function);
-        }
-
-        .footer-social-links a:hover {
-            color: var(--md-sys-color-primary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--md-sys-color-outline-variant);
-            padding-top: 2rem;
+        .copyright {
             text-align: center;
-            color: var(--md-sys-color-on-surface-variant);
+            color: var(--md-sys-color-outline);
+            font-size: 0.875rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .hero-split {
-            padding-top: 140px;
-            padding-bottom: 120px;
-        }
-
-        .hero-preview-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .hero-content {
-            flex: 1;
-            text-align: left;
-        }
-
-        .hero-content p {
-            padding-bottom: 10px;
-        }
-
-        .preview-content {
-            flex: 1;
-            min-width: 0;
-            /* Prevents flex item from overflowing */
-        }
-
-        /* Responsive adjustment for the new layout */
-        @media (max-width: 992px) {
-            .hero-preview-wrapper {
-                flex-direction: column;
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
                 text-align: center;
+                padding-top: 140px;
             }
 
-            .hero-content {
-                text-align: center;
+            .hero-actions {
+                justify-content: center;
             }
 
-            .hero p {
+            .hero-desc {
                 margin: 0 auto 2.5rem;
-                /* Re-center paragraph on smaller screens */
             }
-        }
 
+            .app-preview-wrapper {
+                max-width: 500px;
+                margin: 0 auto;
+                transform: rotate(0);
+            }
 
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .nav-links {
+            .feature-card.wide {
+                grid-column: span 1;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-menu {
                 display: none;
             }
+        }
 
-            .hero h1 {
-                font-size: 2.75rem;
-                line-height: 3.25rem;
+        @media (max-width: 600px) {
+            .display-large {
+                font-size: 2.5rem;
             }
 
-            .section-header h2 {
-                font-size: 1.75rem;
-                line-height: 2.25rem;
-            }
-
-            .grid {
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -456,253 +497,212 @@
 </head>
 
 <body>
-    <nav>
-        <div class="container nav-content">
-            <div class="logo">YouLy+</div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#download">Download</a>
-                <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">GitHub</a>
-            </div>
+
+    <nav class="navbar">
+        <a href="#" class="brand">
+            <i class="fas fa-music"></i> YouLy+
+        </a>
+        <div class="nav-menu">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="findlyrics.html" class="nav-link">Search Lyrics</a>
+            <a href="docs.html" class="nav-link">Docs</a>
+            <a href="submit.html" class="nav-link">Submit</a>
         </div>
+        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" class="icon-link" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
     </nav>
 
     <main>
-        <!-- HERO & PREVIEW COMBINED SECTION -->
-        <section class="hero-split">
-            <div class="container">
-                <div class="hero-preview-wrapper">
-                    <div class="hero-content">
-                        <h1>Immersive Lyrics for YouTube Music</h1>
-                        <p>Tired of static, plain text? YouLy+ transforms your listening session into a rich,
-                            interactive, and beautifully animated karaoke-style experience directly inside YouTube
-                            Music.</p>
-                        <a href="#download" class="cta-button">
-                            <i class="fas fa-puzzle-piece"></i>
-                            <span>Add to Your Browser</span>
-                        </a>
+        <!-- HERO SECTION -->
+        <section class="container hero">
+            <div class="hero-text">
+                <div class="blob blob-1"></div>
+                <h1 class="display-large">
+                    Make your music <br>
+                    <span class="gradient-text">Main Character</span> energy.
+                </h1>
+                <p class="hero-desc body-large">
+                    Stop settling for static text. YouLy+ injects immersive, synced, and beautifully animated lyrics
+                    directly into your YouTube Music experience. It’s karaoke, upgraded.
+                </p>
+                <div class="hero-actions">
+                    <a href="#download" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Add to Browser
+                    </a>
+                    <a href="findlyrics.html" class="btn btn-tonal">
+                        <i class="fas fa-search"></i> Find Lyrics
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="blob blob-2"></div>
+                <div class="app-preview-wrapper">
+                    <img src="assets/screenshot-4.png" alt="YouLy+ Interface with synced lyrics and dynamic background">
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section id="features" class="container section">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 4rem;">
+                <h2 class="headline-large">Features that hit different</h2>
+                <p class="body-large" style="margin-top: 16px;">
+                    We didn't just add lyrics. We rebuilt the entire visual experience to match the vibe of your
+                    favorite tracks.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Highlight Feature -->
+                <div class="feature-card wide">
+                    <div class="feature-icon-box"
+                        style="background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);">
+                        <i class="fas fa-wand-magic-sparkles"></i>
                     </div>
-                    <div class="preview-content">
-                        <div class="screenshot-container">
-                            <img src="assets/screenshot-4.png"
-                                alt="Screenshot of the YouLy+ UI with dynamic background and synchronized lyrics">
+                    <h3 class="feature-title">It Just Works.</h3>
+                    <p class="feature-desc">
+                        Zero setup required. Install the extension, open YouTube Music, and play a song. YouLy+
+                        automatically handles the rest. No mandatory API keys or login walls required to get started.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-microphone-lines"></i>
+                    </div>
+                    <h3 class="feature-title">Precision Sync</h3>
+                    <p class="feature-desc">
+                        Experience lyrics that flow perfectly in time with the beat. We support studio-grade
+                        line-by-line and word-by-word syncing (Karaoke style) for maximum immersion.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="feature-title">Dynamic Visuals</h3>
+                    <p class="feature-desc">
+                        Say goodbye to static backgrounds. YouLy+ pulls colors from the album art to create a living,
+                        breathing backdrop that adapts to every track you play.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 class="feature-title">Polyglot Power</h3>
+                    <p class="feature-desc">
+                        Listening to K-Pop or J-Rock? Get instant, official Romanization directly from our database, or
+                        use Gemini AI & Google Translate for context-aware translations.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-forward-fast"></i>
+                    </div>
+                    <h3 class="feature-title">SponsorBlock Integration</h3>
+                    <p class="feature-desc">
+                        We know you skip the intros. YouLy+ intelligently detects non-music segments (like intros or
+                        music video dialogue) so your lyrics never drift out of sync.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOWNLOAD SECTION -->
+        <section id="download" class="container">
+            <div class="cta-section">
+                <h2 class="headline-large">Ready to upgrade your vibe?</h2>
+                <p class="body-large" style="margin-top: 16px;">Open source, free forever, and respecting your privacy.
+                </p>
+
+                <div class="browser-grid">
+                    <a href="https://addons.mozilla.org/en-US/firefox/addon/youly/" target="_blank"
+                        class="browser-card">
+                        <i class="fab fa-firefox-browser" style="font-size: 2rem; color: #FF9500;"></i>
+                        <div class="browser-info">
+                            <h4>Firefox</h4>
+                            <span>Get Add-on</span>
                         </div>
-                        <div class="screenshot-blur">
-                            <img src="assets/screenshot-4.png"
-                                alt="Screenshot of the YouLy+ UI with dynamic background and synchronized lyrics">
+                    </a>
+
+                    <a href="https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb"
+                        target="_blank" class="browser-card">
+                        <i class="fab fa-edge" style="font-size: 2rem; color: #0078D7;"></i>
+                        <div class="browser-info">
+                            <h4>Edge</h4>
+                            <span>Get Add-on</span>
                         </div>
-                    </div>
+                    </a>
+
+                    <a href="docs.html?section=installation" class="browser-card">
+                        <i class="fab fa-chrome" style="font-size: 2rem; color: #4285F4;"></i>
+                        <div class="browser-info">
+                            <h4>Chrome</h4>
+                            <span>Manual Install</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
-
-        <!-- FEATURES SECTION - REWRITTEN FOR MORE IMPACT -->
-        <section id="features" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Why You'll Love YouLy+</h2>
-                </div>
-                <div class="grid">
-                    <div class="card">
-                        <i class="fas fa-wand-magic-sparkles card-icon"></i>
-                        <h3>Zero Configuration</h3>
-                        <p>Install and it just works. YouLy+ activates automatically on YouTube Music. No setup, no API
-                            keys needed—just play a song and enjoy. (except for Gemini AI)</p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-microphone-lines card-icon"></i>
-                        <h3>Karaoke-Style Sync</h3>
-                        <p>Experience perfectly timed lyrics with line-by-line and even word-by-word highlighting for a
-                            true, immersive sing-along session.</p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-image card-icon"></i>
-                        <h3>Animated Backgrounds</h3>
-                        <p>Enjoy a stunning, Apple Music-style animated blur of the album art, creating a beautiful and
-                            dynamic player view that brings music to life.</p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-language card-icon"></i>
-                        <h3>Advanced Translation</h3>
-                        <p>Instantly translate lyrics with Google Translate, or unlock powerful AI translations with
-                            Gemini. Includes Romanization for J-Pop/K-Pop. (For some songs, romanization are handled by backend, not gemini/gtranslate)</p>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-magnifying-glass-chart card-icon"></i>
-                        <h3>Native Feels Like!</h3>
-                        <p>We make the extension so lightweight! we also have some features like click-to-seek,
-                            multi-line active, in-app enable romanization/translation!
-                        </p>
-                    </div>
-                    <div class="card">
-                        <i class="fa-solid fa-forward-fast card-icon"></i>
-                        <h3>SponsorBlock Integration</h3>
-                        <p>Automatically fix the lyrics to add delay on non-music segments like intros, outros, and
-                            sponsor messages for an uninterrupted listening session.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="community" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Get Involved</h2>
-                </div>
-                <div class="grid">
-                    <div class="card">
-                        <i class="fas fa-book card-icon"></i>
-                        <h3>User Guide</h3>
-                        <p>Learn how to install YouLy+ and master its features with our step-by-step documentation.</p>
-                        <a href="docs.html?section=user-guide" class="cta-button card-button">
-                            <i class="fas fa-arrow-right"></i>
-                            Read Guide
-                        </a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-code-branch card-icon"></i>
-                        <h3>Contribute Code</h3>
-                        <p>Have an idea for a new feature or a bug fix? We welcome contributions on GitHub!</p>
-                        <a href="https://github.com/ibratabian17/YouLyPlus/pulls" target="_blank"
-                            class="cta-button card-button">
-                            <i class="fab fa-github"></i>
-                            Submit a PR
-                        </a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-upload card-icon"></i>
-                        <h3>Contribute Lyrics</h3>
-                        <p>Help grow our library by submitting synchronized lyrics for your favorite songs.</p>
-                        <a href="submit.html" class="cta-button card-button">
-                            <i class="fas fa-plus"></i>
-                            Add Lyrics
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="opensource" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Open & Transparent</h2>
-                </div>
-                <div class="grid">
-                    <div class="card">
-                        <i class="fab fa-github card-icon"></i>
-                        <h3>Open-Source Extension</h3>
-                        <p>The code for the YouLy+ browser extension is completely open for you to inspect, audit, and
-                            modify. Your trust is our priority.</p>
-                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank"
-                            class="cta-button card-button">
-                            <i class="fas fa-arrow-right"></i>
-                            View Client Code
-                        </a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-server card-icon"></i>
-                        <h3>Self-Hostable Server</h3>
-                        <p>For ultimate control, the lyrics provider backend is also open-source. You can run your own
-                            instance for full privacy and customization.</p>
-                        <a href="https://github.com/ibratabian17/lyricsplus" target="_blank"
-                            class="cta-button card-button">
-                            <i class="fas fa-arrow-right"></i>
-                            View Server Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="download" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Install YouLy+</h2>
-                </div>
-                <div class="grid">
-                    <div class="card">
-                        <i class="fab fa-firefox-browser card-icon"></i>
-                        <h3>For Firefox</h3>
-                        <p>Get the official add-on from the Mozilla Add-ons store for automatic updates and the best
-                            experience.</p>
-                        <a href="https://addons.mozilla.org/en-US/firefox/addon/youly/" target="_blank"
-                            class="cta-button card-button">Get for Firefox</a>
-                    </div>
-                    <div class="card">
-                        <i class="fab fa-edge card-icon"></i>
-                        <h3>For Microsoft Edge</h3>
-                        <p>Install YouLy+ directly from the Microsoft Edge Add-ons store with a single click.</p>
-                        <a href="https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb"
-                            target="_blank" class="cta-button card-button">Get for Edge</a>
-                    </div>
-                    <div class="card">
-                        <i class="fab fa-chrome card-icon"></i>
-                        <h3>For Google Chrome</h3>
-                        <p>Currently, manual installation is required for Chrome. Our simple, step-by-step guide will
-                            have you set up in minutes.</p>
-                        <a href="docs.html?section=installation" class="cta-button card-button">View Guide</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
+    <!-- FOOTER -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-main">
-                <!-- Column 1: Brand -->
-                <div class="footer-column">
-                    <div class="logo">YouLy+</div>
-                    <p>Immersive, karaoke-style lyrics seamlessly integrated into YouTube Music.</p>
-                    <div class="footer-social-links">
-                        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" aria-label="GitHub"><i
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="brand" style="margin-bottom: 16px;">YouLy+</a>
+                    <p class="body-large" style="font-size: 0.95rem;">
+                        An open-source project dedicated to making music streaming beautiful and interactive.
+                    </p>
+                    <div style="margin-top: 24px; display: flex; gap: 16px;">
+                        <a href="https://github.com/ibratabian17/YouLyPlus" class="icon-link"><i
                                 class="fab fa-github"></i></a>
-                        <a href="https://ko-fi.com/ibratabian17" target="_blank" aria-label="Ko-fi"><i
-                                class="fas fa-mug-hot"></i></a>
-                        <a href="https://patreon.com/ibratabian17" target="_blank" aria-label="Patreon"><i
-                                class="fab fa-patreon"></i></a>
+                        <a href="https://ko-fi.com/ibratabian17" class="icon-link"><i class="fas fa-mug-hot"></i></a>
                     </div>
                 </div>
 
-                <!-- Column 2: Quick Links -->
-                <div class="footer-column">
-                    <h4>Quick Links</h4>
+                <div class="footer-col">
+                    <h5>Discover</h5>
                     <ul class="footer-links">
-                        <li><a href="findlyrics.html">Find Lyrics</a></li>
-                        <li><a href="#download">Download</a></li>
-                        <li><a href="docs.html?section=user-guide">User Guide</a></li>
+                        <li><a href="findlyrics.html">Search Database</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="docs.html">Documentation</a></li>
                     </ul>
                 </div>
 
-                <!-- Column 3: Community -->
-                <div class="footer-column">
-                    <h4>Community</h4>
+                <div class="footer-col">
+                    <h5>Community</h5>
                     <ul class="footer-links">
-                        <li><a href="submit.html">Contribute Lyrics</a></li>
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues" target="_blank">Report an
-                                Issue</a></li>
-                        <li><a href="https://github.com/sponsors/ibratabian17" target="_blank">Sponsor Project</a></li>
+                        <li><a href="submit.html">Submit Lyrics</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/issues">Report Issues</a></li>
+                        <li><a href="https://github.com/sponsors/ibratabian17">Sponsor</a></li>
                     </ul>
                 </div>
 
-                <!-- Column 4: Project -->
-                <div class="footer-column">
-                    <h4>Project</h4>
+                <div class="footer-col">
+                    <h5>Legal & Code</h5>
                     <ul class="footer-links">
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">Source Code</a></li>
-                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE" target="_blank">View
-                                License (MIT)</a></li>
-                        <li><a href="docs.html?section=api-kpoe">API Docs</a></li>
+                        <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE">MIT License</a></li>
+                        <li><a href="docs.html?section=api-kpoe">API Reference</a></li>
+                        <li><a href="https://github.com/ibratabian17/lyricsplus">Server Source</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                &copy; 2025 Prjktla. An open-source project made for the community.
+            <div class="copyright">
+                &copy; 2025 Prjktla & YouLy+ Contributors. Made with <i class="fas fa-heart"
+                    style="color: var(--md-sys-color-primary); font-size: 0.8rem;"></i> for music lovers.
             </div>
         </div>
     </footer>
+
 </body>
 
 </html>

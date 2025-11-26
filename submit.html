@@ -1,243 +1,671 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Lyrics - YouLy+</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon16.png">
+    <title>Submit Lyrics — YouLy+</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon48.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="assets/icons/icon128.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
-            --md-sys-color-primary: rgb(255 180 168);
-            --md-sys-color-on-primary: rgb(86 30 22);
-            --md-sys-color-primary-container: rgb(115 52 42);
-            --md-sys-color-on-primary-container: rgb(255 218 212);
-            --md-sys-color-secondary: rgb(231 189 182);
-            --md-sys-color-tertiary-container: rgb(86 68 25);
-            --md-sys-color-on-tertiary-container: rgb(251 223 166);
-            --md-sys-color-background: rgb(26 17 16);
-            --md-sys-color-on-background: rgb(241 223 220);
-            --md-sys-color-surface: rgb(26 17 16);
-            --md-sys-color-on-surface: rgb(241 223 220);
-            --md-sys-color-surface-variant: rgb(83 67 65);
-            --md-sys-color-on-surface-variant: rgb(216 194 190);
-            --md-sys-color-outline: rgb(160 140 137);
-            --md-sys-color-outline-variant: rgb(83 67 65);
-            --md-sys-color-surface-container: rgb(39 29 28);
-            --md-sys-color-surface-container-high: rgb(50 40 38);
-            --md-sys-color-error: rgb(255 180 171);
-            --md-sys-color-on-error: rgb(105 0 5);
-            --border-radius-large: 16px;
-            --border-radius-extra-large: 28px;
-            --border-radius-full: 999px;
-            --animation-duration: 0.3s;
-            --animation-timing-function: ease;
+            --md-sys-color-primary: #FFB4A8;
+            --md-sys-color-on-primary: #561E16;
+            --md-sys-color-primary-container: #73342A;
+            --md-sys-color-on-primary-container: #FFDAD4;
+
+            --md-sys-color-secondary: #E7BDB6;
+            --md-sys-color-secondary-container: #5D3F3B;
+            --md-sys-color-on-secondary-container: #FFDAD4;
+
+            --md-sys-color-tertiary: #E0C38C;
+            --md-sys-color-tertiary-container: #584419;
+            --md-sys-color-on-tertiary-container: #FDEFB0;
+
+            --md-sys-color-error: #FFB4AB;
+            --md-sys-color-error-container: #93000A;
+            --md-sys-color-on-error-container: #FFDAD6;
+
+            --md-sys-color-background: #191111;
+            --md-sys-color-on-background: #EDE0DE;
+            --md-sys-color-surface: #191111;
+
+            --md-sys-color-surface-container: #261D1D;
+            --md-sys-color-surface-container-high: #312828;
+            --md-sys-color-surface-container-highest: #3D3232;
+
+            --md-sys-color-on-surface: #EDE0DE;
+            --md-sys-color-on-surface-variant: #D7C1BE;
+            --md-sys-color-outline: #9F8C89;
+            --md-sys-color-outline-variant: #524341;
+
+            --shape-corner-small: 8px;
+            --shape-corner-medium: 16px;
+            --shape-corner-large: 28px;
+            --shape-corner-full: 999px;
+
+            --motion-easing-emphasized: cubic-bezier(0.2, 0.0, 0.0, 1.0);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); font-family: 'Roboto', sans-serif; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
-        nav { background: rgba(39, 29, 28, 0.85); padding: 1rem 0; position: sticky; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--md-sys-color-outline-variant); }
-        .nav-content { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.375rem; font-weight: 700; color: var(--md-sys-color-primary); text-decoration: none; }
-        .nav-links a { color: var(--md-sys-color-on-surface-variant); text-decoration: none; margin-left: 2.5rem; font-size: 0.875rem; font-weight: 500; }
-        .nav-links a:hover { color: var(--md-sys-color-primary); }
-        .page-header { text-align: center; margin: 2rem 0; }
-        .page-header h1 { font-size: 2.75rem; color: var(--md-sys-color-primary); font-weight: 500; }
-        .page-header p { font-size: 1.1rem; color: var(--md-sys-color-on-surface-variant); margin-top: 0.5rem; }
-        .pow-info { background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline-variant); padding: 1rem; margin-top: 1.5rem; border-radius: var(--border-radius-large); font-size: 0.9rem; color: var(--md-sys-color-on-surface-variant); line-height: 1.5; }
-        .pow-info i { color: var(--md-sys-color-secondary); margin-right: 0.5rem; }
-        #drop-zone { border: 2px dashed var(--md-sys-color-outline-variant); border-radius: var(--border-radius-extra-large); padding: 4rem 2rem; text-align: center; cursor: pointer; transition: all var(--animation-duration) var(--animation-timing-function); background-color: var(--md-sys-color-surface-container); }
-        #drop-zone.dragover { border-color: var(--md-sys-color-primary); background-color: var(--md-sys-color-primary-container); }
-        #drop-zone i { font-size: 48px; color: var(--md-sys-color-secondary); }
-        #drop-zone p { color: var(--md-sys-color-on-surface-variant); margin-top: 1rem; }
-        .form-container { display: none; margin-top: 2rem; }
-        .form-section { padding: 1.5rem 0; border-bottom: 1px solid var(--md-sys-color-outline-variant); }
-        .form-section:last-of-type { border-bottom: none; }
-        .form-section h3 { color: var(--md-sys-color-on-surface); font-size: 1.25rem; font-weight: 500; margin-bottom: 1.5rem; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-        .input-group { display: flex; align-items: center; gap: 0.5rem; }
-        .input-field { position: relative; flex-grow: 1; }
-        .input-field input { width: 100%; background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline); border-radius: var(--border-radius-large); padding: 16px; color: var(--md-sys-color-on-surface); font-size: 1rem; transition: border-color var(--animation-duration); }
-        .input-field input:focus { border-color: var(--md-sys-color-primary); outline: none; }
-        .input-field label { position: absolute; left: 16px; top: 18px; color: var(--md-sys-color-on-surface-variant); pointer-events: none; transition: all var(--animation-duration); background-color: var(--md-sys-color-surface-container); padding: 0 4px; }
-        .input-field input:focus+label, .input-field input:not(:placeholder-shown)+label { top: -10px; font-size: 0.75rem; color: var(--md-sys-color-primary); }
-        .search-trigger-btn { height: 40px; width: 40px; flex-shrink: 0; border: none; background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); border-radius: var(--border-radius-full); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color var(--animation-duration); }
-        .search-trigger-btn:hover { background: rgba(86, 68, 25, 0.8); }
-        .radio-group { margin: 1.5rem 0; display: flex; gap: 1.5rem; }
-        .radio-field { display: flex; align-items: center; cursor: pointer; }
-        .radio-field input { display: none; }
-        .radio-field .custom-radio { width: 20px; height: 20px; border: 2px solid var(--md-sys-color-outline); border-radius: 50%; display: inline-block; position: relative; margin-right: 10px; }
-        .radio-field input:checked+.custom-radio { border-color: var(--md-sys-color-primary); }
-        .radio-field input:checked+.custom-radio::after { content: ''; width: 10px; height: 10px; background: var(--md-sys-color-primary); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .radio-field label { color: var(--md-sys-color-on-surface-variant); }
-        #previewContainer { margin-top: 1.5rem; max-height: 250px; overflow-y: auto; border: 1px solid var(--md-sys-color-outline-variant); background-color: var(--md-sys-color-surface-container); padding: 1rem; border-radius: var(--border-radius-large); font-family: monospace; color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; display: none; }
-        .preview-line .time-badge { color: var(--md-sys-color-secondary); margin-right: 1em; }
-        .submit-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; height: 56px; padding: 0 24px; margin-top: 1rem; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border-radius: var(--border-radius-full); font-weight: 500; font-size: 1rem; letter-spacing: 0.01rem; border: none; cursor: pointer; transition: opacity var(--animation-duration); }
-        .submit-button:disabled { background-color: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface-variant); cursor: not-allowed; }
-        .submit-button .fa-spinner { display: none; }
-        .submit-button.loading .fa-spinner { display: inline-block; }
-        .submit-button.loading .button-text { display: none; }
-        #status-message, #pow-progress { margin-top: 1rem; text-align: center; padding: 1rem; border-radius: var(--border-radius-large); display: none; }
-        #status-message.success, #pow-progress { background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
-        #status-message.error { background-color: var(--md-sys-color-error); color: var(--md-sys-color-on-error); }
-        #pow-progress #nonce-counter, #pow-progress #estimated-time, #pow-progress #iteration-count { display: block; font-family: monospace; margin-top: 0.5rem; font-size: 1rem; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* --- Song Finder Modal --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); animation: fadeIn var(--animation-duration) var(--animation-timing-function); }
-        .modal.show { display: flex; align-items: center; justify-content: center; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .modal-content { background-color: var(--md-sys-color-surface-container-high); margin: auto; padding: 2rem; border: 1px solid var(--md-sys-color-outline-variant); width: 90%; max-width: 700px; border-radius: var(--border-radius-extra-large); box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; max-height: 90vh; display: flex; flex-direction: column; animation: slideIn var(--animation-duration) var(--animation-timing-function); }
-        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant); padding-bottom: 1rem; margin-bottom: 1rem; flex-shrink: 0; }
-        .modal-header h3 { font-size: 1.5rem; color: var(--md-sys-color-on-surface); margin: 0; font-weight: 500; }
-        .close-button { color: var(--md-sys-color-on-surface-variant); font-size: 2rem; font-weight: bold; cursor: pointer; line-height: 1; transition: color var(--animation-duration); }
-        .close-button:hover, .close-button:focus { color: var(--md-sys-color-on-surface); }
-        #modal-search-form { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-shrink: 0; }
-        #modal-search-input { flex-grow: 1; height: 50px; padding: 0 20px; font-size: 1rem; background-color: var(--md-sys-color-surface-container); border: 1px solid var(--md-sys-color-outline); border-radius: var(--border-radius-full); color: var(--md-sys-color-on-surface); outline: none; }
-        #modal-search-button { height: 50px; width: 50px; border: none; border-radius: 50%; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); cursor: pointer; flex-shrink: 0; }
-        #modal-results-list { list-style: none; overflow-y: auto; flex-grow: 1; padding-right: 10px; }
-        .modal-song-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem; border-radius: var(--border-radius-large); cursor: pointer; transition: background-color var(--animation-duration); }
-        .modal-song-item:hover { background-color: var(--md-sys-color-surface-container); }
-        .modal-song-item .album-art { width: 50px; height: 50px; border-radius: var(--border-radius-medium); object-fit: cover; flex-shrink: 0; }
-        .modal-song-item .info { flex-grow: 1; min-width: 0; }
-        .modal-song-item .info h4, .modal-song-item .info p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .modal-song-item .info h4 { font-size: 1rem; font-weight: 500; color: var(--md-sys-color-on-surface); }
-        .modal-song-item .info p { font-size: 0.875rem; color: var(--md-sys-color-on-surface-variant); }
-        .modal-song-item .select-btn { height: 36px; padding: 0 20px; border: none; background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); font-weight: 500; border-radius: var(--border-radius-full); cursor: pointer; flex-shrink: 0; }
-        .modal-status { text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 2rem; }
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.2s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+            max-width: 1240px;
+            background: rgba(34, 25, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--shape-corner-full);
+            padding: 12px 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--md-sys-color-primary);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: var(--shape-corner-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .nav-link.active {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .page-header {
+            padding-top: 160px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        .headline-large {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 16px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-card {
+            background: var(--md-sys-color-surface-container);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-medium);
+            padding: 16px 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.9rem;
+            margin-top: 24px;
+            max-width: 600px;
+        }
+
+        .info-card i {
+            color: var(--md-sys-color-tertiary);
+            font-size: 1.1rem;
+        }
+
+        .drop-zone {
+            background: var(--md-sys-color-surface-container-high);
+            border: 2px dashed var(--md-sys-color-outline);
+            border-radius: var(--shape-corner-large);
+            padding: 80px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s var(--motion-easing-emphasized);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            background: var(--md-sys-color-surface-container-highest);
+            border-color: var(--md-sys-color-primary);
+            transform: scale(1.01);
+        }
+
+        .drop-icon {
+            font-size: 3.5rem;
+            color: var(--md-sys-color-secondary);
+            margin-bottom: 24px;
+        }
+
+        .drop-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 8px;
+        }
+
+        .drop-subtext {
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .form-container {
+            display: none;
+
+            animation: slideUp 0.5s var(--motion-easing-emphasized);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+            margin: 40px 0 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-left: 4px;
+        }
+
+        .text-input {
+            height: 56px;
+            background: var(--md-sys-color-surface-container-high);
+            border: 1px solid transparent;
+            border-radius: var(--shape-corner-medium);
+            padding: 0 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--md-sys-color-on-surface);
+            transition: all 0.2s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--md-sys-color-primary);
+            background: var(--md-sys-color-surface-container-highest);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-icon-square {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            background: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+            border: none;
+            border-radius: var(--shape-corner-medium);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-icon-square:hover {
+            opacity: 0.8;
+        }
+
+        .radio-wrapper {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--md-sys-color-outline);
+            border-radius: 50%;
+            position: relative;
+            transition: border-color 0.2s;
+        }
+
+        input[type="radio"]:checked+.radio-custom {
+            border-color: var(--md-sys-color-primary);
+        }
+
+        input[type="radio"]:checked+.radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--md-sys-color-primary);
+            border-radius: 50%;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        .preview-box {
+            background: var(--md-sys-color-surface-container-low);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-medium);
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 24px;
+        }
+
+        .status-box {
+            background: var(--md-sys-color-surface-container-highest);
+            padding: 24px;
+            border-radius: var(--shape-corner-medium);
+            margin-top: 32px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--md-sys-color-outline);
+            display: none;
+        }
+
+        .status-box.active {
+            display: block;
+        }
+
+        .status-box.success {
+            border-color: #A6D6A8;
+            background: #1A2C1E;
+            color: #CDEDA3;
+        }
+
+        .status-box.error {
+            border-color: var(--md-sys-color-error);
+            background: var(--md-sys-color-error-container);
+            color: var(--md-sys-color-on-error-container);
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: 56px;
+            margin-top: 32px;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: var(--shape-corner-full);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(255, 180, 168, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-outline);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-sheet {
+            width: 100%;
+            max-width: 600px;
+            height: 70vh;
+            background: var(--md-sys-color-surface-container-high);
+            border-radius: var(--shape-corner-large);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(40px);
+            transition: transform 0.4s var(--motion-easing-emphasized);
+        }
+
+        .modal-backdrop.active .modal-sheet {
+            transform: translateY(0);
+        }
+
+        .sheet-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sheet-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .modal-search-input {
+            width: 100%;
+            height: 56px;
+            background: var(--md-sys-color-surface-container);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--shape-corner-full);
+            padding: 0 16px;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 16px;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .song-item:hover {
+            background: var(--md-sys-color-surface-container);
+        }
+
+        .song-item img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+        }
+
+        .song-info h4 {
+            font-size: 1rem;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .song-info p {
+            font-size: 0.85rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .headline-large {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <nav>
-        <div class="nav-content">
-            <a href="index.html" class="logo">YouLy+</a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="docs.html">Docs</a>
-                <a href="submit.html" style="color: var(--md-sys-color-primary);">Submit</a>
-            </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <i class="fas fa-music"></i> YouLy+
+        </a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#features" class="nav-link">Features</a>
+            <a href="docs.html" class="nav-link">Docs</a>
+            <a href="submit.html" class="nav-link active">Submit</a>
         </div>
+        <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank" class="nav-link" style="padding: 8px;">
+            <i class="fab fa-github" style="font-size: 1.2rem;"></i>
+        </a>
     </nav>
+
     <main class="container">
-        <div class="page-header">
-            <h1>Submit Lyrics Timeline</h1>
-            <p>Contribute to the YouLy+ community by uploading a synchronized lyrics file.</p>
-            <div class="pow-info">
+        <header class="page-header">
+            <h1 class="headline-large">
+                Submit <span class="gradient-text">Lyrics</span>
+            </h1>
+            <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 24px;">
+                Contribute synchronized lyrics to the community database.
+            </p>
+            <div class="info-card">
                 <i class="fas fa-shield-halved"></i>
-                To prevent spam, each submission requires a small computational task (Proof of Work) to be solved by your browser. This may take a few moments. We appreciate your patience!
+                <span>Spam Protection: A small browser-based "Proof of Work" puzzle will solve automatically when you
+                    submit.</span>
             </div>
+        </header>
+
+        <!-- Step 1: Upload -->
+        <div id="drop-zone" class="drop-zone">
+            <i class="fas fa-file-upload drop-icon"></i>
+            <h3 class="drop-text">Drag & drop your file here</h3>
+            <p class="drop-subtext">Accepts .json or .ttml files</p>
+            <input type="file" id="file-input" accept=".json,.ttml" style="display: none;">
         </div>
-        <div id="drop-zone">
-            <i class="fas fa-upload"></i>
-            <p>Drag & drop a `.json` or `.ttml` file here, or click to select.</p>
-        </div>
-        <input type="file" id="file-input" accept=".json,.ttml" style="display: none;">
+
+        <!-- Step 2: Form -->
         <form id="lyrics-form" class="form-container">
-            <div class="form-section">
-                <h3>Song Details <small style="font-weight: 400; color: var(--md-sys-color-on-surface-variant);">(or find them automatically)</small></h3>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <div class="input-field">
-                            <input type="text" id="songTitle" required placeholder=" ">
-                            <label for="songTitle">Song Title</label>
-                        </div>
-                        <button type="button" id="song-finder-trigger" class="search-trigger-btn" title="Find Song Details">
+
+            <h3 class="section-title">Song Metadata</h3>
+            <div class="form-grid">
+                <div class="input-group" style="grid-column: span 1;">
+                    <label class="input-label" for="songTitle">Title</label>
+                    <div class="input-row">
+                        <input type="text" id="songTitle" class="text-input" placeholder="e.g. Blinding Lights"
+                            style="flex:1;" required>
+                        <button type="button" id="song-finder-trigger" class="btn-icon-square" title="Find Metadata">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <div class="input-field">
-                        <input type="text" id="songArtist" required placeholder=" ">
-                        <label for="songArtist">Artist</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="text" id="songAlbum" placeholder=" ">
-                        <label for="songAlbum">Album (Optional)</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="number" id="songDuration" required placeholder=" ">
-                        <label for="songDuration">Duration (seconds)</label>
-                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="songArtist">Artist</label>
+                    <input type="text" id="songArtist" class="text-input" placeholder="e.g. The Weeknd" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="songAlbum">Album (Optional)</label>
+                    <input type="text" id="songAlbum" class="text-input" placeholder="e.g. After Hours">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="songDuration">Duration (Seconds)</label>
+                    <input type="number" id="songDuration" class="text-input" placeholder="e.g. 200" required>
                 </div>
             </div>
-            <div class="form-section">
-                <h3>Lyrics Metadata</h3>
-                <div class="form-grid">
-                    <div class="input-field">
-                        <input type="text" id="curator" placeholder=" ">
-                        <label for="curator">Curator</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="text" id="songWriters" placeholder=" ">
-                        <label for="songWriters">Song Writers (comma-separated)</label>
-                    </div>
+
+            <h3 class="section-title">Credits</h3>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label class="input-label" for="curator">Synced By (Your Name)</label>
+                    <input type="text" id="curator" class="text-input" placeholder="Optional">
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="songWriters">Songwriters</label>
+                    <input type="text" id="songWriters" class="text-input" placeholder="Comma separated">
                 </div>
             </div>
-            <div class="form-section">
-                <h3>Submission Options</h3>
-                <div class="radio-group">
-                    <div class="radio-field">
-                        <input type="radio" id="mode-new" name="mode" value="new" checked>
-                        <span class="custom-radio"></span>
-                        <label for="mode-new">Add New</label>
-                    </div>
-                    <div class="radio-field">
-                        <input type="radio" id="mode-update" name="mode" value="update">
-                        <span class="custom-radio"></span>
-                        <label for="mode-update">Update Existing (Force)</label>
-                    </div>
-                </div>
-                <div id="previewContainer"></div>
+
+            <h3 class="section-title">Submission Type</h3>
+            <div class="radio-wrapper">
+                <label class="radio-label">
+                    <input type="radio" name="mode" value="new" checked>
+                    <span class="radio-custom"></span>
+                    Add New
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="mode" value="update">
+                    <span class="radio-custom"></span>
+                    Force Update
+                </label>
             </div>
-            <div id="pow-progress">
-                Solving computational challenge...
-                <span id="nonce-counter"></span><span id="estimated-time"></span><span id="iteration-count"></span>
+
+            <div id="previewContainer" class="preview-box"></div>
+
+            <div id="status-box" class="status-box">
+                <!-- Status messages injected here -->
             </div>
-            <div id="status-message"></div>
-            <button type="submit" id="submit-btn" class="submit-button">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span class="button-text">Submit</span>
+
+            <button type="submit" id="submit-btn" class="submit-btn">
+                Submit Contribution
             </button>
         </form>
     </main>
-    <div id="song-finder-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Find Song Details</h3>
-                <span class="close-button">×</span>
+
+    <!-- Song Finder Modal -->
+    <div id="song-finder-modal" class="modal-backdrop">
+        <div class="modal-sheet">
+            <div class="sheet-header">
+                <h3 style="color: var(--md-sys-color-on-surface);">Auto-fill Metadata</h3>
+                <i class="fas fa-times" id="close-modal"
+                    style="cursor: pointer; color: var(--md-sys-color-on-surface-variant); font-size: 1.25rem;"></i>
             </div>
-            <form id="modal-search-form">
-                <input type="text" id="modal-search-input" placeholder="Search for song title and artist..." required>
-                <button type="submit" id="modal-search-button"><i class="fas fa-search"></i></button>
-            </form>
-            <ul id="modal-results-list">
-                <p class="modal-status">Search to find song details.</p>
-            </ul>
+            <div class="sheet-body">
+                <form id="modal-search-form">
+                    <input type="text" id="modal-search-input" class="modal-search-input"
+                        placeholder="Search Apple Music..." required>
+                </form>
+                <div id="modal-results-list"></div>
+            </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer
+        style="margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--md-sys-color-outline-variant); text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 0.9rem;">
+        <div class="container">
+            &copy; 2025 Prjktla & YouLy+. Open Source Data.
+        </div>
+    </footer>
+
     <script>
-        // API Endpoints
         const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
         const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
-
         const API_BASE_CHALLENGE = '/v1/lyricsplus/challenge';
         const API_BASE_SUBMIT = '/v1/lyricsplus/submit';
         const API_BASE_SEARCH = '/v1/songlist/search';
 
-        // DOM Elements
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const lyricsForm = document.getElementById('lyrics-form');
         const previewContainer = document.getElementById('previewContainer');
         const submitBtn = document.getElementById('submit-btn');
-        const statusMessageEl = document.getElementById('status-message');
-        const powProgressEl = document.getElementById('pow-progress');
+        const statusBox = document.getElementById('status-box');
+
         const songTitleEl = document.getElementById('songTitle');
         const songArtistEl = document.getElementById('songArtist');
         const songAlbumEl = document.getElementById('songAlbum');
@@ -245,224 +673,738 @@
         const curatorEl = document.getElementById('curator');
         const songWritersEl = document.getElementById('songWriters');
 
-        // Modal Elements
-        const songFinderModal = document.getElementById('song-finder-modal');
-        const songFinderTrigger = document.getElementById('song-finder-trigger');
-        const modalCloseBtn = songFinderModal.querySelector('.close-button');
+        const modal = document.getElementById('song-finder-modal');
+        const openModalBtn = document.getElementById('song-finder-trigger');
+        const closeModalBtn = document.getElementById('close-modal');
         const modalSearchForm = document.getElementById('modal-search-form');
         const modalSearchInput = document.getElementById('modal-search-input');
         const modalResultsList = document.getElementById('modal-results-list');
 
         let parsedLyricsData;
 
-        function escapeHtml(str) { return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "\"").replace(/'/g, "'"); }
+        // --- Event Listeners ---
 
         dropZone.addEventListener('click', () => fileInput.click());
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
-        fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
 
-        async function handleFile(file) {
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        openModalBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            if (songTitleEl.value) {
+                modalSearchInput.value = songTitleEl.value;
+                performSearch(songTitleEl.value);
+            } else {
+                modalSearchInput.focus();
+            }
+        });
+
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        modalSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch(modalSearchInput.value);
+        });
+
+        lyricsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Processing...";
+
+            showStatus('Initializing Proof of Work (Spam Protection)...', 'default');
+
+            try {
+                // 1. Get Challenge
+                const { token, difficulty } = await fetchWithFallback(API_BASE_CHALLENGE);
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const challenge = payload.challenge;
+
+                showStatus(`Solving Puzzle (Difficulty: ${difficulty})...`, 'default');
+
+                // 2. Solve PoW
+                const nonce = await solveProofOfWork(challenge, difficulty);
+
+                // 3. Prepare Data
+                parsedLyricsData.metadata.curator = curatorEl.value || undefined;
+                parsedLyricsData.metadata.songWriters = songWritersEl.value ? songWritersEl.value.split(',').map(s => s.trim()) : [];
+                parsedLyricsData.metadata.title = songTitleEl.value; // Ensure title matches
+
+                const submissionPayload = {
+                    proofOfWorkToken: token,
+                    nonce: nonce,
+                    songTitle: songTitleEl.value,
+                    songArtist: songArtistEl.value,
+                    songAlbum: songAlbumEl.value,
+                    songDuration: songDurationEl.value,
+                    forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
+                    lyricsData: parsedLyricsData // Sending Native V2
+                };
+
+                showStatus('Uploading...', 'default');
+
+                // 4. Submit
+                await fetchWithFallback(API_BASE_SUBMIT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(submissionPayload)
+                }, true);
+
+                showStatus('Success! Thank you for contributing.', 'success');
+                lyricsForm.reset();
+                setTimeout(() => {
+                    lyricsForm.style.display = 'none';
+                    previewContainer.innerHTML = '';
+                    statusBox.classList.remove('active');
+                }, 3000);
+
+            } catch (error) {
+                console.error(error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Contribution";
+            }
+        });
+
+        // --- Core Logic ---
+
+        function handleFile(file) {
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = (e) => {
                 try {
-                    const data = file.name.endsWith('.ttml') ? convertTTMLtoJSON(e.target.result) : JSON.parse(e.target.result);
-                    parsedLyricsData = data.lyrics[0]?.hasOwnProperty('isLineEnding') ? data : v2toV1(data);
+                    const content = e.target.result;
+                    let data;
+
+                    // Detect file type and parse accordingly
+                    if (file.name.endsWith('.ttml') || file.name.endsWith('.xml')) {
+                        // Use new Native V2 Apple TTML Parser
+                        data = parseAppleTTML(content);
+                    } else if (file.name.endsWith('.lrc')) {
+                        // Use new LRC Parser
+                        data = parseSyncedLyrics(content);
+                    } else {
+                        // Assume JSON
+                        const json = JSON.parse(content);
+                        // Convert Legacy V1 to Native V2 if necessary, or pass through V2
+                        data = v1Tov2(json);
+                    }
+
+                    parsedLyricsData = data;
+
+                    // Auto-fill form
                     curatorEl.value = parsedLyricsData.metadata?.curator || '';
-                    songWritersEl.value = Array.isArray(parsedLyricsData.metadata?.songWriters) ? parsedLyricsData.metadata.songWriters.join(', ') : '';
-                    [curatorEl, songWritersEl].forEach(el => el.dispatchEvent(new Event('input')));
+                    const writers = parsedLyricsData.metadata?.songWriters;
+                    songWritersEl.value = Array.isArray(writers) ? writers.join(', ') : '';
+
+                    // If title/artist exists in metadata, pre-fill
+                    if (parsedLyricsData.metadata?.title) songTitleEl.value = parsedLyricsData.metadata.title;
+
                     lyricsForm.style.display = 'block';
-                    previewContainer.style.display = 'block';
                     renderPreview(parsedLyricsData.lyrics);
-                } catch (error) { showStatus(`Error parsing file: ${error.message}`, 'error'); }
+
+                } catch (error) {
+                    console.error(error);
+                    showStatus(`Error parsing file: ${error.message}`, 'error');
+                }
             };
             reader.readAsText(file);
         }
 
-        async function performModalSearch(query) {
-            if (!query) return;
-            modalResultsList.innerHTML = `<p class="modal-status">Searching...</p>`;
+        /**
+         * Optimized Proof of Work Solver
+         * Avoids expensive hex conversion in the hot loop.
+         */
+        async function solveProofOfWork(challenge, difficulty) {
+            const encoder = new TextEncoder();
+            const challengeBytes = encoder.encode(challenge);
+            let nonce = 0;
+
+            while (true) {
+                // Construct buffer: challenge + nonce
+                const nonceStr = nonce.toString();
+                const nonceBytes = encoder.encode(nonceStr);
+                const data = new Uint8Array(challengeBytes.length + nonceBytes.length);
+                data.set(challengeBytes);
+                data.set(nonceBytes, challengeBytes.length);
+
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = new Uint8Array(hashBuffer);
+
+                // Check difficulty (leading zeros in hex representation)
+                // Difficulty 1 (hex char) = 4 bits
+                let valid = true;
+                for (let i = 0; i < difficulty; i++) {
+                    // Determine byte index and nibble (high/low)
+                    const byteIndex = Math.floor(i / 2);
+                    const byte = hashArray[byteIndex];
+                    // Even i = High nibble (first 4 bits), Odd i = Low nibble (last 4 bits)
+                    const nibble = (i % 2 === 0) ? (byte >> 4) : (byte & 0x0F);
+
+                    if (nibble !== 0) {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid) return nonce;
+                nonce++;
+
+                // Yield to main thread occasionally to prevent UI freeze
+                if (nonce % 5000 === 0) await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        async function fetchWithFallback(path, options = {}, isPost = false) {
+            try {
+                const res = await fetch(`${PRIMARY_API_BASE}${path}`, options);
+                if (!res.ok) throw new Error(`Primary server error: ${res.status}`);
+                return res.json();
+            } catch (err) {
+                console.warn('Switching to fallback server...');
+                const res = await fetch(`${FALLBACK_API_BASE}${path}`, options);
+                if (!res.ok) throw new Error(`Fallback server error: ${res.status}`);
+                return res.json();
+            }
+        }
+
+        async function performSearch(query) {
+            modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-on-surface-variant);">Searching...</p>';
             try {
                 const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
                 displayModalResults(data.results);
-            } catch (error) { modalResultsList.innerHTML = `<p class="modal-status">Search failed. Please try again.</p>`; }
-        }
-
-        songFinderTrigger.addEventListener('click', () => {
-            songFinderModal.classList.add('show');
-            const currentTitle = songTitleEl.value.trim();
-            if (currentTitle) {
-                modalSearchInput.value = currentTitle;
-                performModalSearch(currentTitle);
+            } catch (error) {
+                modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-error);">Search failed.</p>';
             }
-        });
-
-        modalCloseBtn.addEventListener('click', () => songFinderModal.classList.remove('show'));
-        songFinderModal.addEventListener('click', (e) => { if (e.target === songFinderModal) songFinderModal.classList.remove('show'); });
-        modalSearchForm.addEventListener('submit', (e) => { e.preventDefault(); performModalSearch(modalSearchInput.value.trim()); });
+        }
 
         function displayModalResults(songs) {
+            modalResultsList.innerHTML = '';
             if (!songs || songs.length === 0) {
-                modalResultsList.innerHTML = `<p class="modal-status">No results found.</p>`;
+                modalResultsList.innerHTML = '<p style="text-align:center;">No results found.</p>';
                 return;
             }
-            modalResultsList.innerHTML = '';
+
             songs.forEach(song => {
-                const li = document.createElement('li');
-                li.className = 'modal-song-item';
-                li.dataset.songData = JSON.stringify(song);
-                const cleanAlbum = (song.album || '').replace(/ - (Single|EP)$/i, '').trim();
-                li.innerHTML = `
-                    <img src="${song.albumArtUrl || ''}" class="album-art" onerror="this.style.visibility='hidden'">
-                    <div class="info">
-                        <h4>${escapeHtml(song.title)}</h4>
-                        <p>${escapeHtml(song.artist)} • ${escapeHtml(cleanAlbum) || 'Unknown Album'}</p>
-                    </div>
-                    <button type="button" class="select-btn">Select</button>
-                `;
-                modalResultsList.appendChild(li);
-            });
-        }
-
-        modalResultsList.addEventListener('click', (e) => {
-            if (e.target.classList.contains('select-btn')) {
-                const item = e.target.closest('.modal-song-item');
-                if (item) {
-                    const song = JSON.parse(item.dataset.songData);
-                    populateFormWithSong(song);
-                    songFinderModal.classList.remove('show');
-                }
-            }
-        });
-
-        function populateFormWithSong(song) {
-            songTitleEl.value = song.title;
-            songArtistEl.value = song.artist;
-            songAlbumEl.value = song.album || '';
-            songDurationEl.value = Math.round(song.durationMs / 1000);
-            if (!songWritersEl.value && song.songwriters?.length > 0) {
-                songWritersEl.value = song.songwriters.join(', ');
-            }
-            [songTitleEl, songArtistEl, songAlbumEl, songDurationEl, songWritersEl].forEach(el => {
-                if (el.value) el.dispatchEvent(new Event('input'));
-            });
-        }
-
-        lyricsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
-            powProgressEl.style.display = 'none';
-            showStatus('Fetching challenge...', 'success', false);
-            try {
-                const { token, difficulty } = await fetchWithFallback(API_BASE_CHALLENGE);
-                const challenge = JSON.parse(atob(token.split('.')[1])).challenge;
-
-                statusMessageEl.style.display = 'none';
-                powProgressEl.style.display = 'block';
-                const nonce = await solveProofOfWork(challenge, difficulty, (nonce, est, iter) => {
-                    powProgressEl.querySelector('#nonce-counter').textContent = `Hashes: ${nonce.toLocaleString()}`;
-                    powProgressEl.querySelector('#estimated-time').textContent = `Time: ${est}`;
-                    powProgressEl.querySelector('#iteration-count').textContent = `Iteration: ${iter}`;
+                const el = document.createElement('div');
+                el.className = 'song-item';
+                el.innerHTML = `
+                <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" onerror="this.style.display='none'">
+                <div class="song-info">
+                    <h4>${song.title}</h4>
+                    <p>${song.artist}</p>
+                </div>
+            `;
+                el.addEventListener('click', () => {
+                    songTitleEl.value = song.title;
+                    songArtistEl.value = song.artist;
+                    songAlbumEl.value = song.album || '';
+                    songDurationEl.value = Math.round(song.durationMs / 1000);
+                    if (song.songwriters?.length) songWritersEl.value = song.songwriters.join(', ');
+                    modal.classList.remove('active');
                 });
-                
-                powProgressEl.style.display = 'none';
-                showStatus('Submitting lyrics...', 'success', false);
-                parsedLyricsData.metadata.curator = curatorEl.value || undefined;
-                parsedLyricsData.metadata.songWriters = songWritersEl.value ? songWritersEl.value.split(',').map(s => s.trim()) : [];
-                
-                const finalPayload = {
-                    proofOfWorkToken: token, nonce,
-                    songTitle: songTitleEl.value, songArtist: songArtistEl.value,
-                    songAlbum: songAlbumEl.value, songDuration: songDurationEl.value,
-                    forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
-                    lyricsData: parsedLyricsData,
-                };
-                const result = await fetchWithFallback(API_BASE_SUBMIT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(finalPayload) }, true); // Pass true for isPost
-                showStatus('Submission successful! Thank you.', 'success');
-                lyricsForm.reset(); previewContainer.innerHTML = '';
-            } catch (error) {
-                showStatus(`Submission failed: ${error.message}`, 'error');
-                powProgressEl.style.display = 'none';
-            } finally {
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            }
-        });
-        
-        async function fetchWithFallback(path, options = {}, isPost = false) {
-            let response;
-            try {
-                response = await fetch(`${PRIMARY_API_BASE}${path}`, options);
-                if (!response.ok) {
-                    throw new Error(`Primary server error: ${response.status}`);
-                }
-            } catch (primaryError) {
-                console.warn(`Primary server failed (${PRIMARY_API_BASE}${path}):`, primaryError);
-                console.log(`Attempting fallback server: ${FALLBACK_API_BASE}${path}`);
-                response = await fetch(`${FALLBACK_API_BASE}${path}`, options);
-                if (!response.ok) {
-                    throw new Error(`Fallback server error: ${response.status}`);
-                }
-            }
-            return isPost ? response.json() : response.json(); // For POST, we still want the JSON result
+                modalResultsList.appendChild(el);
+            });
         }
 
-        // --- Utility and Conversion Functions (unchanged logic, slightly compressed)
-        async function solveProofOfWork(challenge, difficulty, cb) {
-            const prefix = '0'.repeat(difficulty); let nonce = 0, iter = 0; const start = performance.now();
-            while (true) {
-                const hashHex = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(challenge + nonce)))).map(b => b.toString(16).padStart(2, '0')).join('');
-                if (hashHex.startsWith(prefix)) return nonce;
-                if (nonce % 100000 === 0) {
-                    if(cb) cb(nonce, `${((performance.now() - start) / 1000).toFixed(2)}s`, iter++);
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                }
-                nonce++;
+        function renderPreview(lyrics) {
+            previewContainer.innerHTML = '';
+            if (!lyrics) return;
+            const fragment = document.createDocumentFragment();
+            // V2 Structure: Array of Line Objects {time, text, syllabus...}
+            lyrics.slice(0, 10).forEach(line => {
+                const div = document.createElement('div');
+                div.style.padding = "4px 0";
+                div.textContent = `[${msToTime(line.time)}] ${line.text}`;
+                fragment.appendChild(div);
+            });
+            previewContainer.appendChild(fragment);
+            if (lyrics.length > 10) {
+                const more = document.createElement('div');
+                more.textContent = `...and ${lyrics.length - 10} more lines`;
+                more.style.color = "var(--md-sys-color-tertiary)";
+                more.style.marginTop = "8px";
+                previewContainer.appendChild(more);
             }
         }
-        function renderPreview(lyrics) {
-            previewContainer.innerHTML = ''; if (!lyrics || lyrics.length === 0) return;
-            lyrics.slice(0, 100).forEach(line => {
-                const time = new Date(line.time).toISOString().substr(14, 8);
-                previewContainer.innerHTML += `<div class="preview-line"><span class="time-badge">${time}</span> ${escapeHtml(line.text)}</div>`;
-            });
+
+        function msToTime(ms) {
+            const date = new Date(ms);
+            return date.toISOString().substr(14, 8);
         }
-        function showStatus(message, type = 'success', autoHide = true) {
-            if (!message) { statusMessageEl.style.display = 'none'; return; }
-            statusMessageEl.className = 'status-message ' + type;
-            statusMessageEl.textContent = message;
-            statusMessageEl.style.display = 'block';
-            if (autoHide) setTimeout(() => { statusMessageEl.style.display = 'none'; }, 6000);
-        }
-        function timeToMs(t) { const p = t.split(':'); const s = p.pop().split('.'); return (p.reduce((acc, val) => acc * 60 + +val, 0) || 0) * 1000 + (s[1] ? +s[0] * 1000 + +s[1] : +s[0] * 1000); }
-        function convertTTMLtoJSON(ttml, offset = 0) {
-            let timingMode = (ttml.match(/itunes:timing="([^"]+)"/i) || [])[1] || "Word";
-            const metadata = { source: "Apple Music", songWriters: [...ttml.matchAll(/<songwriter>([\s\S]*?)<\/songwriter>/gi)].map(m => m[1].trim()) };
-            const lyrics = [];
-            for (const divMatch of ttml.matchAll(/<(?:tt:)?div\b([^>]*)>([\s\S]*?)<\/(?:tt:)?div>/gi)) {
-                const songPart = (divMatch[1].match(/itunes:songPart="([^"]+)"/i) || [])[1] || "";
-                for (const pMatch of divMatch[2].matchAll(/<(?:tt:)?p\b([^>]*)>([\s\S]*?)<\/(?:tt:)?p>/gi)) {
-                    const element = { key: (pMatch[1].match(/itunes:key="([^"]+)"/i) || [])[1] || "", songPart, singer: ((pMatch[1].match(/ttm:agent="([^"]+)"/i) || [])[1] || "").replace('voice', 'v') };
-                    const pStartIndex = lyrics.length;
-                    for (const spanMatch of pMatch[2].matchAll(/<(?:tt:)?span[^>]*?begin="([^"]+)"[^>]*?end="([^"]+)"[^>]*>([\s\S]*?)<\/(?:tt:)?span>/gi)) {
-                        lyrics.push({ time: timeToMs(spanMatch[1]) + offset, duration: timeToMs(spanMatch[2]) - timeToMs(spanMatch[1]), text: spanMatch[3].replace(/<br\s*\/?>/gi, '\n'), isLineEnding: 0, element });
+
+        // --- New Parsers (Integrated) ---
+
+        function v1Tov2(data) {
+            // If already V2-like (nested structure or not relying on isLineEnding flat map for lines)
+            const usesLineEndingForGrouping = data.type !== "Line" && data.lyrics.some(segment => segment.isLineEnding === 1);
+
+            // If it looks like V2 already (no flat line endings mixed with words), return as is
+            if (data.type === "Line" || (!usesLineEndingForGrouping && data.lyrics[0]?.syllabus)) {
+                return data;
+            }
+
+            const groupedLyrics = [];
+            let currentGroup = null;
+
+            if (data.type === "Line" || !usesLineEndingForGrouping) {
+                data.lyrics.forEach(segment => {
+                    const lineItem = {
+                        time: segment.time,
+                        duration: segment.duration,
+                        text: segment.text,
+                        syllabus: segment.syllabus || [],
+                        element: segment.element || { key: "", songPart: "", singer: "" }
+                    };
+                    if ((data.type === "Word" || data.type === "Syllable") && !lineItem.syllabus.length && lineItem.text) {
+                        lineItem.syllabus = [{
+                            time: segment.time,
+                            duration: segment.duration,
+                            text: segment.text
+                        }];
                     }
-                    if (lyrics.length > pStartIndex) lyrics[lyrics.length - 1].isLineEnding = 1;
+                    groupedLyrics.push(lineItem);
+                });
+            } else {
+                data.lyrics.forEach(segment => {
+                    if (!currentGroup) {
+                        currentGroup = {
+                            time: segment.time,
+                            duration: 0,
+                            text: "",
+                            syllabus: [],
+                            element: segment.element || { key: "", songPart: "", singer: "" }
+                        };
+                    }
+
+                    currentGroup.text += segment.text;
+                    const syllabusEntry = {
+                        time: segment.time,
+                        duration: segment.duration,
+                        text: segment.text
+                    };
+                    if (segment.element && segment.element.isBackground === true) {
+                        syllabusEntry.isBackground = true;
+                    }
+                    currentGroup.syllabus.push(syllabusEntry);
+
+                    if (segment.isLineEnding === 1) {
+                        let earliestTime = Infinity;
+                        let latestEndTime = 0;
+                        currentGroup.syllabus.forEach(syllable => {
+                            if (syllable.time < earliestTime) earliestTime = syllable.time;
+                            const endTime = syllable.time + syllable.duration;
+                            if (endTime > latestEndTime) latestEndTime = endTime;
+                        });
+                        currentGroup.time = earliestTime;
+                        currentGroup.duration = latestEndTime - earliestTime;
+                        currentGroup.text = currentGroup.text.trim();
+                        groupedLyrics.push(currentGroup);
+                        currentGroup = null;
+                    }
+                });
+                if (currentGroup) {
+                    let earliestTime = Infinity;
+                    let latestEndTime = 0;
+                    currentGroup.syllabus.forEach(syllable => {
+                        if (syllable.time < earliestTime) earliestTime = syllable.time;
+                        const endTime = syllable.time + syllable.duration;
+                        if (endTime > latestEndTime) latestEndTime = endTime;
+                    });
+                    currentGroup.time = earliestTime;
+                    currentGroup.duration = latestEndTime - earliestTime;
+                    currentGroup.text = currentGroup.text.trim();
+                    groupedLyrics.push(currentGroup);
                 }
-            } return { type: timingMode, KpoeTools: "1.31-JSRegex", metadata, lyrics };
+            }
+
+            const metadata = data.metadata || {};
+            return {
+                type: data.type === "syllable" ? "Word" : data.type,
+                KpoeTools: '1.31R2-LPlusBcknd,' + (data.KpoeTools || 'UnknownV1'),
+                metadata,
+                ignoreSponsorblock: data.ignoreSponsorblock || undefined,
+                lyrics: groupedLyrics,
+                cached: data.cached || 'None'
+            };
         }
-        function v2toV1(data) {
-            if (data.lyrics && data.lyrics.length > 0 && data.lyrics[0].hasOwnProperty('isLineEnding')) return data;
-            const v1Lyrics = [];
-            data.lyrics.forEach(line => {
-                if (line.syllabus && line.syllabus.length > 0) {
-                    line.syllabus.forEach((syllable, i) => v1Lyrics.push({ ...syllable, isLineEnding: i === line.syllabus.length - 1 ? 1 : 0, element: line.element }));
-                } else { v1Lyrics.push({ ...line, isLineEnding: 1 }); }
+
+        function parseSyncedLyrics(lrcContent) {
+            const timeTagRegex = /\[(\d+):(\d{2})(?:[.:](\d+))?\]/g;
+            const wordTagRegex = /<(\d+):(\d{2})(?:[.:](\d+))?>/g;
+            const metadataRegex = /^\[([a-zA-Z#]+):([^\]]*)\]$/;
+            const offsetRegex = /^\[offset:(-?\d+)\]$/i;
+            const speakerRegex = /\[(bg|v1|v2|v3|F|M|D|duet|male|female)(?::)?\]/i;
+
+            let offset = 0;
+            const lines = lrcContent.split(/\r?\n/);
+
+            lines.forEach(line => {
+                const match = line.trim().match(offsetRegex);
+                if (match) offset = parseInt(match[1], 10) * -1;
             });
-            return { ...data, lyrics: v1Lyrics };
+
+            const parseTime = (minutes, seconds, msStr) => {
+                const min = parseInt(minutes, 10);
+                const sec = parseInt(seconds, 10);
+                let ms = 0;
+                if (msStr) {
+                    if (msStr.length === 2) ms = parseInt(msStr, 10) * 10;
+                    else if (msStr.length === 1) ms = parseInt(msStr, 10) * 100;
+                    else ms = parseInt(msStr.substring(0, 3), 10);
+                }
+                const total = (min * 60 * 1000) + (sec * 1000) + ms + offset;
+                return total < 0 ? 0 : total;
+            };
+
+            const parseTimeFromMatch = (match) => parseTime(match[1], match[2], match[3]);
+            const rawEntries = [];
+            let isEnhanced = false;
+
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line) return;
+                if (metadataRegex.test(line) && !timeTagRegex.test(line)) return;
+
+                let currentSpeaker = "";
+                const speakerMatch = line.match(speakerRegex);
+                if (speakerMatch) {
+                    currentSpeaker = speakerMatch[1].toLowerCase();
+                    line = line.replace(speakerRegex, '');
+                }
+
+                const timeMatches = [...line.matchAll(timeTagRegex)];
+                if (timeMatches.length === 0) return;
+
+                let content = line.replace(timeTagRegex, '').trim();
+                const wordMatches = [...content.matchAll(wordTagRegex)];
+                const hasWordTags = wordMatches.length > 0;
+                if (hasWordTags) isEnhanced = true;
+
+                let syllabus = [];
+                if (hasWordTags) {
+                    let lastIndex = 0;
+                    wordMatches.forEach(wm => {
+                        const wordTime = parseTimeFromMatch(wm);
+                        const preText = content.substring(lastIndex, wm.index);
+                        if (preText) syllabus.push({ text: preText, time: 0, duration: 0, isTag: false });
+                        syllabus.push({ text: "", time: wordTime, duration: 0, isTag: true });
+                        lastIndex = wm.index + wm[0].length;
+                    });
+                    const tailText = content.substring(lastIndex);
+                    if (tailText) syllabus.push({ text: tailText, time: 0, duration: 0, isTag: false });
+
+                    const refinedSyllabus = [];
+                    let currentWordTime = 0;
+                    syllabus.forEach(item => {
+                        if (item.isTag) currentWordTime = item.time;
+                        else refinedSyllabus.push({ text: item.text, time: currentWordTime, duration: 0 });
+                    });
+                    syllabus = refinedSyllabus;
+                    content = content.replace(wordTagRegex, '');
+                }
+
+                timeMatches.forEach(tm => {
+                    const lineTime = parseTimeFromMatch(tm);
+                    const lineSyllabus = syllabus.map(s => ({ ...s }));
+                    if (lineSyllabus.length > 0 && lineSyllabus[0].time === 0) lineSyllabus[0].time = lineTime;
+
+                    for (let i = 0; i < lineSyllabus.length - 1; i++) {
+                        if (lineSyllabus[i + 1].time > lineSyllabus[i].time) {
+                            lineSyllabus[i].duration = lineSyllabus[i + 1].time - lineSyllabus[i].time;
+                        }
+                    }
+                    rawEntries.push({ time: lineTime, text: content, syllabus: lineSyllabus, speaker: currentSpeaker });
+                });
+            });
+
+            rawEntries.sort((a, b) => a.time - b.time);
+
+            const validLyrics = rawEntries.map((entry, index) => {
+                const nextEntry = rawEntries[index + 1];
+                let duration = nextEntry ? (nextEntry.time - entry.time) : 5000;
+                if (entry.syllabus.length > 0) {
+                    const lastSyl = entry.syllabus[entry.syllabus.length - 1];
+                    if (lastSyl.duration === 0) {
+                        const estimatedEnd = entry.time + duration;
+                        lastSyl.duration = Math.max(0, estimatedEnd - lastSyl.time);
+                    }
+                }
+                if (isEnhanced && entry.syllabus.length === 0 && entry.text) {
+                    entry.syllabus.push({ text: entry.text, time: entry.time, duration: duration });
+                }
+                return {
+                    time: entry.time,
+                    duration: duration,
+                    text: entry.text,
+                    syllabus: entry.syllabus,
+                    element: { key: "", songPart: "", singer: entry.speaker }
+                };
+            }).filter(l => l.text.trim() !== '');
+
+            return {
+                KpoeTools: '1.1-parseSyncedLyrics-LRC',
+                type: isEnhanced ? 'Word' : 'Line',
+                metadata: {songWriters: [], title: '', language: '', agents: {}, totalDuration: '' },
+                lyrics: validLyrics,
+                cached: 'None'
+            };
+        }
+
+        function parseAppleTTML(ttml, offset = 0, separate = false) {
+            const KPOE = '1.6-ConvertTTMLtoJSON-DOMParser';
+            const NS = {
+                tt: 'http://www.w3.org/ns/ttml',
+                itunes: 'http://music.apple.com/lyric-ttml-internal',
+                ttm: 'http://www.w3.org/ns/ttml#metadata',
+                xml: 'http://www.w3.org/XML/1998/namespace',
+            };
+
+            const timeToMs = (timeStr) => {
+                if (!timeStr) return 0;
+                const parts = timeStr.split(':');
+                let totalMs = 0;
+                if (parts.length === 3) {
+                    const [h, m, s] = parts.map(p => parseFloat(p) || 0);
+                    totalMs = (h * 3600 + m * 60 + s) * 1000;
+                } else if (parts.length === 2) {
+                    const [m, s] = parts.map(p => parseFloat(p) || 0);
+                    totalMs = (m * 60 + s) * 1000;
+                } else {
+                    totalMs = parseFloat(parts[0]) * 1000;
+                }
+                return isNaN(totalMs) ? 0 : Math.round(totalMs);
+            };
+
+            const decodeHtmlEntities = (text) => {
+                if (!text) return text || '';
+                const map = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#x27;': "'", '&#39;': "'" };
+                return text.replace(/&(amp|lt|gt|quot|#x27|#39);/g, (m) => map[m] || m);
+            };
+
+            function getAttr(el, nsUri, localName, prefixedName) {
+                if (!el) return null;
+                try {
+                    if (nsUri && el.getAttributeNS) {
+                        const v = el.getAttributeNS(nsUri, localName);
+                        if (v !== null && v !== undefined) return v;
+                    }
+                } catch (e) { }
+                if (prefixedName) {
+                    const v2 = el.getAttribute(prefixedName);
+                    if (v2 !== null && v2 !== undefined) return v2;
+                }
+                return el.getAttribute(localName);
+            }
+
+            function collectTailText(node) {
+                let txt = '';
+                let sib = node.nextSibling;
+                while (sib && sib.nodeType === 3) {
+                    txt += sib.nodeValue || '';
+                    sib = sib.nextSibling;
+                }
+                return txt;
+            }
+
+            function isInsideBackgroundWrapper(node, paragraph) {
+                let current = node.parentNode;
+                while (current && current !== paragraph) {
+                    const roleVal = getAttr(current, NS.ttm, 'role', 'ttm:role');
+                    if (roleVal === 'x-bg') return true;
+                    current = current.parentNode;
+                }
+                return false;
+            }
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(ttml, 'application/xml');
+            if (doc.getElementsByTagName('parsererror').length > 0) return null;
+
+            const root = doc.documentElement;
+            const timingMode = getAttr(root, NS.itunes, 'timing', 'itunes:timing') || 'Word';
+            const metadata = {
+                songWriters: [], title: '',
+                language: getAttr(root, NS.xml, 'lang', 'xml:lang') || '',
+                agents: {},
+                totalDuration: getAttr(doc.getElementsByTagName('body')[0], null, 'dur', 'dur') || '',
+            };
+
+            const headEl = doc.getElementsByTagName('head')[0];
+            const itunesMetaEl = headEl ? headEl.getElementsByTagName('iTunesMetadata')[0] : null;
+
+            if (headEl) {
+                const agentNodes = headEl.getElementsByTagName('ttm:agent');
+                for (let i = 0; i < agentNodes.length; i++) {
+                    const a = agentNodes[i];
+                    const agentId = getAttr(a, NS.xml, 'id', 'xml:id');
+                    if (!agentId) continue;
+                    const type = getAttr(a, null, 'type', 'type') || 'person';
+                    let name = '';
+                    const nameNode = a.getElementsByTagName('ttm:name')[0];
+                    if (nameNode) name = decodeHtmlEntities(nameNode.textContent.trim());
+                    metadata.agents[agentId] = { type, name, alias: agentId.replace('voice', 'v') };
+                }
+
+                const metaContent = itunesMetaEl || headEl.getElementsByTagName('metadata')[0];
+                if (metaContent) {
+                    const titleEl = metaContent.getElementsByTagName('ttm:title')[0] || metaContent.getElementsByTagName('title')[0];
+                    if (titleEl) metadata.title = decodeHtmlEntities(titleEl.textContent.trim());
+                    const songwritersEl = metaContent.getElementsByTagName('songwriters')[0];
+                    if (songwritersEl) {
+                        const songwriterNodes = songwritersEl.getElementsByTagName('songwriter');
+                        for (let i = 0; i < songwriterNodes.length; i++) {
+                            const name = decodeHtmlEntities(songwriterNodes[i].textContent.trim());
+                            if (name) metadata.songWriters.push(name);
+                        }
+                    }
+                }
+            }
+
+            const translationMap = {};
+            const transliterationMap = {};
+
+            if (itunesMetaEl) {
+                const translationsNode = itunesMetaEl.getElementsByTagName('translations')[0];
+                if (translationsNode) {
+                    const translationNodes = translationsNode.getElementsByTagName('translation');
+                    for (const transNode of translationNodes) {
+                        const lang = getAttr(transNode, NS.xml, 'lang', 'xml:lang');
+                        const textNodes = transNode.getElementsByTagName('text');
+                        for (const textNode of textNodes) {
+                            const lineId = getAttr(textNode, null, 'for', 'for');
+                            if (lineId) translationMap[lineId] = { lang: lang, text: decodeHtmlEntities(textNode.textContent.trim()) };
+                        }
+                    }
+                }
+
+                const transliterationsNode = itunesMetaEl.getElementsByTagName('transliterations')[0];
+                if (transliterationsNode) {
+                    const transliterationNodes = transliterationsNode.getElementsByTagName('transliteration');
+                    for (const translitNode of transliterationNodes) {
+                        const lang = getAttr(translitNode, NS.xml, 'lang', 'xml:lang');
+                        const textNodes = translitNode.getElementsByTagName('text');
+                        for (const textNode of textNodes) {
+                            const lineId = getAttr(textNode, null, 'for', 'for');
+                            if (!lineId) continue;
+                            const syllabus = [];
+                            let fullText = '';
+                            const spans = Array.from(textNode.getElementsByTagName('span')).filter(span => getAttr(span, null, 'begin', 'begin'));
+                            const processedSpans = new Set();
+                            for (const span of spans) {
+                                if (processedSpans.has(span)) continue;
+                                processedSpans.add(span);
+                                let spanText = '';
+                                for (const child of span.childNodes) { if (child.nodeType === 3) spanText += child.nodeValue || ''; }
+                                spanText = decodeHtmlEntities(spanText);
+                                const tail = collectTailText(span);
+                                const decodedTail = decodeHtmlEntities(tail);
+                                if (decodedTail && !separate) spanText += decodedTail;
+                                if (spanText.trim() === '') continue;
+                                const begin = getAttr(span, null, 'begin', 'begin');
+                                const end = getAttr(span, null, 'end', 'end');
+                                syllabus.push({ time: timeToMs(begin) + offset, duration: timeToMs(end) - timeToMs(begin), text: spanText });
+                                fullText += spanText;
+                            }
+                            if (syllabus.length > 0) transliterationMap[lineId] = { lang: lang, text: fullText.trim(), syllabus: syllabus };
+                        }
+                    }
+                }
+            }
+
+            const lyrics = [];
+            const divs = doc.getElementsByTagName('div');
+            for (let i = 0; i < divs.length; i++) {
+                const div = divs[i];
+                const songPart = getAttr(div, NS.itunes, 'song-part', 'itunes:song-part') || getAttr(div, NS.itunes, 'songPart', 'itunes:songPart') || '';
+                const ps = div.getElementsByTagName('p');
+                for (let j = 0; j < ps.length; j++) {
+                    const p = ps[j];
+                    const key = getAttr(p, NS.itunes, 'key', 'itunes:key') || '';
+                    const singerId = getAttr(p, NS.ttm, 'agent', 'ttm:agent') || '';
+                    const singer = singerId.replace('voice', 'v');
+                    const pBegin = getAttr(p, null, 'begin', 'begin');
+                    const pEnd = getAttr(p, null, 'end', 'end');
+                    const currentLine = { time: 0, duration: 0, text: '', syllabus: [], element: { key, songPart, singer } };
+                    const allSpansInP = Array.from(p.getElementsByTagName('span')).filter(span => getAttr(span, null, 'begin', 'begin'));
+
+                    if (allSpansInP.length > 0 && timingMode === 'Word') {
+                        const processedSpans = new Set();
+                        for (const sp of allSpansInP) {
+                            if (processedSpans.has(sp)) continue;
+                            const isBg = isInsideBackgroundWrapper(sp, p);
+                            if (isBg) Array.from(sp.getElementsByTagName('span')).forEach(nested => processedSpans.add(nested));
+                            processedSpans.add(sp);
+                            const begin = getAttr(sp, null, 'begin', 'begin') || '0';
+                            const end = getAttr(sp, null, 'end', 'end') || '0';
+                            let spanText = '';
+                            for (const child of sp.childNodes) { if (child.nodeType === 3) spanText += child.nodeValue || ''; }
+                            spanText = decodeHtmlEntities(spanText);
+                            const tail = collectTailText(sp);
+                            if (tail && !separate) spanText += decodeHtmlEntities(tail);
+                            if (spanText.trim() === '' && (!tail || !tail.includes(' '))) continue;
+                            const syllabusEntry = { time: timeToMs(begin) + offset, duration: timeToMs(end) - timeToMs(begin), text: spanText };
+                            if (isBg) syllabusEntry.isBackground = true;
+                            currentLine.syllabus.push(syllabusEntry);
+                            currentLine.text += spanText;
+                        }
+                    } else {
+                        if (pBegin && pEnd) {
+                            let lineText = '';
+                            function extractTextFromNode(node) {
+                                let text = '';
+                                for (const child of node.childNodes) {
+                                    if (child.nodeType === 3) text += child.nodeValue || '';
+                                    else if (child.nodeType === 1) text += extractTextFromNode(child);
+                                }
+                                return text;
+                            }
+                            lineText = extractTextFromNode(p);
+                            lineText = decodeHtmlEntities(lineText.trim());
+                            if (lineText) {
+                                currentLine.text = lineText;
+                                currentLine.time = timeToMs(pBegin) + offset;
+                                currentLine.duration = timeToMs(pEnd) - timeToMs(pBegin);
+                            }
+                        }
+                    }
+
+                    if (currentLine.syllabus.length > 0 || (currentLine.text && currentLine.time >= 0)) {
+                        if (currentLine.syllabus.length > 0 && timingMode === 'Word') {
+                            let earliestTime = Infinity;
+                            let latestEndTime = 0;
+                            currentLine.syllabus.forEach(syllable => {
+                                if (syllable.time < earliestTime) earliestTime = syllable.time;
+                                const endTime = syllable.time + syllable.duration;
+                                if (endTime > latestEndTime) latestEndTime = endTime;
+                            });
+                            currentLine.time = earliestTime;
+                            currentLine.duration = latestEndTime - earliestTime;
+                        }
+                        if (key && translationMap[key]) currentLine.translation = translationMap[key];
+                        if (key && transliterationMap[key]) currentLine.transliteration = transliterationMap[key];
+                        lyrics.push(currentLine);
+                    }
+                }
+            }
+            return { KpoeTools: KPOE, type: timingMode, metadata, lyrics };
         }
     </script>
 </body>
+
 </html>
