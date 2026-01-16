@@ -653,8 +653,8 @@
     </footer>
 
     <script>
-        const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
-        const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
+        const FALLBACK_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
+        const PRIMARY_API_BASE = 'https://lyrics-plus-backend.vercel.app';
         const API_BASE_CHALLENGE = '/v1/lyricsplus/challenge';
         const API_BASE_SUBMIT = '/v1/lyricsplus/submit';
         const API_BASE_SEARCH = '/v1/songlist/search';
@@ -783,6 +783,18 @@
         });
 
         // --- Core Logic ---
+
+        function showStatus(message, type = 'default') {
+            statusBox.className = 'status-box active';
+            
+            // Add specific type class if needed
+            if (type === 'success') {
+                statusBox.classList.add('success');
+            } else if (type === 'error') {
+                statusBox.classList.add('error');
+            }
+            statusBox.textContent = message;
+        }
 
         function handleFile(file) {
             const reader = new FileReader();
