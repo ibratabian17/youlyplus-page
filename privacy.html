@@ -493,17 +493,89 @@
                 grid-template-columns: 1fr;
             }
         }
+    
+        .content-section {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content-section h1 {
+            color: var(--md-sys-color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-section .meta {
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .content-section h2 {
+            color: var(--md-sys-color-on-surface);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--md-sys-color-on-surface);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.7;
+        }
+
+        .content-section ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .content-section a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+        
+        .content-section strong {
+            color: var(--md-sys-color-on-surface);
+        }
+        
+        .content-section code {
+            background-color: var(--md-sys-color-surface-container-high);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: var(--md-sys-color-primary);
+        }
     </style>
+
 </head>
 
 <body>
 
     <nav class="navbar">
-        <a href="#" class="brand">
+        <a href="index.html" class="brand">
             <i class="fas fa-music"></i> YouLy+
         </a>
         <div class="nav-menu">
-            <a href="#features" class="nav-link">Features</a>
+            <a href="index.html#features" class="nav-link">Features</a>
             <a href="findlyrics.html" class="nav-link">Search Lyrics</a>
             <a href="docs.html" class="nav-link">Docs</a>
             <a href="submit.html" class="nav-link">Submit</a>
@@ -514,142 +586,105 @@
     </nav>
 
     <main>
-        <!-- HERO SECTION -->
-        <section class="container hero">
-            <div class="hero-text">
-                <div class="blob blob-1"></div>
-                <h1 class="display-large">
-                    Make your music <br>
-                    <span class="gradient-text">Main Character</span> energy.
-                </h1>
-                <p class="hero-desc body-large">
-                    Streaming web players are often laggy or limited. YouLy+ replaces them with a high-performance,
-                    karaoke-style engine for <strong>YouTube Music</strong>, <strong>Tidal</strong>, and <strong>Apple Music</strong>.
-                    Fix the sync, drop the lag, and vibe.
-                </p>
-                <div class="hero-actions">
-                    <a href="#download" class="btn btn-primary">
-                        <i class="fas fa-download"></i> Add to Browser
-                    </a>
-                    <a href="findlyrics.html" class="btn btn-tonal">
-                        <i class="fas fa-search"></i> Find Lyrics
-                    </a>
-                </div>
+        <section class="container content-section">
+            <h1 class="display-large" style="font-size: clamp(2rem, 4vw, 3rem);">Privacy Policy for YouLy+</h1>
+            <div class="meta">
+                <p><strong>Effective Date:</strong> March 7, 2026<br>
+                <strong>Last Updated:</strong> March 7, 2026</p>
             </div>
 
-            <div class="hero-visual">
-                <div class="blob blob-2"></div>
-                <div class="app-preview-wrapper">
-                    <img src="assets/youlyplus.webp" alt="YouLy+ Interface with synced lyrics and dynamic background">
-                </div>
-            </div>
-        </section>
+            <h2>1. Introduction and Scope</h2>
+            <p>Welcome to YouLy+ ("we," "our," or "us"). This Privacy Policy governs your use of the YouLy+ browser extension ("the Extension") developed by Ibra Al Tabian. By installing and using the Extension, you agree to the information practices described in this document.</p>
+            <p>Our core philosophy is absolute data minimization and transparency. We believe that your music listening habits are your own business. Therefore, YouLy+ is engineered from the ground up to operate without collecting, storing, or monetizing your personal data.</p>
+            <p>This policy explains in detail what data is processed, how our architecture protects your privacy, and your rights as a user.</p>
 
-        <!-- FEATURES SECTION -->
-        <section id="features" class="container section">
-            <div style="text-align: center; max-width: 700px; margin: 0 auto 4rem;">
-                <h2 class="headline-large">Features that fix the experience</h2>
-                <p class="body-large" style="margin-top: 16px;">
-                    We didn't just skin the player. We rebuilt the rendering engine to fix broken native implementations and added features the platforms forgot.
-                </p>
-            </div>
+            <h2>2. Definitions</h2>
+            <ul>
+                <li><strong>"Extension"</strong> refers to the YouLy+ browser add-on available for Chrome, Firefox, Edge, and other Chromium-based browsers.</li>
+                <li><strong>"Personal Data"</strong> refers to any information relating to an identified or identifiable natural person (e.g., name, email, IP address).</li>
+                <li><strong>"Ephemeral Data"</strong> refers to data that is processed temporarily in computer memory (RAM) and is immediately destroyed once a specific task is completed, without being written to a disk or database.</li>
+            </ul>
 
-            <div class="features-grid">
-                <!-- Highlight Feature -->
-                <div class="feature-card wide">
-                    <div class="feature-icon-box"
-                        style="background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);">
-                        <i class="fab fa-apple"></i>
-                    </div>
-                    <h3 class="feature-title">The Apple Music Web Fix</h3>
-                    <p class="feature-desc">
-                        The native Apple Music web player is heavy, buggy, and drifts out of sync. YouLy+ replaces the 
-                        resource-heavy native UI with a lightweight, custom renderer that ensures frame-perfect sync 
-                        without hogging your CPU.
-                    </p>
-                </div>
+            <h2>3. Information We Strictly Do NOT Collect</h2>
+            <p>To be entirely clear, YouLy+ operates without tracking you. We do <strong>not</strong> collect, record, or transmit any of the following:</p>
+            <ul>
+                <li><strong>Personally Identifiable Information (PII):</strong> We do not ask for or collect your name, email address, physical address, or phone number.</li>
+                <li><strong>Account Credentials:</strong> We do not have access to your YouTube, Google, Apple Music, or Tidal passwords or account details.</li>
+                <li><strong>IP Addresses:</strong> We do not log the IP addresses from which you access the Extension or our serverless API.</li>
+                <li><strong>Browsing History:</strong> The Extension only activates on explicitly whitelisted music domains (e.g., <code>music.youtube.com</code>, <code>music.apple.com</code>, <code>listen.tidal.com</code>). It cannot and does not monitor, read, or transmit your activity on any other websites.</li>
+                <li><strong>Telemetry and Analytics:</strong> We do not use hidden analytics trackers (such as Google Analytics or Mixpanel) to monitor feature usage, click rates, or session lengths.</li>
+            </ul>
 
-                <div class="feature-card">
-                    <div class="feature-icon-box">
-                        <i class="fas fa-microphone-lines"></i>
-                    </div>
-                    <h3 class="feature-title">True Word-by-Word</h3>
-                    <p class="feature-desc">
-                        Tidal Web only offers line sync. YouTube Music is inconsistent. YouLy+ upgrades both to 
-                        syllable-level, word-by-word synchronization using Apple TTML data for a true karaoke experience.
-                    </p>
-                </div>
+            <h2>4. How Your Data is Processed (Zero-Storage Architecture)</h2>
+            <p>To provide real-time, synchronized lyrics and translations, the Extension must process current song metadata (such as the track title, artist name, and album). This data processing is strictly functional and ephemeral.</p>
 
-                <div class="feature-card">
-                    <div class="feature-icon-box">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Performance First</h3>
-                    <p class="feature-desc">
-                        Built to run where native players fail. Optimized for 60 FPS animations even on older hardware 
-                        (dual-core CPUs/older GPUs). Choose between Lightweight or Compatibility modes to fit your rig.
-                    </p>
-                </div>
+            <h3>A. The KPoe API (Serverless Backend)</h3>
+            <p>When the Extension cannot find lyrics locally, it requests them via our custom backend, the KPoe API.</p>
+            <ul>
+                <li><strong>Stateless Execution:</strong> The KPoe API is built on a serverless architecture. This means it spins up to execute a single search request and spins down immediately after.</li>
+                <li><strong>Zero Logging:</strong> The API acts purely as a real-time proxy and pass-through. It does not contain a database, and it does not write logs of incoming requests, song searches, or user activity. Once the lyrics are delivered to your browser, all memory of the transaction is permanently erased.</li>
+            </ul>
 
-                <div class="feature-card">
-                    <div class="feature-icon-box">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3 class="feature-title">AI & Romanization</h3>
-                    <p class="feature-desc">
-                        Instantly Romanize K-Pop or J-Rock. Translate lyrics on the fly using Google Translate, 
-                        or connect your own <strong>Gemini AI / OpenRouter</strong> API key for context-aware LLM translations.
-                    </p>
-                </div>
+            <h3>B. SponsorBlock Integration and K-Anonymity</h3>
+            <p>To skip non-music segments in music videos, the Extension queries the crowdsourced SponsorBlock API.</p>
+            <ul>
+                <li><strong>Privacy by Design:</strong> To prevent third parties from knowing exactly what video you are watching, YouLy+ utilizes <strong>hashed video IDs</strong>. The Extension mathematically scrambles the video ID and only sends a partial prefix (the first few characters of the hash) to the API.</li>
+                <li><strong>Result:</strong> This creates a privacy shield where the API returns a batch of possible segment skips, and the final filtering is done locally on your machine.</li>
+            </ul>
 
-                <div class="feature-card">
-                    <div class="feature-icon-box">
-                        <i class="fas fa-forward-fast"></i>
-                    </div>
-                    <h3 class="feature-title">SponsorBlock Ready</h3>
-                    <p class="feature-desc">
-                        YouLy+ intelligently detects non-music segments on YouTube Music (intros, outros, sponsor spots) 
-                        so your lyrics never drift out of sync when you skip the filler.
-                    </p>
-                </div>
-            </div>
-        </section>
+            <h3>C. Translation and Romanization Services</h3>
+            <p>If you explicitly activate live translation or Romanization features, the raw lyric text is sent to third-party translation providers (such as Google Translate or Gemini AI). Only the lyric text is transmitted; no user identifiers are attached to these translation requests.</p>
 
-        <!-- DOWNLOAD SECTION -->
-        <section id="download" class="container">
-            <div class="cta-section">
-                <h2 class="headline-large">Ready to upgrade your vibe?</h2>
-                <p class="body-large" style="margin-top: 16px;">Open source, free forever, and respecting your privacy.
-                </p>
+            <h2>5. Local Storage, Caching, and Required Permissions</h2>
+            <p>To run efficiently and minimize network traffic, YouLy+ leverages your browser’s isolated local storage environments (such as IndexedDB).</p>
 
-                <div class="browser-grid">
-                    <a href="https://addons.mozilla.org/en-US/firefox/addon/youly/" target="_blank"
-                        class="browser-card">
-                        <i class="fab fa-firefox-browser" style="font-size: 2rem; color: #FF9500;"></i>
-                        <div class="browser-info">
-                            <h4>Firefox</h4>
-                            <span>Get Add-on</span>
-                        </div>
-                    </a>
+            <h3>Data Stored Locally on Your Device:</h3>
+            <ul>
+                <li><strong>Cached Lyrics:</strong> Once lyrics are downloaded, they are saved locally to your hard drive. If you replay the song, the Extension reads the local file rather than reaching out to the internet.</li>
+                <li><strong>User Preferences:</strong> Your UI settings, theme choices, and sync offsets are saved directly within your browser profile.</li>
+                <li><strong>Custom Lyric Files:</strong> If you upload your own <code>.lrc</code> or <code>.json</code> files, they remain strictly confined to your local device.</li>
+            </ul>
 
-                    <a href="https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb"
-                        target="_blank" class="browser-card">
-                        <i class="fab fa-edge" style="font-size: 2rem; color: #0078D7;"></i>
-                        <div class="browser-info">
-                            <h4>Edge</h4>
-                            <span>Get Add-on</span>
-                        </div>
-                    </a>
+            <h3>Browser Permissions Explained:</h3>
+            <p>To achieve this, the Extension asks for the following standard permissions during installation:</p>
+            <ul>
+                <li><strong><code>host permissions</code></strong> (e.g., <code>*://music.youtube.com/*</code>): Required to "read" the DOM to identify the currently playing track and to "write" to the DOM to inject the dynamic YouLy+ graphical interface over the default player.</li>
+                <li><strong><code>storage</code></strong>: Required to read and write your cached lyrics and settings to your local browser profile.</li>
+            </ul>
 
-                    <a href="docs.html?section=installation" class="browser-card">
-                        <i class="fab fa-chrome" style="font-size: 2rem; color: #4285F4;"></i>
-                        <div class="browser-info">
-                            <h4>Chrome</h4>
-                            <span>Manual Install</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <h2>6. Third-Party Services</h2>
+            <p>While our infrastructure retains zero data, fetching lyrics and skipping segments relies on open APIs. Your use of YouLy+ means anonymous, ephemeral metadata may be processed by the following third-party services, subject to their respective privacy policies:</p>
+            <ul>
+                <li><strong>LRCLIB</strong> (Open-source lyric database)</li>
+                <li><strong>SponsorBlock</strong> (Crowdsourced segment skipping)</li>
+                <li><strong>Google Translate / Gemini AI</strong> (Live translation features)</li>
+            </ul>
+
+            <h2>7. Data Security</h2>
+            <p>Even though we do not store personal data, we take security seriously. All network requests made by the Extension to our KPoe API and third-party services are encrypted in transit using industry-standard HTTPS/TLS protocols to prevent "man-in-the-middle" interceptions.</p>
+
+            <h2>8. Your Rights (GDPR, CCPA, and VCDPA)</h2>
+            <p>Under global privacy laws like the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA), users have the right to request access to, deletion of, or portability of their personal data.</p>
+            <p><strong>Because YouLy+ does not collect, store, or link any data to you, there is no personal data for us to export, delete, or modify upon request.</strong> You have complete control over the data generated by the Extension. If you wish to delete your locally cached lyrics and settings, you can do so at any time by clearing your browser's extension data or uninstalling YouLy+.</p>
+
+            <h2>9. Children's Privacy</h2>
+            <p>The Extension does not knowingly collect or solicit any information from anyone under the age of 13 (or the applicable age of consent in your jurisdiction). Since we collect no personal data, no data from minors is stored on our systems.</p>
+
+            <h2>10. Open Source Transparency</h2>
+            <p>We believe trust is earned through transparency. YouLy+ is fully open-source. Security researchers, developers, and users are encouraged to audit our codebase at any time to verify that our privacy practices match our code.</p>
+            <ul>
+                <li><strong>Source Code Repository:</strong> <a href="https://github.com/ibratabian17/YouLyPlus" target="_blank">https://github.com/ibratabian17/YouLyPlus</a></li>
+            </ul>
+
+            <h2>11. Changes to this Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time to reflect structural updates, new features, or legal requirements. If substantial changes are made regarding how data is handled, we will indicate the "Last Updated" date at the top of this document and provide a notice within the Extension's GitHub repository.</p>
+
+            <h2>12. Contact Information</h2>
+            <p>If you have any questions, concerns, or technical inquiries regarding this Privacy Policy or the zero-storage architecture of YouLy+, please reach out.</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:ibratabian@gmail.com">ibratabian@gmail.com</a></li>
+                <li><strong>Issue Tracker:</strong> <a href="https://github.com/ibratabian17/YouLyPlus/issues" target="_blank">GitHub Issues Page</a></li>
+            </ul>
         </section>
     </main>
 
