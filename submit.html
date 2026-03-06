@@ -14,6 +14,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Roboto+Mono:wght@400;500&display=swap"
         rel="stylesheet">
+    
+    <!-- Google Extensions-->
+    <meta name="google-site-verification" content="Vb7p0QUlukLEjz3z5L24KebHSCdstILxeuz5Qk5SuS8" />
+
 
     <style>
         :root {
@@ -786,7 +790,7 @@
 
         function showStatus(message, type = 'default') {
             statusBox.className = 'status-box active';
-            
+
             // Add specific type class if needed
             if (type === 'success') {
                 statusBox.classList.add('success');
@@ -1172,7 +1176,7 @@
             return {
                 KpoeTools: '1.1-parseSyncedLyrics-LRC',
                 type: isEnhanced ? 'Word' : 'Line',
-                metadata: {songWriters: [], title: '', language: '', agents: {}, totalDuration: '' },
+                metadata: { songWriters: [], title: '', language: '', agents: {}, totalDuration: '' },
                 lyrics: validLyrics,
                 cached: 'None'
             };
