@@ -10,7 +10,7 @@ Welcome to YouLy+! You can install the extension directly from official add-on s
 ---
 
 ## Method 1: Official Stores (Recommended)
-**Best for: Firefox & Microsoft Edge**
+**Best for: Google Chrome, Firefox & Microsoft Edge**
 
 Installing from the official stores ensures you receive automatic updates and bug fixes immediately.
 
@@ -21,6 +21,9 @@ Installing from the official stores ensures you receive automatic updates and bu
   &nbsp;&nbsp;
   <a href="https://microsoftedge.microsoft.com/addons/detail/youly/gichhhcjpkhbidkecadfejcjgcmdlnpb">
     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" height="55" alt="Get YouLy+ for Microsoft Edge">
+  </a>
+  <a href="https://chromewebstore.google.com/detail/youly+/pboadpgpgabkmepmgchhlnlfnimlnmoe">
+    <img src="https://developer.chrome.com/static/docs/webstore/branding/image/iNEddTyWiMfLSwFD6qGq.png" height="55" alt="Get YouLy+ for Google Chrome">
   </a>
 </div>
 
