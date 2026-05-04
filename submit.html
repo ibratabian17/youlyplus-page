@@ -517,6 +517,89 @@
                 font-size: 2rem;
             }
         }
+
+        .pow-toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 3000;
+            width: 320px;
+            background: var(--md-sys-color-surface-container-highest);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-large);
+            padding: 20px 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transform: translateY(120%);
+            opacity: 0;
+            transition: transform 0.4s var(--motion-easing-emphasized), opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pow-toast.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .pow-toast-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .pow-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--md-sys-color-outline-variant);
+            border-top-color: var(--md-sys-color-primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .pow-toast-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .pow-toast-sub {
+            font-size: 0.78rem;
+            color: var(--md-sys-color-on-surface-variant);
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 12px;
+            min-height: 1.2em;
+        }
+
+        .pow-bar-track {
+            height: 4px;
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .pow-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary));
+            border-radius: 99px;
+            transition: width 0.3s ease;
+        }
+
+        .pow-toast.done .pow-spinner {
+            border-color: #A6D6A8;
+            border-top-color: #A6D6A8;
+            animation: none;
+        }
+
+        .pow-toast.done .pow-bar-fill {
+            width: 100% !important;
+            background: #A6D6A8;
+        }
     </style>
 </head>
 
@@ -648,6 +731,18 @@
         </div>
     </div>
 
+    <!-- PoW Progress Toast -->
+    <div id="pow-toast" class="pow-toast">
+        <div class="pow-toast-header">
+            <div class="pow-spinner"></div>
+            <span class="pow-toast-title">Solving Puzzle…</span>
+        </div>
+        <div id="pow-toast-sub" class="pow-toast-sub">Starting workers…</div>
+        <div class="pow-bar-track">
+            <div id="pow-bar-fill" class="pow-bar-fill"></div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer
         style="margin-top: 80px; padding: 40px 0; border-top: 1px solid var(--md-sys-color-outline-variant); text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 0.9rem;">
@@ -726,59 +821,85 @@
             performSearch(modalSearchInput.value);
         });
 
+        const powToast = document.getElementById('pow-toast');
+        const powToastSub = document.getElementById('pow-toast-sub');
+        const powBarFill = document.getElementById('pow-bar-fill');
+
+        const funMessages = [
+            'Hashing away…', 'Crunching numbers…', 'Teaching pigeons to hash…',
+            'Doing math for you…', 'SHA-256 go brrr…', 'Warming up the CPU…',
+            'Just a little longer…', 'Almost there, maybe…', 'Workers are on it…',
+            'Spinning up electrons…', 'Bribing the hash gods…'
+        ];
+
+        function showPowToast(difficulty) {
+            powToastSub.textContent = `Difficulty: ${difficulty} — spinning up ${Math.max(1, (navigator.hardwareConcurrency || 4) - 1)} workers`;
+            powBarFill.style.width = '0%';
+            powToast.classList.remove('done');
+            powToast.classList.add('visible');
+        }
+
+        function updatePowToast(nonce, difficulty) {
+            const idx = Math.floor(nonce / 5000) % funMessages.length;
+            powToastSub.textContent = `${funMessages[idx]} (nonce: ${nonce.toLocaleString()})`;
+            const progress = Math.min(95, (nonce / Math.pow(16, difficulty)) * 100 * 16);
+            powBarFill.style.width = `${progress}%`;
+        }
+
+        function donePowToast(nonce) {
+            powToastSub.textContent = `Found at nonce ${nonce.toLocaleString()} ✓`;
+            powToast.classList.add('done');
+            setTimeout(() => powToast.classList.remove('visible'), 2500);
+        }
+
         lyricsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;
             submitBtn.textContent = "Processing...";
-
-            showStatus('Initializing Proof of Work (Spam Protection)...', 'default');
+            showStatus('Fetching challenge…', 'default');
 
             try {
-                // 1. Get Challenge
                 const { token, difficulty } = await fetchWithFallback(API_BASE_CHALLENGE);
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const challenge = payload.challenge;
 
-                showStatus(`Solving Puzzle (Difficulty: ${difficulty})...`, 'default');
+                showStatus(`Solving puzzle (difficulty: ${difficulty})…`, 'default');
+                showPowToast(difficulty);
 
-                // 2. Solve PoW
-                const nonce = await solveProofOfWork(challenge, difficulty);
+                const nonce = await solveProofOfWork(challenge, difficulty, updatePowToast);
+                donePowToast(nonce);
 
-                // 3. Prepare Data
                 parsedLyricsData.metadata.curator = curatorEl.value || undefined;
                 parsedLyricsData.metadata.songWriters = songWritersEl.value ? songWritersEl.value.split(',').map(s => s.trim()) : [];
-                parsedLyricsData.metadata.title = songTitleEl.value; // Ensure title matches
+                parsedLyricsData.metadata.title = songTitleEl.value;
 
                 const submissionPayload = {
                     proofOfWorkToken: token,
-                    nonce: nonce,
+                    nonce,
                     songTitle: songTitleEl.value,
                     songArtist: songArtistEl.value,
                     songAlbum: songAlbumEl.value,
                     songDuration: songDurationEl.value,
                     forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
-                    lyricsData: parsedLyricsData // Sending Native V2
+                    lyricsData: parsedLyricsData
                 };
 
-                showStatus('Uploading...', 'default');
+                showStatus('Uploading…', 'default');
 
-                // 4. Submit
-                await fetchWithFallback(API_BASE_SUBMIT, {
+                const submitResult = await fetchWithFallback(API_BASE_SUBMIT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(submissionPayload)
-                }, true);
+                });
 
-                showStatus('Success! Thank you for contributing.', 'success');
-                lyricsForm.reset();
-                setTimeout(() => {
-                    lyricsForm.style.display = 'none';
-                    previewContainer.innerHTML = '';
-                    statusBox.classList.remove('active');
-                }, 3000);
+                if (submitResult?.error) throw new Error(submitResult.error);
+
+                showStatus('✓ Success! Thank you for contributing.', 'success');
+                setTimeout(() => resetForm(), 3000);
 
             } catch (error) {
                 console.error(error);
+                powToast.classList.remove('visible');
                 showStatus(`Error: ${error.message}`, 'error');
             } finally {
                 submitBtn.disabled = false;
@@ -786,17 +907,21 @@
             }
         });
 
-        // --- Core Logic ---
+        function resetForm() {
+            parsedLyricsData = null;
+            lyricsForm.reset();
+            lyricsForm.style.display = 'none';
+            previewContainer.innerHTML = '';
+            statusBox.className = 'status-box';
+            statusBox.textContent = '';
+            dropZone.style.display = '';
+            fileInput.value = '';
+        }
 
         function showStatus(message, type = 'default') {
             statusBox.className = 'status-box active';
-
-            // Add specific type class if needed
-            if (type === 'success') {
-                statusBox.classList.add('success');
-            } else if (type === 'error') {
-                statusBox.classList.add('error');
-            }
+            if (type === 'success') statusBox.classList.add('success');
+            else if (type === 'error') statusBox.classList.add('error');
             statusBox.textContent = message;
         }
 
@@ -844,60 +969,103 @@
         }
 
         /**
-         * Optimized Proof of Work Solver
-         * Avoids expensive hex conversion in the hot loop.
+         * Proof of Work Solver using Web Workers for true multi-threaded speed.
+         * Falls back to synchronous solving if Workers are unavailable.
          */
-        async function solveProofOfWork(challenge, difficulty) {
-            const encoder = new TextEncoder();
-            const challengeBytes = encoder.encode(challenge);
-            let nonce = 0;
+        function solveProofOfWork(challenge, difficulty) {
+            return new Promise((resolve, reject) => {
+                const workerCount = Math.max(1, (navigator.hardwareConcurrency || 4) - 1);
 
-            while (true) {
-                // Construct buffer: challenge + nonce
-                const nonceStr = nonce.toString();
-                const nonceBytes = encoder.encode(nonceStr);
-                const data = new Uint8Array(challengeBytes.length + nonceBytes.length);
-                data.set(challengeBytes);
-                data.set(nonceBytes, challengeBytes.length);
+                // Inline Worker source — uses SubtleCrypto in the worker context
+                const workerSrc = `
+                    self.onmessage = async function({ data: { challenge, difficulty, startNonce, step } }) {
+                        const encoder = new TextEncoder();
+                        const challengeBytes = encoder.encode(challenge);
+                        let nonce = startNonce;
 
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = new Uint8Array(hashBuffer);
+                        while (true) {
+                            const nonceBytes = encoder.encode(String(nonce));
+                            const buf = new Uint8Array(challengeBytes.length + nonceBytes.length);
+                            buf.set(challengeBytes);
+                            buf.set(nonceBytes, challengeBytes.length);
 
-                // Check difficulty (leading zeros in hex representation)
-                // Difficulty 1 (hex char) = 4 bits
-                let valid = true;
-                for (let i = 0; i < difficulty; i++) {
-                    // Determine byte index and nibble (high/low)
-                    const byteIndex = Math.floor(i / 2);
-                    const byte = hashArray[byteIndex];
-                    // Even i = High nibble (first 4 bits), Odd i = Low nibble (last 4 bits)
-                    const nibble = (i % 2 === 0) ? (byte >> 4) : (byte & 0x0F);
+                            const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+                            const hash = new Uint8Array(hashBuf);
 
-                    if (nibble !== 0) {
-                        valid = false;
-                        break;
-                    }
+                            let valid = true;
+                            for (let i = 0; i < difficulty; i++) {
+                                const nibble = (i % 2 === 0) ? (hash[i >> 1] >> 4) : (hash[i >> 1] & 0x0F);
+                                if (nibble !== 0) { valid = false; break; }
+                            }
+
+                            if (valid) {
+                                self.postMessage({ found: true, nonce });
+                                return;
+                            }
+                            nonce += step;
+
+                            // Batch yield every 2000 iterations to keep Worker responsive
+                            if ((nonce - startNonce) % (step * 2000) === 0) {
+                                await new Promise(r => setTimeout(r, 0));
+                            }
+                        }
+                    };
+                `;
+
+                const blob = new Blob([workerSrc], { type: 'application/javascript' });
+                const url = URL.createObjectURL(blob);
+                const workers = [];
+                let solved = false;
+
+                for (let i = 0; i < workerCount; i++) {
+                    const w = new Worker(url);
+                    workers.push(w);
+
+                    w.onmessage = ({ data }) => {
+                        if (data.found && !solved) {
+                            solved = true;
+                            workers.forEach(wk => wk.terminate());
+                            URL.revokeObjectURL(url);
+                            resolve(data.nonce);
+                        }
+                    };
+
+                    w.onerror = (err) => {
+                        if (!solved) {
+                            solved = true;
+                            workers.forEach(wk => wk.terminate());
+                            URL.revokeObjectURL(url);
+                            reject(new Error('Worker error: ' + err.message));
+                        }
+                    };
+
+                    // Each worker starts at a different offset and skips by workerCount
+                    w.postMessage({ challenge, difficulty, startNonce: i, step: workerCount });
                 }
-
-                if (valid) return nonce;
-                nonce++;
-
-                // Yield to main thread occasionally to prevent UI freeze
-                if (nonce % 5000 === 0) await new Promise(r => setTimeout(r, 0));
-            }
+            });
         }
 
-        async function fetchWithFallback(path, options = {}, isPost = false) {
-            try {
-                const res = await fetch(`${PRIMARY_API_BASE}${path}`, options);
-                if (!res.ok) throw new Error(`Primary server error: ${res.status}`);
-                return res.json();
-            } catch (err) {
-                console.warn('Switching to fallback server...');
-                const res = await fetch(`${FALLBACK_API_BASE}${path}`, options);
-                if (!res.ok) throw new Error(`Fallback server error: ${res.status}`);
-                return res.json();
+        async function fetchWithFallback(path, options = {}) {
+            let lastError;
+            for (const base of [PRIMARY_API_BASE, FALLBACK_API_BASE]) {
+                try {
+                    const res = await fetch(`${base}${path}`, options);
+                    if (!res.ok) {
+                        // Try to extract a server-side error message
+                        let errMsg = `Server error ${res.status}`;
+                        try {
+                            const body = await res.json();
+                            if (body?.message || body?.error) errMsg = body.message || body.error;
+                        } catch (_) {}
+                        throw new Error(errMsg);
+                    }
+                    return res.json();
+                } catch (err) {
+                    console.warn(`[${base}] failed:`, err.message);
+                    lastError = err;
+                }
             }
+            throw lastError || new Error('Both servers unreachable.');
         }
 
         async function performSearch(query) {
@@ -932,7 +1100,12 @@
                     songArtistEl.value = song.artist;
                     songAlbumEl.value = song.album || '';
                     songDurationEl.value = Math.round(song.durationMs / 1000);
-                    if (song.songwriters?.length) songWritersEl.value = song.songwriters.join(', ');
+                    // songwriters may be a string or an array depending on the API response
+                    if (song.songwriters) {
+                        songWritersEl.value = Array.isArray(song.songwriters)
+                            ? song.songwriters.join(', ')
+                            : song.songwriters;
+                    }
                     modal.classList.remove('active');
                 });
                 modalResultsList.appendChild(el);
