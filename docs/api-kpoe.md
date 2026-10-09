@@ -1,173 +1,243 @@
-# YouLy+ API Documentation
+# YouLy+ / LyricsPlus API Documentation
 
 ## 🌐 Base URL
 
 ```
-https://lyricsplus.prjktla.workers.dev
+https://lyricsplus.prjktla.my.id
 ```
 
-LyricsPlus is implemented as a serverless application. For source code and implementation details, visit the [GitHub Repository](https://github.com/ibratabian17/LyricsPlus).
+Source code & backend architecture: [GitHub Repository](https://github.com/ibratabian17/LyricsPlus-Backend).
 
 ---
 
-## 🧠 Search Logic & Priority
+## ⚡ Multi-Provider Architecture & Smart Race
 
-When retrieving lyrics, the API uses a "Smart Priority" system to ensure the highest accuracy.
+The backend aggregates synchronized and syllable-level lyrics from **7 upstream providers and storage tiers**:
 
-1.  **Full Search Scope**: The system queries all configured sources (including Apple Music, Musixmatch, and Spotify).
-2.  **Cache Lookup**:
-    *   If an `isrc` or `platformId` is provided, the system checks the cache for an exact match first.
-3.  **External Disambiguation**:
-    *   If no cache hit occurs, the system queries external providers using `title` and `artist`.
-    *   If `isrc` or `platformId` were provided, they are used to filter and select the specific version of the song from the external results.
+| Provider ID | Source Name | Sync Capabilities | Description |
+|:------------|:------------|:------------------|:------------|
+| `apple` | **Apple Music** | Word (Syllable) & Line | Native TTML parser extracting microsecond timestamps and vocal parts. |
+| `spotify` | **Spotify** | Word (Syllable) & Line | Syllable-level token stream parsed from Spotify Canvas/Lyrics endpoints. |
+| `qq` | **QQ Music** | Word (QRC) & Line (LRC) | Triple-DES decrypted QRC lyrics format with millisecond word tags. |
+| `qaple` | **Qaple (Merged)** | Word & Line | QQ Music syllables synced against Apple Music catalog metadata. |
+| `musixmatch` | **Musixmatch** | Line | Rich multi-language lyrics catalog. |
+| `deezer` | **Deezer** | Line | Synchronized Deezer LRC streams. |
+| `lyricsplus` | **Lyrics+ UGC** | Word & Line | Local SQLite database + Google Drive community user submissions. |
 
-> **Tip**: For the most accurate results, provide `isrc` or `platformId` alongside `title` and `artist`.
+### Racing & Grade Priority
+
+When a search request arrives, the backend executes an asynchronous race:
+1. **Cache Tier**: Checks local SQLite database (`FTS5` + composite index by ISRC, Platform ID, or Title/Artist).
+2. **Phase 1 (Priority Word)**: Concurrently queries word-level providers (`apple`, `spotify`, `qq`). If a word-level match is found, the race immediately finalizes.
+3. **Phase 2 (Priority Line)**: If only line-level lyrics are found, background providers are queried to upgrade to word-level precision.
+4. **Execution Diagnostics**: Every response returns a complete `processingTime.sourcesStatus` map detailing latency and outcomes (`OK`, `BAD`, `RTO`, `SKIP`) per provider.
 
 ---
 
 ## 🎵 Lyrics Endpoints
 
-### 1. Get Lyrics (v1)
-Fetches synchronized lyrics in the legacy format.
+### 1. Get Lyrics V2 (Canonical)
 
-```http
-GET /v1/lyrics/get
-```
-
-**Parameters**:
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `title` | string | Conditional* | Song title. |
-| `artist` | string | Conditional* | Artist name. |
-| `isrc` | string | Conditional* | International Standard Recording Code. |
-| `platformId` | string | Conditional* | Platform-specific ID (Apple, Spotify, etc.). |
-| `album` | string | No | Album name. |
-| `duration` | number | No | Song duration in milliseconds. |
-| `source` | string | No | Preferred sources (e.g., `musixmatch,spotify`). |
-| `forceReload` | boolean | No | Set `true` to bypass cache. |
-
-> **\*Conditional Requirement**: You must provide **either** (`title` AND `artist`) **OR** (`isrc` / `platformId`).
-
-**Example Request**:
-```bash
-curl "https://lyricsplus.prjktla.workers.dev/v1/lyrics/get?title=Title&artist=Meghan%20Trainor&isrc=US123456789&source=apple"
-```
-
-**Example Response**:
-```json
-{
-  "type": "Word",
-  "metadata": {
-    "source": "Apple",
-    "songWriters": ["Writer 1", "Writer 2"]
-  },
-  "lyrics": [
-    {
-      "time": 2432,
-      "duration": 459,
-      "text": "Oh, ",
-      "isLineEnding": 0
-    },
-    {
-      "time": 2891,
-      "duration": 1607,
-      "text": "whoa",
-      "isLineEnding": 1
-    }
-  ]
-}
-```
-
----
-
-### 2. Get Lyrics (v2)
-Fetches synchronized lyrics with improved structure (syllable grouping).
+Fetches the complete V2 synchronized lyrics payload including syllable timing and backend execution state.
 
 ```http
 GET /v2/lyrics/get
 ```
 
-**Parameters**: Same as **v1**.
+#### Query Parameters:
 
-**Example Response**:
+| Parameter | Type | Required | Description |
+|:----------|:-----|:---------|:------------|
+| `title` | string | Conditional* | Track title. Required unless `isrc` or `platformId` is provided. |
+| `artist` | string | Conditional* | Artist name. Required unless `isrc` or `platformId` is provided. |
+| `album` | string | No | Album name used as a disambiguation hint. |
+| `duration` | number | No | Track duration in seconds or milliseconds (e.g. `214` or `214.5`). |
+| `isrc` | string | Conditional* | International Standard Recording Code for instant cache hits. |
+| `platformId` | string | Conditional* | Platform track ID (e.g. Spotify ID, Apple ID, or QQ mid). |
+| `source` | string | No | Comma-separated preferred providers, e.g. `apple,spotify,qq`. |
+| `forceReload`| boolean | No | Set `true` to bypass cache and race upstream providers fresh. |
+
+*\*Conditional Requirement*: Provide **either** (`title` and `artist`) **OR** (`isrc` / `platformId`).
+
+#### Example Request:
+```bash
+curl "https://lyricsplus.prjktla.my.id/v2/lyrics/get?title=Mode%20Pesawat&artist=Dandy%20Barakati&source=qq,apple"
+```
+
+#### Response Shape (`200 OK`):
 ```json
 {
   "type": "Word",
-  "metadata": { "source": "Apple" },
+  "KpoeTools": "2.0-LPlusBcknd,lyricsplus",
+  "metadata": {
+    "source": "QQ Music",
+    "title": "MODE PESAWAT",
+    "artist": "Dandy Barakati & Dante Nababan",
+    "album": "MODE PESAWAT",
+    "songWriters": ["Dandy Barakati", "Dante Nababan"],
+    "language": "id",
+    "totalDuration": "3:24.000"
+  },
   "lyrics": [
     {
-      "time": 2432,
-      "duration": 2066,
-      "text": "Oh, whoa",
+      "time": 12400,
+      "duration": 2600,
+      "text": "Terbang tinggi di awan",
       "syllabus": [
-        { "time": 2432, "duration": 459, "text": "Oh, " },
-        { "time": 2891, "duration": 1607, "text": "whoa" }
-      ]
+        { "time": 12400, "duration": 500, "text": "Ter" },
+        { "time": 12900, "duration": 400, "text": "bang " },
+        { "time": 13300, "duration": 600, "text": "ting" },
+        { "time": 13900, "duration": 400, "text": "gi " },
+        { "time": 14300, "duration": 700, "text": "awan" }
+      ],
+      "element": { "key": "L1", "singer": "v1" }
     }
-  ]
+  ],
+  "cached": "Database",
+  "processingTime": {
+    "timeElapsed": 85,
+    "lastProcessed": 1791527000000,
+    "totalElapsedMs": 85,
+    "winnerSource": "QQ Music",
+    "syncPriority": 3,
+    "sourcesStatus": {
+      "qq": { "status": "OK", "elapsedMs": 72 },
+      "apple": { "status": "BAD", "elapsedMs": 140 }
+    },
+    "selectedSongMetadata": {
+      "source": "QQ Music",
+      "title": "MODE PESAWAT",
+      "artist": "Dandy Barakati & Dante Nababan",
+      "album": "MODE PESAWAT"
+    }
+  }
+}
+```
+
+#### Cache Tiers:
+- `"Database"`: Retrieved instantly from SQLite UGC / cache.
+- `"GDrive"`: Retrieved from synchronized Google Drive mirror.
+- `"UserJSON"`: Retrieved from community submitted JSON repository.
+- `"None"`: Fetched live from upstream provider race.
+
+#### Diagnostic Response Shape (`404 Not Found`):
+When lyrics cannot be located, the backend provides detailed race diagnostics:
+```json
+{
+  "error": {
+    "message": "Lyrics not found in sources: qq",
+    "status": 404,
+    "details": {
+      "searchedSources": ["qq"],
+      "songInfo": {
+        "title": "MODE PESAWAT",
+        "artist": "Dandy Barakati",
+        "album": ""
+      }
+    }
+  },
+  "processingTime": {
+    "lastProcessed": 1791527100000,
+    "sourcesStatus": {
+      "qq": { "status": "BAD", "elapsedMs": 0 }
+    },
+    "syncPriority": null,
+    "timeElapsed": 8000,
+    "totalElapsedMs": 8000,
+    "winnerSource": null
+  }
 }
 ```
 
 ---
 
-### 3. Get Apple Music Format (TTML)
-Fetches lyrics in Timed Text Markup Language (TTML).
+### 2. Get Legacy Lyrics V1
+
+Returns lyrics in flat token segments.
+
+```http
+GET /v1/lyrics/get
+```
+*Parameters match V2.*
+
+---
+
+### 3. Get Apple Music TTML
+
+Returns the winner lyrics payload converted into Apple Music Timed Text Markup Language (TTML XML).
 
 ```http
 GET /v1/ttml/get
 ```
 
-**Parameters**: Same as **v1**.
-
-**Example Response**:
-```xml
-<tt xmlns="http://www.w3.org/ns/ttml">
-  <body>
-    <div begin="00:00:01.200" end="00:00:04.500">
-      <p>I'm loving the shape of you</p>
-    </div>
-  </body>
-</tt>
+**Response**:
+```json
+{
+  "ttml": "<?xml version=\"1.0\" encoding=\"utf-8\"?><tt xmlns=\"http://www.w3.org/ns/ttml\"><body>...</body></tt>",
+  "processingTime": { "totalElapsedMs": 120 }
+}
 ```
+
+---
+
+### 4. Get Raw Upstream Payload
+
+Fetches the unparsed, raw upstream payload directly as returned by the winner provider.
+
+```http
+GET /v1/raw/get
+```
+
+- Headers returned: `X-Lyrics-Source: <provider>` and `X-Processing-Time: <ms>`.
+- Content-Type: `application/xml` for Apple/QQ, `application/json` for Spotify/Musixmatch.
 
 ---
 
 ## 📚 Catalog & Metadata
 
 ### 1. Search Song Catalog
-Search for songs within the catalog.
+
+Queries Apple Music, Spotify, QQ Music, and Musixmatch in parallel, merging and de-duplicating results by ISRC and track title.
 
 ```http
-GET /v1/songlist/search
+GET /v1/songlist/search?q={query}
 ```
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `q` | string | Yes | Search query (Title, Artist, etc.). |
+**Response Item**:
+```json
+{
+  "results": [
+    {
+      "id": { "spotify": "4cOdK2w...", "apple": "1658571...", "qq": "002vPwd..." },
+      "sourceId": "4cOdK2w...",
+      "title": "Blinding Lights",
+      "artist": "The Weeknd",
+      "album": "After Hours",
+      "albumArtUrl": "https://...",
+      "durationMs": 200040,
+      "isrc": "USUG11904206",
+      "songwriters": ["Abel Tesfaye", "Max Martin"],
+      "availability": ["apple", "spotify", "qq"]
+    }
+  ]
+}
+```
 
-### 2. Get Song Metadata
-Obtains comprehensive metadata (Cover art, release date, etc.).
+### 2. Track Metadata
+
+Returns rich metadata from Apple Music catalog.
 
 ```http
-GET /v1/metadata/get
+GET /v1/metadata/get?title={title}&artist={artist}&album={album}
 ```
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `title` | string | Yes | Song title. |
-| `artist` | string | Yes | Artist name. |
-| `album` | string | No | Album name. |
-| `duration` | number | No | Duration in ms. |
 
 ---
 
-## 📤 Submission Endpoints
+## 📤 User-Generated Submission (PoW Protected)
 
-The submission process is secured via a Proof-of-Work (PoW) challenge to prevent spam.
+Submissions allow community contributors to add or update synchronized lyrics stored in the SQLite database and synced to Google Drive.
 
 ### Step 1: Request Challenge
-Get a token and difficulty level for the PoW calculation.
 
 ```http
 GET /v1/lyricsplus/challenge
@@ -176,65 +246,84 @@ GET /v1/lyricsplus/challenge
 **Response**:
 ```json
 {
-  "token": "eyJhbGciOiJIUz...",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "difficulty": 4
 }
 ```
 
+The challenge requires finding a `nonce` string such that the SHA-256 of `challenge + nonce` begins with `difficulty` zero nibbles (hex characters).
+
 ### Step 2: Submit Lyrics
-Submit the lyrics along with the solved PoW.
 
 ```http
 POST /v1/lyricsplus/submit
+Content-Type: application/json
 ```
 
-**Body Parameters (JSON)**:
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `proofOfWorkToken` | string | Yes | Token from Step 1. |
-| `nonce` | string | Yes | The calculated solution to the PoW. |
-| `songTitle` | string | Yes | Song title. |
-| `songArtist` | string | Yes | Artist name. |
-| `songAlbum` | string | No | Album name. |
-| `songDuration` | number | Yes | Duration in ms. |
-| `lyricsData` | object | Yes | Synchronized lyrics content. |
-| `forceUpload` | boolean | No | Force overwrite (requires privileges). |
-
----
-
-## 🔄 Response Codes
-
-| Code | Description |
-|------|-------------|
-| `200` | Successful request. |
-| `400` | Bad Request (Invalid parameters/body). |
-| `404` | Not Found (Lyrics or Song not found). |
-| `429` | Rate limit exceeded. |
-| `500` | Internal Server Error. |
-
----
-
-## 🛠️ Client Implementation Notes
-
-### Caching Strategy
-To reduce latency and API load, implement client-side caching.
-```javascript
-// Recommended cache strategy
-const CACHE_TTL = 3600; // 1 hour
-// Include IDs in cache key for precision
-const cacheKey = `${title}-${artist}-${isrc}-${Date.now() / CACHE_TTL | 0}`;
-```
-
-### Handling Errors
-```javascript
-try {
-  const response = await fetch(url);
-  if (!response.ok) {
-    const error = await response.json();
-    console.error(`Error ${response.status}:`, error.message);
+**Request Body**:
+```json
+{
+  "proofOfWorkToken": "<token from step 1>",
+  "nonce": "14820",
+  "songTitle": "Song Title",
+  "songArtist": "Artist Name",
+  "songAlbum": "Album Title",
+  "songDuration": "200",
+  "songISRC": "USUG11904206",
+  "songPlatformId": "4cOdK2wGLETKBW3PvgPWqT",
+  "forceUpload": false,
+  "lyricsData": {
+    "type": "Word",
+    "lyrics": [ ... ]
   }
-} catch (e) {
-  console.error("Network Error", e);
 }
 ```
+
+**Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Lyrics submitted successfully",
+  "filename": "Artist Name - Song Title.json"
+}
+```
+
+---
+
+## 🩺 System Ops & Live Health State
+
+### 1. Health Probe (`/health`)
+
+Returns real-time operational status, SQLite connection, upstream platform availability, and latency metrics.
+
+```http
+GET /health
+```
+
+**Response**:
+```json
+{
+  "service": "lyricsplus-backend",
+  "status": "ok",
+  "version": "1.0.0",
+  "commit": "gelato-7e76631",
+  "buildDate": "2026-10-09T01:44:00Z",
+  "uptimeSeconds": 48210,
+  "database": "ok",
+  "platforms": {
+    "apple": { "name": "Apple Music", "configured": true },
+    "spotify": { "name": "Spotify", "configured": true },
+    "qq": { "name": "QQ Music", "configured": true },
+    "lyricsplus": { "name": "Lyrics+", "configured": true },
+    "gdrive": { "name": "Google Drive", "configured": true },
+    "database": { "name": "LyricsDB", "configured": true }
+  }
+}
+```
+
+### 2. Readiness Probe (`/readyz`)
+Returns `200 OK` if the SQLite database is healthy, or `503 Service Unavailable` if degraded.
+
+### 3. Interactive Documentation
+- OpenAPI Spec: `GET /openapi.yaml`
+- Interactive Viewer: `GET /docs`

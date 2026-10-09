@@ -13,15 +13,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    
     <!-- Google Extensions-->
     <meta name="google-site-verification" content="Vb7p0QUlukLEjz3z5L24KebHSCdstILxeuz5Qk5SuS8" />
 
-
     <style>
-
         :root {
-
             --md-sys-color-primary: #FFB4A8;
             --md-sys-color-on-primary: #561E16;
             --md-sys-color-primary-container: #73342A;
@@ -182,21 +178,21 @@
             width: 100%;
             height: 80px;
             background: var(--md-sys-color-surface-container-high);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 2px solid transparent;
             border-radius: var(--shape-corner-full);
-            padding: 0 90px 0 40px; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 0 80px 0 36px;
             font-size: 1.25rem;
             color: var(--md-sys-color-on-surface);
-            transition: all 0.2s var(--motion-easing-emphasized);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-family: inherit;
+            outline: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: all 0.3s var(--motion-easing-emphasized);
         }
 
         .search-input:focus {
-            outline: none;
-            background: var(--md-sys-color-surface-container-highest);
             border-color: var(--md-sys-color-primary);
-            box-shadow: 0 0 0 4px rgba(255, 180, 168, 0.15);
+            background: var(--md-sys-color-surface-container-highest);
+            box-shadow: 0 12px 40px rgba(255, 180, 168, 0.1);
         }
 
         .search-submit-btn {
@@ -472,7 +468,7 @@
 
             <form id="search-form" class="search-container">
                 <input type="text" id="search-input" class="search-input" placeholder="Search by song title or artist..." required autocomplete="off">
-                <button type="submit" class="search-submit-btn">
+                <button type="submit" class="search-submit-btn" aria-label="Search">
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </form>
@@ -526,7 +522,7 @@
                         <li><a href="https://github.com/ibratabian17/YouLyPlus/blob/main/LICENSE">MIT License</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
                         <li><a href="docs.html?section=api-kpoe">API Reference</a></li>
-                        <li><a href="https://github.com/ibratabian17/lyricsplus">Server Source</a></li>
+                        <li><a href="https://github.com/ibratabian17/LyricsPlus-Backend">Server Source</a></li>
                     </ul>
                 </div>
             </div>
@@ -565,17 +561,124 @@
             const modalLyricsContent = document.getElementById('modal-lyrics-content');
             const closeModalButton = document.getElementById('close-modal');
 
-            const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
-            const FALLBACK_API_BASE = 'https://lyrics-plus-backend.vercel.app';
+            const API_BASE = 'https://lyricsplus.prjktla.my.id';
             const API_BASE_SEARCH = '/v1/songlist/search';
             const API_BASE_LYRICS = '/v2/lyrics/get';
 
             function escapeHtml(str) {
-                return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, "\"").replace(/'/g, "'");
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
             }
 
             function sanitizeForFilename(str) {
-                return str.replace(/[\\?%*|":<>\/]/g, '').replace(/\s+/g, ' ').trim();
+                return (str || '').replace(/[\\?%*|":<>\/]/g, '').replace(/\s+/g, ' ').trim();
+            }
+
+            function msToTime(ms) {
+                const totalSeconds = Math.floor(ms / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const milliseconds = ms % 1000;
+                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+            }
+
+            let amTokenCache = {
+                token: null,
+                expiresAt: 0
+            };
+
+            async function getAppleMusicToken() {
+                const now = Date.now();
+                if (amTokenCache.token && now < amTokenCache.expiresAt) {
+                    return amTokenCache.token;
+                }
+
+                try {
+                    const storedToken = localStorage.getItem('am_token');
+                    const storedExpiresAt = parseInt(localStorage.getItem('am_token_exp') || '0', 10);
+                    if (storedToken && now < storedExpiresAt) {
+                        amTokenCache.token = storedToken;
+                        amTokenCache.expiresAt = storedExpiresAt;
+                        return storedToken;
+                    }
+                } catch (e) {}
+
+                const res = await fetch('https://am-mint.binimum.org/token');
+                if (!res.ok) throw new Error(`Token fetch failed: ${res.status}`);
+                const data = await res.json();
+                if (!data.token) throw new Error('No token returned');
+
+                const ttl = Math.max(10, ((data.cache_ttl_seconds || 120) - 10)) * 1000;
+                amTokenCache.token = data.token;
+                amTokenCache.expiresAt = now + ttl;
+
+                try {
+                    localStorage.setItem('am_token', data.token);
+                    localStorage.setItem('am_token_exp', String(amTokenCache.expiresAt));
+                } catch (e) {}
+
+                return data.token;
+            }
+
+            async function searchSongs(query) {
+                // 1. Apple Music Catalog Search (Main)
+                try {
+                    const token = await getAppleMusicToken();
+                    const appleUrl = `https://api.music.apple.com/v1/catalog/us/search?term=${encodeURIComponent(query)}&types=songs&limit=20&offset=0&l=en-US&with=lyricHighlights%2Clyrics`;
+                    const res = await fetch(appleUrl, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        const songs = data?.results?.songs?.data;
+                        if (Array.isArray(songs) && songs.length > 0) {
+                            return songs.map(item => {
+                                const attrs = item.attributes || {};
+                                let artworkUrl = null;
+                                if (attrs.artwork && attrs.artwork.url) {
+                                    artworkUrl = attrs.artwork.url.replace('{w}', '300').replace('{h}', '300');
+                                }
+                                return {
+                                    id: { apple: item.id },
+                                    sourceId: item.id,
+                                    platformId: item.id,
+                                    title: attrs.name || '',
+                                    artist: attrs.artistName || '',
+                                    album: attrs.albumName || '',
+                                    durationMs: attrs.durationInMillis || 0,
+                                    isrc: attrs.isrc || null,
+                                    albumArtUrl: artworkUrl,
+                                    availability: ['Apple Music']
+                                };
+                            });
+                        }
+                    } else {
+                        console.warn('Apple Music search response not ok:', res.status);
+                    }
+                } catch (err) {
+                    console.warn('Apple Music search error, falling back to LyricsPlus:', err);
+                }
+
+                // 2. LyricsPlus Search (Fallback)
+                try {
+                    const res = await fetch(`${API_BASE}${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        return data.results || [];
+                    }
+                } catch (err) {
+                    console.error('LyricsPlus fallback search failed:', err);
+                }
+
+                return [];
             }
 
             searchForm.addEventListener('submit', async (e) => {
@@ -590,26 +693,13 @@
                     </div>`;
 
                 try {
-                    const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
-                    displayResults(data.results);
+                    const songs = await searchSongs(query);
+                    displayResults(songs);
                 } catch (error) {
                     console.error('Search failed:', error);
                     resultsGrid.innerHTML = `<div class="status-msg" style="grid-column: 1/-1; color: var(--md-sys-color-primary);">Failed to fetch results. Please try again.</div>`;
                 }
             });
-
-            async function fetchWithFallback(path) {
-                try {
-                    const response = await fetch(`${PRIMARY_API_BASE}${path}`);
-                    if (!response.ok) throw new Error(`Primary error: ${response.status}`);
-                    return response.json();
-                } catch (primaryError) {
-                    console.warn(`Primary failed, switching to fallback: ${FALLBACK_API_BASE}${path}`);
-                    const response = await fetch(`${FALLBACK_API_BASE}${path}`);
-                    if (!response.ok) throw new Error(`Fallback error: ${response.status}`);
-                    return response.json();
-                }
-            }
 
             function displayResults(songs) {
                 if (!songs || songs.length === 0) {
@@ -617,7 +707,7 @@
                     return;
                 }
 
-                resultsGrid.innerHTML = ''; 
+                resultsGrid.innerHTML = '';
                 songs.forEach(song => {
                     const card = createSongCard(song);
                     resultsGrid.appendChild(card);
@@ -628,17 +718,21 @@
                 const card = document.createElement('div');
                 card.className = 'song-card';
 
-                const durationInSeconds = Math.round(song.durationMs / 1000);
-                const title = encodeURIComponent(song.title);
-                const artist = encodeURIComponent(song.artist);
-                const album = encodeURIComponent(song.album || '');
+                const durationInSeconds = Math.round((song.durationMs || 0) / 1000);
+                const params = new URLSearchParams();
+                if (song.title) params.set('title', song.title);
+                if (song.artist) params.set('artist', song.artist);
+                if (song.album) params.set('album', song.album.replace(" - Single", "").replace(" - EP", ""));
+                if (durationInSeconds > 0) params.set('duration', durationInSeconds);
+                if (song.isrc) params.set('isrc', song.isrc);
+                if (song.platformId) params.set('platformId', song.platformId);
 
-                const lyricsUrl = `${API_BASE_LYRICS}?title=${title}&artist=${artist}&album=${album.replace(" - Single", "").replace(" - EP", "")}&duration=${durationInSeconds}`;
+                const lyricsUrl = `${API_BASE_LYRICS}?${params.toString()}`;
 
                 const safeTitle = escapeHtml(song.title);
                 const safeArtist = escapeHtml(song.artist);
                 const filename = `${sanitizeForFilename(song.artist)} - ${sanitizeForFilename(song.title)}.json`;
-                const safeSource = song.availability.join(', ') || 'Community';
+                const safeSource = (song.availability && song.availability.join(', ')) || 'LyricsPlus';
 
                 card.innerHTML = `
                     <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" alt="${safeTitle}" class="card-art" onerror="this.src='assets/icons/icon128.png'">
@@ -646,7 +740,7 @@
                     <p class="card-subtitle">${safeArtist}</p>
                     <div><span class="badge">${safeSource}</span></div>
                     <div class="card-actions">
-                        <a href="${lyricsUrl}" download="${filename}" class="btn-card btn-filled">
+                        <a href="${API_BASE}${lyricsUrl}" download="${filename}" target="_blank" class="btn-card btn-filled">
                             <i class="fas fa-download"></i> JSON
                         </a>
                         <button class="btn-card btn-outlined btn-preview" 
@@ -660,24 +754,18 @@
                 return card;
             }
 
-            function msToTime(ms) {
-                const totalSeconds = Math.floor(ms / 1000);
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
-                const milliseconds = ms % 1000;
-                return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
-            }
-
             async function openLyricsPreview(title, artist, url) {
-                modalTitle.textContent = title; 
+                modalTitle.textContent = title;
                 modalArtist.textContent = artist;
                 modalLyricsContent.innerHTML = '<div style="text-align:center; padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
                 modal.classList.add('active');
 
                 try {
-                    const data = await fetchWithFallback(url);
+                    const res = await fetch(`${API_BASE}${url}`);
+                    if (!res.ok) throw new Error(`Lyrics error: ${res.status}`);
+                    const data = await res.json();
 
-                    if (data.type === "Unsynced" || !data.lyrics || data.lyrics.length === 0) {
+                    if (data.type === "None" || data.type === "Unsynced" || !data.lyrics || data.lyrics.length === 0) {
                         modalLyricsContent.innerHTML = '<div style="text-align:center; padding:2rem;">Synced lyrics are not available for this song.</div>';
                         return;
                     }

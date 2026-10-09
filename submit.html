@@ -478,6 +478,30 @@
             margin-bottom: 16px;
         }
 
+        .btn-songlist-search {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-primary);
+            border: 1px dashed var(--md-sys-color-outline);
+            border-radius: var(--shape-corner-medium);
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-songlist-search:hover {
+            background: var(--md-sys-color-surface-container-highest);
+            border-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-surface);
+        }
+
         .song-item {
             display: flex;
             align-items: center;
@@ -639,8 +663,8 @@
         <div id="drop-zone" class="drop-zone">
             <i class="fas fa-file-upload drop-icon"></i>
             <h3 class="drop-text">Drag & drop your file here</h3>
-            <p class="drop-subtext">Accepts .json or .ttml files</p>
-            <input type="file" id="file-input" accept=".json,.ttml" style="display: none;">
+            <p class="drop-subtext">Accepts .json, .ttml, or .lrc files</p>
+            <input type="file" id="file-input" accept=".json,.ttml,.xml,.lrc" style="display: none;">
         </div>
 
         <!-- Step 2: Form -->
@@ -672,6 +696,11 @@
                 <div class="input-group">
                     <label class="input-label" for="songDuration">Duration (Seconds)</label>
                     <input type="number" id="songDuration" class="text-input" placeholder="e.g. 200" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="songISRC">ISRC (Optional)</label>
+                    <input type="text" id="songISRC" class="text-input" placeholder="e.g. USUM71705975">
                 </div>
             </div>
 
@@ -724,8 +753,13 @@
             <div class="sheet-body">
                 <form id="modal-search-form">
                     <input type="text" id="modal-search-input" class="modal-search-input"
-                        placeholder="Search Apple Music..." required>
+                        placeholder="Search song title or artist..." required>
                 </form>
+                <div id="modal-alt-search-container" style="display: none; margin-bottom: 16px;">
+                    <button type="button" id="btn-find-songlist" class="btn-songlist-search">
+                        <i class="fas fa-database"></i> Try find another list on Songlist
+                    </button>
+                </div>
                 <div id="modal-results-list"></div>
             </div>
         </div>
@@ -752,8 +786,7 @@
     </footer>
 
     <script>
-        const FALLBACK_API_BASE = 'https://lyricsplus.prjktla.workers.dev';
-        const PRIMARY_API_BASE = 'https://lyricsplus.prjktla.my.id';
+        const BASE_URL = 'https://lyricsplus.prjktla.my.id';
         const API_BASE_CHALLENGE = '/v1/lyricsplus/challenge';
         const API_BASE_SUBMIT = '/v1/lyricsplus/submit';
         const API_BASE_SEARCH = '/v1/songlist/search';
@@ -769,8 +802,10 @@
         const songArtistEl = document.getElementById('songArtist');
         const songAlbumEl = document.getElementById('songAlbum');
         const songDurationEl = document.getElementById('songDuration');
+        const songISRCEl = document.getElementById('songISRC');
         const curatorEl = document.getElementById('curator');
         const songWritersEl = document.getElementById('songWriters');
+        let selectedPlatformId = '';
 
         const modal = document.getElementById('song-finder-modal');
         const openModalBtn = document.getElementById('song-finder-trigger');
@@ -873,13 +908,20 @@
                 parsedLyricsData.metadata.songWriters = songWritersEl.value ? songWritersEl.value.split(',').map(s => s.trim()) : [];
                 parsedLyricsData.metadata.title = songTitleEl.value;
 
+                let platId = (selectedPlatformId || '').trim();
+                if (!platId && (songTitleEl.value || songArtistEl.value)) {
+                    platId = await computeSongMetadataHash(songTitleEl.value, songArtistEl.value, songAlbumEl.value, songDurationEl.value);
+                }
+
                 const submissionPayload = {
                     proofOfWorkToken: token,
-                    nonce,
+                    nonce: String(nonce),
                     songTitle: songTitleEl.value,
                     songArtist: songArtistEl.value,
                     songAlbum: songAlbumEl.value,
                     songDuration: songDurationEl.value,
+                    songISRC: (songISRCEl.value || '').trim(),
+                    songPlatformId: platId,
                     forceUpload: document.querySelector('input[name="mode"]:checked').value === 'update',
                     lyricsData: parsedLyricsData
                 };
@@ -909,6 +951,7 @@
 
         function resetForm() {
             parsedLyricsData = null;
+            selectedPlatformId = '';
             lyricsForm.reset();
             lyricsForm.style.display = 'none';
             previewContainer.innerHTML = '';
@@ -956,6 +999,9 @@
 
                     // If title/artist exists in metadata, pre-fill
                     if (parsedLyricsData.metadata?.title) songTitleEl.value = parsedLyricsData.metadata.title;
+                    if (parsedLyricsData.metadata?.artist) songArtistEl.value = parsedLyricsData.metadata.artist;
+                    if (parsedLyricsData.metadata?.album) songAlbumEl.value = parsedLyricsData.metadata.album;
+                    if (parsedLyricsData.metadata?.duration) songDurationEl.value = Math.round(parsedLyricsData.metadata.duration);
 
                     lyricsForm.style.display = 'block';
                     renderPreview(parsedLyricsData.lyrics);
@@ -1045,9 +1091,14 @@
             });
         }
 
+        const API_CANDIDATES = [
+            BASE_URL,
+            ...(window.location.port === '3000' || window.location.hostname === 'localhost' ? [window.location.origin] : [])
+        ];
+
         async function fetchWithFallback(path, options = {}) {
             let lastError;
-            for (const base of [PRIMARY_API_BASE, FALLBACK_API_BASE]) {
+            for (const base of API_CANDIDATES) {
                 try {
                     const res = await fetch(`${base}${path}`, options);
                     if (!res.ok) {
@@ -1068,20 +1119,165 @@
             throw lastError || new Error('Both servers unreachable.');
         }
 
+        let amTokenCache = {
+            token: null,
+            expiresAt: 0
+        };
+
+        const modalAltSearchContainer = document.getElementById('modal-alt-search-container');
+        const btnFindSonglist = document.getElementById('btn-find-songlist');
+        let currentModalQuery = '';
+
+        async function computeSongMetadataHash(title, artist, album, duration) {
+            const raw = [
+                (title || '').trim().toLowerCase(),
+                (artist || '').trim().toLowerCase(),
+                (album || '').trim().toLowerCase(),
+                String(duration || '').trim()
+            ].join('|');
+
+            if (!raw || raw === '|||') return '';
+
+            try {
+                if (window.crypto && crypto.subtle) {
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(raw);
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 16);
+                }
+            } catch (e) {
+                console.warn('Crypto subtle unavailable, using fallback hash:', e);
+            }
+
+            let h = 0x811c9dc5;
+            for (let i = 0; i < raw.length; i++) {
+                h ^= raw.charCodeAt(i);
+                h = Math.imul(h, 0x01000193);
+            }
+            return (h >>> 0).toString(16).padStart(8, '0');
+        }
+
+        async function getAppleMusicToken() {
+            const now = Date.now();
+            if (amTokenCache.token && now < amTokenCache.expiresAt) {
+                return amTokenCache.token;
+            }
+
+            try {
+                const storedToken = localStorage.getItem('am_token');
+                const storedExpiresAt = parseInt(localStorage.getItem('am_token_exp') || '0', 10);
+                if (storedToken && now < storedExpiresAt) {
+                    amTokenCache.token = storedToken;
+                    amTokenCache.expiresAt = storedExpiresAt;
+                    return storedToken;
+                }
+            } catch (e) {}
+
+            const res = await fetch('https://am-mint.binimum.org/token');
+            if (!res.ok) throw new Error(`Token fetch failed: ${res.status}`);
+            const data = await res.json();
+            if (!data.token) throw new Error('No token returned');
+
+            const ttl = Math.max(10, ((data.cache_ttl_seconds || 120) - 10)) * 1000;
+            amTokenCache.token = data.token;
+            amTokenCache.expiresAt = now + ttl;
+
+            try {
+                localStorage.setItem('am_token', data.token);
+                localStorage.setItem('am_token_exp', String(amTokenCache.expiresAt));
+            } catch (e) {}
+
+            return data.token;
+        }
+
+        async function searchAppleMusicOnly(query) {
+            const token = await getAppleMusicToken();
+            const appleUrl = `https://api.music.apple.com/v1/catalog/us/search?term=${encodeURIComponent(query)}&types=songs&limit=20&offset=0&l=en-US&with=lyricHighlights%2Clyrics`;
+            const res = await fetch(appleUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) throw new Error(`Apple Music search HTTP ${res.status}`);
+            const data = await res.json();
+            const songs = data?.results?.songs?.data;
+            if (!Array.isArray(songs) || songs.length === 0) return [];
+
+            return songs.map(item => {
+                const attrs = item.attributes || {};
+                let artworkUrl = null;
+                if (attrs.artwork && attrs.artwork.url) {
+                    artworkUrl = attrs.artwork.url.replace('{w}', '120').replace('{h}', '120');
+                }
+                return {
+                    id: { apple: item.id },
+                    sourceId: item.id,
+                    platformId: item.id,
+                    title: attrs.name || '',
+                    artist: attrs.artistName || '',
+                    album: attrs.albumName || '',
+                    durationMs: attrs.durationInMillis || 0,
+                    isrc: attrs.isrc || null,
+                    songwriters: attrs.composerName || null,
+                    albumArtUrl: artworkUrl,
+                    availability: ['Apple Music']
+                };
+            });
+        }
+
         async function performSearch(query) {
-            modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-on-surface-variant);">Searching...</p>';
+            currentModalQuery = query;
+            modalAltSearchContainer.style.display = 'none';
+            modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-on-surface-variant);"><i class="fas fa-spinner fa-spin"></i> Searching Apple Music...</p>';
+
+            try {
+                const appleSongs = await searchAppleMusicOnly(query);
+                if (appleSongs && appleSongs.length > 0) {
+                    displayModalResults(appleSongs, 'Apple Music');
+                    modalAltSearchContainer.style.display = 'block';
+                    btnFindSonglist.innerHTML = '<i class="fas fa-database"></i> Try find another list on Songlist';
+                    btnFindSonglist.onclick = () => performSonglistSearch(currentModalQuery);
+                    return;
+                }
+            } catch (err) {
+                console.warn('Apple Music search error:', err);
+            }
+
+            // Fallback to Songlist if Apple Music yielded 0 results or failed
+            await performSonglistSearch(query);
+        }
+
+        async function performSonglistSearch(query) {
+            modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-on-surface-variant);"><i class="fas fa-spinner fa-spin"></i> Searching Songlist database...</p>';
             try {
                 const data = await fetchWithFallback(`${API_BASE_SEARCH}?q=${encodeURIComponent(query)}`);
-                displayModalResults(data.results);
+                displayModalResults(data.results || [], 'Songlist');
+
+                modalAltSearchContainer.style.display = 'block';
+                btnFindSonglist.innerHTML = '<i class="fab fa-apple"></i> Search Apple Music catalog';
+                btnFindSonglist.onclick = () => performSearch(currentModalQuery);
             } catch (error) {
-                modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-error);">Search failed.</p>';
+                console.error('Songlist search failed:', error);
+                modalResultsList.innerHTML = '<p style="text-align:center; color: var(--md-sys-color-error);">Songlist search failed.</p>';
             }
         }
 
-        function displayModalResults(songs) {
+        function displayModalResults(songs, sourceLabel = '') {
             modalResultsList.innerHTML = '';
+            if (sourceLabel) {
+                const badge = document.createElement('div');
+                badge.style.cssText = 'font-size: 0.8rem; font-weight: 600; color: var(--md-sys-color-outline); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;';
+                badge.innerHTML = `<i class="fas fa-layer-group"></i> Showing results from <strong>${sourceLabel}</strong>`;
+                modalResultsList.appendChild(badge);
+            }
+
             if (!songs || songs.length === 0) {
-                modalResultsList.innerHTML = '<p style="text-align:center;">No results found.</p>';
+                const empty = document.createElement('p');
+                empty.style.cssText = 'text-align: center; color: var(--md-sys-color-on-surface-variant); padding: 16px 0;';
+                empty.textContent = `No results found in ${sourceLabel || 'catalog'}.`;
+                modalResultsList.appendChild(empty);
                 return;
             }
 
@@ -1089,18 +1285,21 @@
                 const el = document.createElement('div');
                 el.className = 'song-item';
                 el.innerHTML = `
-                <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" onerror="this.style.display='none'">
-                <div class="song-info">
-                    <h4>${song.title}</h4>
-                    <p>${song.artist}</p>
-                </div>
-            `;
-                el.addEventListener('click', () => {
+                    <img src="${song.albumArtUrl || 'assets/icons/icon128.png'}" onerror="this.style.display='none'">
+                    <div class="song-info">
+                        <h4>${song.title}</h4>
+                        <p>${song.artist}${song.album ? ' • ' + song.album : ''}</p>
+                    </div>
+                `;
+                el.addEventListener('click', async () => {
                     songTitleEl.value = song.title;
                     songArtistEl.value = song.artist;
                     songAlbumEl.value = song.album || '';
-                    songDurationEl.value = Math.round(song.durationMs / 1000);
-                    // songwriters may be a string or an array depending on the API response
+                    songDurationEl.value = Math.round((song.durationMs || 0) / 1000);
+                    songISRCEl.value = song.isrc || '';
+
+                    selectedPlatformId = song.platformId || song.sourceId || (song.id ? (song.id.spotify || song.id.apple || song.id.qq || '') : '') || '';
+
                     if (song.songwriters) {
                         songWritersEl.value = Array.isArray(song.songwriters)
                             ? song.songwriters.join(', ')
@@ -1822,7 +2021,8 @@
                 lyrics: groupedLyrics,
                 cached: data.cached || 'None'
             });
-        }</script>
+        }
+    </script>
 </body>
 
 </html>

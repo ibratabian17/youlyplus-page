@@ -16,7 +16,7 @@ Select where YouLy+ retrieves lyrics from.
 
 | Option | Description |
 |:-------|:------------|
-| **Lyrics+ (KPoe)** | **(Recommended)** Aggregates multiple sources (Apple Music, Musixmatch, Spotify). |
+| **Lyrics+ (KPoe)** | **(Recommended)** Aggregates multiple high-precision sources: Apple Music, Spotify, QQ Music (QRC), Qaple, Musixmatch, Deezer, and community UGC store. |
 | **LRCLIB** | An open-source, community-driven lyrics database. |
 | **Custom KPoe** | Connect to a self-hosted lyrics server. |
 
