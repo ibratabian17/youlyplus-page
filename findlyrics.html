@@ -146,6 +146,26 @@
             position: relative;
         }
 
+        .shutdown-notice {
+            max-width: 800px;
+            margin: 0 auto 32px;
+            padding: 14px 18px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-medium);
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.95rem;
+        }
+
+        .shutdown-notice strong {
+            color: var(--md-sys-color-primary);
+        }
+
+        .shutdown-notice a {
+            color: var(--md-sys-color-primary);
+            text-decoration: underline;
+        }
+
         .headline-large {
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
@@ -473,6 +493,12 @@
                 </button>
             </form>
         </section>
+
+        <p class="shutdown-notice" role="status">
+            <strong>Service update:</strong> Lyrics+ Community submissions and community lyrics will be discontinued on November 20, 2026.
+            Unison is Better Lyrics' crowdsourced lyrics service; visit the <a href="https://unison.boidu.dev/" target="_blank" rel="noopener noreferrer">official Unison site</a>.
+            To submit lyrics, use this <a href="https://unison.prjktla.my.id/" target="_blank" rel="noopener noreferrer">third-party web client for Unison, maintained by the YouLy+ developer</a>. You can use a public account if you don't want to install Better Lyrics just to create an account.
+        </p>
 
         <!-- Results Grid -->
         <section id="results-grid" class="results-grid">

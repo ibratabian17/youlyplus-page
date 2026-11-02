@@ -179,6 +179,27 @@
             font-size: 1.1rem;
         }
 
+        .shutdown-notice {
+            display: block;
+            margin: 24px auto 0;
+            padding: 14px 18px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-medium);
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.95rem;
+            max-width: 600px;
+        }
+
+        .shutdown-notice strong {
+            color: var(--md-sys-color-primary);
+        }
+
+        .shutdown-notice a {
+            color: var(--md-sys-color-primary);
+            text-decoration: underline;
+        }
+
         .drop-zone {
             background: var(--md-sys-color-surface-container-high);
             border: 2px dashed var(--md-sys-color-outline);
@@ -650,7 +671,7 @@
                 Submit <span class="gradient-text">Lyrics</span>
             </h1>
             <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 24px;">
-                Contribute synchronized lyrics to the community database.
+                Submit synchronized lyrics to Lyrics+ Community.
             </p>
             <div class="info-card">
                 <i class="fas fa-shield-halved"></i>
@@ -658,6 +679,12 @@
                     submit.</span>
             </div>
         </header>
+
+        <p class="shutdown-notice" role="status">
+            <strong>Service update:</strong> Lyrics+ Community submissions and community lyrics will be discontinued on November 20, 2026.
+            Unison is Better Lyrics' crowdsourced lyrics service; visit the <a href="https://unison.boidu.dev/" target="_blank" rel="noopener noreferrer">official Unison site</a>.
+            To submit lyrics, use this <a href="https://unison.prjktla.my.id/" target="_blank" rel="noopener noreferrer">third-party web client for Unison, maintained by the YouLy+ developer</a>. You can use a public account if you don't want to install Better Lyrics just to create an account.
+        </p>
 
         <!-- Step 1: Upload -->
         <div id="drop-zone" class="drop-zone">

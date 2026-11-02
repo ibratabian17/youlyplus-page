@@ -240,6 +240,25 @@
             z-index: 2;
         }
 
+        .shutdown-notice {
+            margin-bottom: 24px;
+            padding: 14px 18px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--shape-corner-medium);
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 0.95rem;
+        }
+
+        .shutdown-notice strong {
+            color: var(--md-sys-color-primary);
+        }
+
+        .shutdown-notice a {
+            color: var(--md-sys-color-primary);
+            text-decoration: underline;
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-tertiary));
             -webkit-background-clip: text;
@@ -550,6 +569,12 @@
             </div>
         </section>
 
+        <p class="container shutdown-notice" role="status">
+            <strong>Service update:</strong> Lyrics+ Community submissions and community lyrics will be discontinued on November 20, 2026.
+            Unison is Better Lyrics' crowdsourced lyrics service; visit the <a href="https://unison.boidu.dev/" target="_blank" rel="noopener noreferrer">official Unison site</a>.
+            To submit lyrics, use this <a href="https://unison.prjktla.my.id/" target="_blank" rel="noopener noreferrer">third-party web client for Unison, maintained by the YouLy+ developer</a>. You can use a public account if you don't want to install Better Lyrics just to create an account.
+        </p>
+
         <!-- FEATURES SECTION -->
         <section id="features" class="container section">
             <div style="text-align: center; max-width: 700px; margin: 0 auto 4rem;">
@@ -582,7 +607,8 @@
                     <h3 class="feature-title">True Word-by-Word</h3>
                     <p class="feature-desc">
                         Go beyond basic line-sync. YouLy+ upgrades YouTube Music and Tidal to syllable-level precision
-                        using Apple TTML, QQ Qrc, and community UGC data for a professional karaoke experience.
+                        using Apple TTML, QQ Qrc, and Lyrics+ Community data (available through November 20, 2026) for a
+                        professional karaoke experience.
                     </p>
                 </div>
 
